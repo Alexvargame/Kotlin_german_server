@@ -14,7 +14,7 @@ fun Start_app_screen() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("Start", fontSize = 24.sp, color = Color.White)
+        Text("Start App", fontSize = 24.sp, color = Color.White)
     }
 }
 
