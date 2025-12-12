@@ -1,7 +1,7 @@
 package com.example.german.data.entities
 
 
-
+import androidx.room.Dao
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -22,6 +22,7 @@ import androidx.room.Index
         Index(value = ["word_ptr_id"])
     ]
 )
+
 data class Numeral(
     @PrimaryKey
     @ColumnInfo(name = "word_ptr_id")

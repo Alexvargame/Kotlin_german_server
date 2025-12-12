@@ -1,6 +1,7 @@
 package com.example.german.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -27,6 +28,17 @@ interface BaseUserDao {
     @Query("SELECT * FROM users_baseuser WHERE email = :email")
     suspend fun getByEmail(email: String): BaseUser?
 
+    @Query("""
+        SELECT * FROM users_baseuser 
+        WHERE (username = :loginOrEmail OR email = :loginOrEmail) 
+        AND password = :password 
+        LIMIT 1
+    """)
+    fun getUser(loginOrEmail: String, password: String): BaseUser?
+
     @Update
     suspend fun update(user: BaseUser)
+
+    @Delete
+    suspend fun delete(user: BaseUser)
 }

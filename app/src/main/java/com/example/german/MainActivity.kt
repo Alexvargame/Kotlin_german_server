@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment                   // ← ДОБАВЛЕНО
 import androidx.compose.ui.Modifier                    // ← ДОБАВЛЕНО
 import androidx.compose.ui.unit.dp                      // ← ДОБАВЛЕНО
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 import java.util.Calendar
 import androidx.compose.foundation.layout.height
@@ -36,16 +37,31 @@ import androidx.compose.ui.text.style.TextOverflow // для overflow = TextOver
 //import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.platform.LocalContext
 import android.app.Activity
+import android.util.Log
+
+import com.example.german.data.ui.registration.RegistrationViewModel
+import com.example.german.data.repository.UserRegistrationRepository
+import com.example.german.data.repository.RegistrationViewModelFactory
+import com.example.german.data.ui.autorization.AutorizationViewModel
+import com.example.german.data.repository.autorization.AutorizationViewModelFactory
+import com.example.german.data.repository.exercises.ExercisesViewModelFactory
+import com.example.german.data.ui.exercises.ExercisesViewModel
+import com.example.german.data.AppDatabase
+import com.example.german.ui.screens.Registration_screen
+import com.example.german.ui.screens.Start_app_screen
+import com.example.german.ui.screens.Exercises_screen
 
 
-
-// -------------------------
-// Класс MainActivity
-// Наследуется от ComponentActivity, как в шаблоне Empty Compose Activity
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TestDb(this).testBookDao()
+        //TestDb(this).testLectionDao()
+        Log.e("TEST", "APP STARTED")
+        //TestDb_words(this).testAllWordRelatedTables()
+        //TestDb_users_roles(this).testusersroles()
+        //TestDb_messages(this).testmessages()
+        Add_users_roles(this).addusersroles()
+        Read_users(this).readusers()
         val hours = 18
         val greetingText = if (getCurrentHour() < hours) {
             "Добрый день"
@@ -62,8 +78,36 @@ class MainActivity : ComponentActivity() {
                 startDestination = "home"
             ) {
                 composable("home"){MyApp(navController, greetingText = greetingText)}
-                composable("start_app"){Start_app_screen()}
-                composable("registration"){Registration_screen()}
+                composable("start_app"){
+                    val context = LocalContext.current
+                    val db = AppDatabase.getInstance(context)
+                    val factory = AutorizationViewModelFactory(db)
+                    val autorizationViewModel: AutorizationViewModel =
+                        viewModel(factory = factory)
+                    Start_app_screen(autorizationViewModel, navController) }
+                composable("registration") {
+                    Log.d("ER_NAV_DEBUG", "Открыт экран регистрации")
+                    val context = LocalContext.current.applicationContext
+                    val repo = UserRegistrationRepository(AppDatabase.getInstance(context).registrationDao())
+                    val factory = RegistrationViewModelFactory(repo)
+
+                    val registrationViewModel: RegistrationViewModel =
+                        viewModel(factory = factory)
+
+                    Log.d("NAV_DEBUG", "Открыт экран регистрации")
+                    Registration_screen(registrationViewModel, navController)
+                }
+                composable("exercises_screen") {
+                    val context = LocalContext.current
+                    val db = AppDatabase.getInstance(context)
+                    val viewModel: ExercisesViewModel =
+                        viewModel(factory = ExercisesViewModelFactory(db))
+
+                    Exercises_screen(
+                        navController = navController,
+                        viewModel = viewModel
+                    )
+                }
 
             }
         }
@@ -112,7 +156,10 @@ fun MyApp(navController: NavController, greetingText: String) {
                     onClick = { navController.navigate("start_app") })
                 Spacer(modifier = Modifier.height(16.dp))
                 GreetingButton( text = "Зарегистрироваться",
-                    onClick = { navController.navigate("registration") })
+                    onClick = {
+                        Log.d("REG_SCREEN", "Нажата кнопка Регистрация")
+                        navController.navigate("registration")
+                    })
                 Spacer(modifier = Modifier.height(16.dp))
                 GreetingButton(text = "Очень жаль",
                     onClick = {(context as? Activity)?.finish()})
@@ -120,51 +167,9 @@ fun MyApp(navController: NavController, greetingText: String) {
         }
     }
 }
-/*@Composable
-fun Start_app_screen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("Start", fontSize = 24.sp, color = Color.White)
-    }
-}
 
-@Composable
-fun Registration_screen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("Registration", fontSize = 24.sp, color = Color.White)
-    }
-}
 
-*/
-/*@Composable
-fun GreetingButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Button(
-        onClick = onClick,
-        shape = RoundedCornerShape(50),
-        modifier = modifier
-            .border(2.dp, Color.Black, RoundedCornerShape(50))
-            .background(Color.White, RoundedCornerShape(50))
-            .padding(10.dp)
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier
-                .width(200.dp)
-                .height(50.dp),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-*/
+
 
 fun getCurrentHour(): Int {
     val calendar = Calendar.getInstance()

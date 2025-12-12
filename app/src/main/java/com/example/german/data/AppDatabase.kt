@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.german.data.dao.*
 import com.example.german.data.entities.*
+import com.example.german.data.ui.registration.RegistrationViewModel
 
 @Database(
     entities = [
@@ -19,7 +20,11 @@ import com.example.german.data.entities.*
         BaseUser::class,
         UserRole::class,
         CallbackSiteMessage::class,
-        Article::class
+        Article::class,
+        Pronoun::class,
+        OtherWord::class,
+        Numeral::class,
+        NounDeclensionsForm::class,
     ],
     version = 1
 )
@@ -35,6 +40,14 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userRoleDao(): UserRoleDao
     abstract fun callbackSiteMessageDao(): CallbackSiteMessageDao
     abstract fun articleDao(): ArticleDao
+    abstract fun pronounDao(): PronounDao
+    abstract fun numeralDao(): NumeralDao
+    abstract fun otherWordDao(): OtherWordDao
+    abstract fun nounDeclensionsFormDao(): NounDeclensionsFormDao
+
+    abstract fun registrationDao(): UserRegistrationDao
+
+
 
     companion object {
         @Volatile
@@ -53,6 +66,9 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE = instance
                 instance
             }
+        }
+        fun resetInstance() {
+            INSTANCE = null
         }
     }
 }

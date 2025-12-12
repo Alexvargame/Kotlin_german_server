@@ -1,10 +1,12 @@
 package com.example.german.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.german.data.entities.CallbackSiteMessage
+
 
 @Dao
 interface CallbackSiteMessageDao {
@@ -26,5 +28,8 @@ interface CallbackSiteMessageDao {
 
     @Update
     suspend fun update(message: CallbackSiteMessage)
+
+    @Delete
+    suspend fun delete(message: CallbackSiteMessage)
 }
 
