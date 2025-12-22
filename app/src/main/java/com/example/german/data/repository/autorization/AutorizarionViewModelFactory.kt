@@ -5,7 +5,7 @@ import java.lang.IllegalArgumentException
 import androidx.lifecycle.ViewModel
 
 import com.example.german.data.AppDatabase
-import com.example.german.data.ui.autorization.AutorizationViewModel
+import com.example.german.data.ui.viewModel.autorization.AutorizationViewModel
 
 
 

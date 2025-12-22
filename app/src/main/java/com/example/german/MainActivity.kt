@@ -1,63 +1,27 @@
 package com.example.german
 
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-//import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text            // ← ДОБАВЛЕНО: Text виджет для отображения текста
-//import androidx.compose.material3.Button          // ← ДОБАВЛЕНО: Button виджет для кнопки
-import androidx.compose.runtime.*                // ← ДОБАВЛЕНО: Composable, remember, mutableStateOf
-import androidx.compose.ui.tooling.preview.Preview
-// ↓↓↓ ДОБАВЛЕННЫЕ импорты для Column, Modifier, fillMaxSize, padding, Alignment, dp
-import androidx.compose.foundation.layout.Column         // ← ДОБАВЛЕНО
-import androidx.compose.foundation.layout.fillMaxSize    // ← ДОБАВЛЕНО
-import androidx.compose.foundation.layout.padding       // ← ДОБАВЛЕНО
-import androidx.compose.foundation.layout.Arrangement   // ← ДОБАВЛЕНО
-import androidx.compose.ui.Alignment                   // ← ДОБАВЛЕНО
-import androidx.compose.ui.Modifier                    // ← ДОБАВЛЕНО
-import androidx.compose.ui.unit.dp                      // ← ДОБАВЛЕНО
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
-
 import java.util.Calendar
-import androidx.compose.foundation.layout.height
-//import androidx.compose.foundation.layout.width
-//import androidx.compose.foundation.border
-//import androidx.compose.foundation.shape.RoundedCornerShape
-//import androidx.compose.foundation.background
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.unit.sp                 // для fontSize
-import androidx.compose.ui.text.style.TextOverflow // для overflow = TextOverflow.Ellipsis
-//import androidx.compose.foundation.layout.Box
-import androidx.compose.ui.platform.LocalContext
-import android.app.Activity
 import android.util.Log
+import android.content.Context
+import android.os.Environment
 
-//import com.example.german.navigation.MyNavGraph
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import android.database.sqlite.SQLiteDatabase
+
+import java.io.File
 
 
-import com.example.german.data.ui.registration.RegistrationViewModel
-import com.example.german.data.repository.UserRegistrationRepository
-import com.example.german.data.repository.RegistrationViewModelFactory
-import com.example.german.data.ui.autorization.AutorizationViewModel
-import com.example.german.data.ui.exercises.ExercisesViewModel
-import com.example.german.data.repository.autorization.AutorizationViewModelFactory
-import com.example.german.data.repository.exercises.ExercisesViewModelFactory
-import com.example.german.data.ui.user_profile.UserProfileViewModel
-import com.example.german.data.AppDatabase
 
-import com.example.german.ui.screens.Registration_screen
-import com.example.german.ui.screens.Start_app_screen
-import com.example.german.ui.screens.User_profile_screen
-import com.example.german.ui.screens.Exercises_screen
+
+import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.TestInsertWord
+import com.example.german.ui.navigation.appNavGraph
 
 
 class MainActivity : ComponentActivity() {
@@ -68,127 +32,53 @@ class MainActivity : ComponentActivity() {
         //TestDb_words(this).testAllWordRelatedTables()
         //TestDb_users_roles(this).testusersroles()
         //TestDb_messages(this).testmessages()
-        Add_users_roles(this).addusersroles()
+        //Add_users_roles(this).addusersroles()
         Read_users(this).readusers()
+        //Add_word_types(this).addwordtypes()
+        //Add_books(this).addbooks()
+        //Add_lections(this).addlections()
+        //Add_articles(this).addarticles()
+        //TestInsertWord(this).testInsertWord()
+        //TestInsertWordBVerb(this).testInsertWord()
+        //TestInsertWordBAdjective(this).testInsertWord()
+        //TestInsertNumeral(this).insertOneNumeral()
+        //TestInsertPronoun(this).insertPronoun()
+        //TestInsertOtherWordl(this).insertOtherWord()
+        //val source = "/data/data/com.your.package.name/databases/app.db"
+        //val destination = "/storage/emulated/0/Download/app_backup.db" // Пример пути к скачиваемым файлам
+        //copyDatabaseFile(source, destination)
+
         val hours = 18
         val greetingText = if (getCurrentHour() < hours) {
             "Добрый день"
         } else {
             "Добрый вечер"
         }
-        /*setContent {
-            val navController = rememberNavController()
-            MyNavGraph(navController) // ← здесь подключается твой AppNavigation.kt
-        }*/
         setContent {
             val navController = rememberNavController()
-            val backStackEntry by navController.currentBackStackEntryAsState()
 
             val userProfileViewModel: UserProfileViewModel = viewModel()   // Пробуем создать профиль для всех экранов
+            appNavGraph(navController, userProfileViewModel, greetingText)
 
-            NavHost(
-                navController = navController,
-                startDestination = "home"
-            ) {
-                composable("home"){MyApp(navController, greetingText = greetingText)}
-                composable("start_app"){
-                    val context = LocalContext.current
-                    val db = AppDatabase.getInstance(context)
-                    val factory = AutorizationViewModelFactory(db)
-                    val autoviewModel: AutorizationViewModel =
-                        viewModel(factory = factory)
-                    //val userviewModel: UserProfileViewModel = viewModel()
-                    Start_app_screen(userProfileViewModel, autoviewModel, navController) }
-                composable("registration") {
-                    Log.d("ER_NAV_DEBUG", "Открыт экран регистрации")
-                    val context = LocalContext.current.applicationContext
-                    val repo = UserRegistrationRepository(AppDatabase.getInstance(context).registrationDao())
-                    val factory = RegistrationViewModelFactory(repo)
-
-                    val registrationViewModel: RegistrationViewModel =
-                        viewModel(factory = factory)
-
-                    Log.d("NAV_DEBUG", "Открыт экран регистрации")
-                    Registration_screen(userProfileViewModel, registrationViewModel, navController)
-                }
-                composable("user_profile_screen") {backStackEntry ->
-
-                    //val userviewModel: UserProfileViewModel = viewModel(backStackEntry)
-                    //Log.d("AUTO_USERSCREEN_MODEL_!!", "${userviewModel.currentUser} , ${userviewModel}")
-                    User_profile_screen(userProfileViewModel, navController)
-                }
-                composable("exercises_screen") {
-                    val context = LocalContext.current
-                    val db = AppDatabase.getInstance(context)
-                    val viewModel: ExercisesViewModel =
-                        viewModel(factory = ExercisesViewModelFactory(db))
-
-                    Exercises_screen(
-                        navController = navController,
-                        viewModel = viewModel
-                    )
-                }
-            }
-        }
-    }
-}
-
-// -------------------------
-// Composable функция MyApp
-// Здесь описывается весь UI приложения
-@Composable
-fun MyApp(navController: NavController, greetingText: String) {
-    // state переменная
-    val context = LocalContext.current
-    var textHello by remember { mutableStateOf("$greetingText,\nхотите знать немецкий?") }
-    //var text_login by remember { mutableStateOf(value = "Войти") }
-    //var text_reg by remember { mutableStateOf(value = "Зарегистрироваться") }
-    //var text_by by remember { mutableStateOf(value = "Очень жаль") }
-    // -------------------------
-
-
-    androidx.compose.material3.MaterialTheme {  // ← ДОБАВЛЕНО
-        Column(
-            modifier = Modifier                   // ← ИСПРАВЛЕНО: заменено на импортированный Modifier
-                .fillMaxSize()                    // ← ДОБАВЛЕНО: чтобы занять весь экран
-                .padding(36.dp),                  // ← ДОБАВЛЕНО: отступы
-        )
-        {
-
-            Spacer(modifier = Modifier.height(40.dp))
-            Text(textHello,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                fontSize = 24.sp,      // размер шрифта
-                maxLines = 2,          // максимум 2 строки
-                overflow = TextOverflow.Ellipsis // если вдруг текст длинный
-            )
-            Column(
-                modifier = Modifier                   // ← ИСПРАВЛЕНО: заменено на импортированный Modifier
-                    .fillMaxSize()                    // ← ДОБАВЛЕНО: чтобы занять весь экран
-                    .padding(36.dp),                  // ← ДОБАВЛЕНО: отступы
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                GreetingButton( text = "Войти",
-                    onClick = { navController.navigate("start_app") })
-                Spacer(modifier = Modifier.height(16.dp))
-                GreetingButton( text = "Зарегистрироваться",
-                    onClick = {
-                        Log.d("REG_SCREEN", "Нажата кнопка Регистрация")
-                        navController.navigate("registration")
-                    })
-                Spacer(modifier = Modifier.height(16.dp))
-                GreetingButton(text = "Очень жаль",
-                    onClick = {(context as? Activity)?.finish()})
-            }
         }
     }
 }
 
 
+fun copyDatabaseFile(sourcePath: String, destinationPath: String) {
+    val sourceFile = File(sourcePath)
+    val destinationFile = File(destinationPath)
 
+    FileInputStream(sourceFile).use { fis ->
+        FileOutputStream(destinationFile).use { fos ->
+            val buffer = ByteArray(1024)
+            var length: Int
+            while (fis.read(buffer).also { length = it } > 0) {
+                fos.write(buffer, 0, length)
+            }
+        }
+    }
+}
 
 fun getCurrentHour(): Int {
     val calendar = Calendar.getInstance()
@@ -197,10 +87,11 @@ fun getCurrentHour(): Int {
 // -------------------------
 // Preview-функция для Android Studio
 // Позволяет увидеть UI прямо в редакторе, без запуска на телефоне
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun PreviewMyApp() {
     val navController = rememberNavController()  // фиктивный NavController для превью
 
     MyApp(navController = navController,  greetingText = "Добрый день")  // <-- вызов Composable функции для предпросмотра
 }
+*/

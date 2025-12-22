@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import java.lang.IllegalArgumentException
 
 import com.example.german.data.AppDatabase
-import com.example.german.data.ui.exercises.ExercisesViewModel
+import com.example.german.data.ui.viewModel.exercises.ExercisesViewModel
 
 class ExercisesViewModelFactory(private val db: AppDatabase) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

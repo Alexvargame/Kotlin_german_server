@@ -2,9 +2,6 @@ package com.example.german.ui.screens
 
 import android.app.Activity
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,8 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+
 
 
 
@@ -24,15 +20,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
 
-import com.example.german.data.ui.user_profile.UserProfileViewModel
-import com.example.german.data.ui.autorization.AutorizationViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+
 @Composable
 fun User_profile_screen(
     userviewModel: UserProfileViewModel,
     navController: NavController,
 ) {
 
-    val user by userviewModel.currentUser
+    val user = userviewModel.currentUser.value
     val context = LocalContext.current
     Log.d("AUTO_USERSCREEN", "${user}")
     Log.d("AUTO_USERSCREEN_MODEL", "${userviewModel.currentUser} , ${userviewModel}")
@@ -51,12 +47,14 @@ fun User_profile_screen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Text(
-            "Добро пожаловать, ",
-            fontSize = 24.sp,
-            color = Color.White
-        )
+        user?.let {
+            Text(
+                "Добро пожаловать, ${it.username}\n" +
+                        "Ваши баллы: ${it.score}. Ваши жизни: ${it.lifes}",
+                fontSize = 24.sp,
+                color = Color.White
+            )
+        }
 
         Spacer(Modifier.height(24.dp))
 
@@ -67,7 +65,7 @@ fun User_profile_screen(
             Text("Ваш профиль")
         }
         Button(
-            onClick = { /* TODO вход */ },
+            onClick = { navController.navigate("exercises_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Упражнения")

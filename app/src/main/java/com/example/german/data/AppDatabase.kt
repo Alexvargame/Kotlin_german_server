@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.german.data.dao.*
 import com.example.german.data.entities.*
-import com.example.german.data.ui.registration.RegistrationViewModel
 
 @Database(
     entities = [

@@ -21,7 +21,8 @@ interface NumeralDao {
 
     @Query("SELECT * FROM words_numeral WHERE word_ptr_id = :id")
     suspend fun getById(id: Long): Numeral?
-
+    @Query("SELECT * FROM words_numeral ORDER BY RANDOM() LIMIT :count")
+    fun getRandomNumerals(count: Int): List<Numeral>
     @Update
     suspend fun update(numeral: Numeral)  // ← вот этот метод
 

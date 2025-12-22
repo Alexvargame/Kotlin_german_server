@@ -15,7 +15,8 @@ interface OtherWordDao {
 
     @Insert
     suspend fun insertAll(otherWords: List<OtherWord>)
-
+    @Query("SELECT * FROM words_otherwords ORDER BY RANDOM() LIMIT :count")
+    fun getRandomOtherWords(count: Int): List<OtherWord>
     @Query("SELECT * FROM words_otherwords")
     suspend fun getAll(): List<OtherWord>
 

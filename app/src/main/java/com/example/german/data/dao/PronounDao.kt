@@ -15,7 +15,8 @@ interface PronounDao {
 
     @Insert
     suspend fun insertAll(pronouns: List<Pronoun>)
-
+    @Query("SELECT * FROM words_pronoun ORDER BY RANDOM() LIMIT :count")
+    fun getRandomPronouns(count: Int): List<Pronoun>
     @Query("SELECT * FROM words_pronoun")
     suspend fun getAll(): List<Pronoun>
 
