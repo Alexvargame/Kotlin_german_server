@@ -1,0 +1,22 @@
+package com.example.german.data.repository.exercises.verb
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import java.lang.IllegalArgumentException
+import android.util.Log
+
+import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbPrateritumViewModel
+
+class ExerciseVerbPrateritumViewModelFactory(
+    private val repo: ExerciseVerbPrateritumFormRepoRepository
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        Log.e("Verb_forms_", "FACtory")
+        if (modelClass.isAssignableFrom(ExercisesVerbPrateritumViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return ExercisesVerbPrateritumViewModel(repo) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}

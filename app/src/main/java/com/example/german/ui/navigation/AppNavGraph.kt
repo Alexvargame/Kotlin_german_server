@@ -13,13 +13,18 @@ import com.example.german.ui.navigation.exercises.exercisesDigitTranslateResultN
 import com.example.german.ui.navigation.exercises.exercisesWordsPairNavGraph
 import com.example.german.ui.navigation.exercises.exerciseArticleNavGraph
 import com.example.german.ui.navigation.exercises.exercisesArticleResultNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbFormsNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbPresentFormNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbPresentFormResultNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbPrateritumFormNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbPrateritumFormResultNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbPerfectFormNavGraph
-import com.example.german.ui.navigation.exercises.exercisesVerbPerfectFormResultNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbFormsNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbPresentFormNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbPresentFormResultNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbPrateritumFormNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbPrateritumFormResultNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbPerfectFormNavGraph
+import com.example.german.ui.navigation.exercises.verbs.exercisesVerbPerfectFormResultNavGraph
+import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounsNavGraph
+import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounEnterNavGraph
+import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounEnterResultNavGraph
+import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounButtonNavGraph
+import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounButtonResultNavGraph
 
 import com.example.german.ui.screens.HomeScreen
 
@@ -91,6 +96,26 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserProf
             userProfileViewModel = userProfileViewModel,
         )
         exercisesVerbPerfectFormResultNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesPronounsNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesPronounEnterNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesPronounEnterResultNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesPronounButtonNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesPronounButtonResultNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
         )

@@ -1,6 +1,5 @@
-package com.example.german.ui.screens.exercises
+package com.example.german.ui.screens.exercises.verbs
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,11 +16,13 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.exercises.ExercisesViewModel
+import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbFormsViewModel
+
 @Composable
-fun Exercises_screen(
+fun Exercises_verb_forms_screen(
     navController: NavController,
-    viewModel: ExercisesViewModel
+    //userProfileViewModel: UserProfileViewModel,
+    viewModel: ExercisesVerbFormsViewModel
 ) {
 
    // var login by remember { mutableStateOf("") }
@@ -37,7 +38,7 @@ fun Exercises_screen(
     ) {
 
         Text(
-            "Exercises",
+            "Формы глагола",
             fontSize = 24.sp,
             color = Color.White
         )
@@ -45,58 +46,36 @@ fun Exercises_screen(
         Spacer(Modifier.height(24.dp))
 
         Button(
-            onClick = {navController.navigate("exercise_words_translate_screen") },
+            onClick = {navController.navigate("exercise_verb_present_form_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Перевод слов")
+            Text("Präsens")
         }
         Button(
-            onClick = { navController.navigate("exercises_verb_forms_screen") },
+            onClick = { navController.navigate("exercise_verb_perfect_form_screen")},
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Формы глаголов")
+            Text("Perfekt")
         }
         Button(
 
-            onClick = { navController.navigate("exercise_article_screen")  },
+            onClick = { navController.navigate("exercise_verb_prateritum_form_screen")  },
             modifier = Modifier.fillMaxWidth(),
 
             ) {
-            Text("Расставь артикли")
+            Text("Präteritum")
         }
-        Button(
 
-            onClick = { navController.navigate("exercise_digit_translate_screen")  },
-            modifier = Modifier.fillMaxWidth(),
-
-        ) {
-            Text("Перевод чисел")
-        }
-        Button(
-
-            onClick = { navController.navigate("exercises_pronouns_screen")  },
-            modifier = Modifier.fillMaxWidth(),
-
-            ) {
-            Text("Местоимения")
-        }
 
         Button (
             onClick = {
-                navController.popBackStack()
+                navController.popBackStack("exercises_screen", false)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Назад")
         }
-        Button (
-            onClick = {
-                (context as? Activity)?.finish()
-                       },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Выйти")
-        }
+
 
     }
 }

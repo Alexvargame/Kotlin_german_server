@@ -7,12 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.viewmodel.compose.viewModel
 import java.util.Calendar
 import android.util.Log
-import android.content.Context
-import android.os.Environment
 
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import android.database.sqlite.SQLiteDatabase
 
 import java.io.File
 
@@ -20,9 +17,10 @@ import java.io.File
 
 
 import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
-import com.example.german.TestInsertWord
+import com.example.german.test_add.Read_users
 import com.example.german.ui.navigation.appNavGraph
 
+import com.example.german.test_add.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
