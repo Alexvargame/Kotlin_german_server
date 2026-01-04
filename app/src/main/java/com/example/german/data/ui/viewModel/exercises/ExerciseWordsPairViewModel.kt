@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 
-import com.example.german.data.entities.exercises.ExerciseWordsPairResult
 import com.example.german.data.entities.exercises.WordsPairExercise
 import com.example.german.data.repository.exercises.ExerciseWordsPairRepository
 

@@ -46,20 +46,20 @@ fun Exercises_adjectives_screen(
         Spacer(Modifier.height(24.dp))
 
         Button(
-            onClick = { },
+            onClick = { navController.navigate("exercise_adjective_komparativ_superlativ_screen")},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Komparativ und Superlativ")
         }
         Button(
-            onClick = { },
+            onClick = {  navController.navigate("exercise_adjective_declensions_screen")},
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Declensions")
         }
         Button(
 
-            onClick = {   },
+            onClick = { navController.navigate("exercise_adjective_casus_screen")  },
             modifier = Modifier.fillMaxWidth(),
 
             ) {

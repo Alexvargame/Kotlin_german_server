@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.german.data.entities.Adjective
-import com.example.german.data.entities.Book
+import com.example.german.data.entities.Noun
 
 @Dao
 interface AdjectiveDao {

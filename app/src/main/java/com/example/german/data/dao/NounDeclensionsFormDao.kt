@@ -9,7 +9,8 @@ import com.example.german.data.entities.NounDeclensionsForm
 interface NounDeclensionsFormDao {
     @Insert
     suspend fun insert(form: NounDeclensionsForm)
-
+    @Query("SELECT * FROM words_noundeclensionsform ORDER BY RANDOM() LIMIT :count")
+    fun getRandomNounDeclensionsForm(count: Int): List<NounDeclensionsForm>
     @Insert
     suspend fun insertAll(forms: List<NounDeclensionsForm>)
 

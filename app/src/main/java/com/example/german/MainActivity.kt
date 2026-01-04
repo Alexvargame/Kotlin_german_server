@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //TestDb(this).testLectionDao()
         Log.e("TEST", "APP STARTED")
+        TestAdjectiveRepository(this).testAdjectives()
         //TestDb_words(this).testAllWordRelatedTables()
         //TestDb_users_roles(this).testusersroles()
         //TestDb_messages(this).testmessages()
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
         //TestInsertNumeral(this).insertOneNumeral()
         //TestInsertPronoun(this).insertPronoun()
         //TestInsertOtherWord(this).insertOtherWord()
+        //TestInsertWordNounDeclensions(this).testInsertNounDecl()
         //val source = "/data/data/com.your.package.name/databases/app.db"
         //val destination = "/storage/emulated/0/Download/app_backup.db" // Пример пути к скачиваемым файлам
         //copyDatabaseFile(source, destination)

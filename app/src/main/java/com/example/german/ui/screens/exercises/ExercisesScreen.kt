@@ -80,6 +80,14 @@ fun Exercises_screen(
             ) {
             Text("Местоимения")
         }
+        Button(
+
+            onClick = { navController.navigate("exercises_adjective_screen")  },
+            modifier = Modifier.fillMaxWidth(),
+
+            ) {
+            Text("Прилагательные")
+        }
 
         Button (
             onClick = {

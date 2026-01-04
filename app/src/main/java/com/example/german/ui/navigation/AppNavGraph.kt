@@ -27,6 +27,12 @@ import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounButto
 import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounButtonResultNavGraph
 import com.example.german.ui.navigation.backUpNavGraph
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveNavGraph
+import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveCasusNavGraph
+import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveCasusResultNavGraph
+import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveKomparativSuperlativResultNavGraph
+import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveKomparativSuperlativNavGraph
+import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveDeclensionsNavGraph
+import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveDeclensionsResultNavGraph
 
 import com.example.german.ui.screens.HomeScreen
 
@@ -125,6 +131,30 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserProf
             navController = navController,
         )
         exercisesAdjectiveNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesAdjectiveCasusNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesAdjectiveCasusResultNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesAdjectiveKomparativSuperlativNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesAdjectiveKomparativSuperlativResultNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesAdjectiveDeclensionsNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesAdjectiveDeclensionsResultNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
         )

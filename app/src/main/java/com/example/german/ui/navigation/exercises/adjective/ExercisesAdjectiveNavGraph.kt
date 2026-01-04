@@ -17,7 +17,7 @@ fun NavGraphBuilder.exercisesAdjectiveNavGraph(
     userProfileViewModel: UserProfileViewModel,
     )
 {
-    composable("exercises_verb_forms_screen") {
+    composable("exercises_adjective_screen") {
         val context = LocalContext.current
         val db = AppDatabase.getInstance(context)
 
