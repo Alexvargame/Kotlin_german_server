@@ -25,22 +25,19 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 
 
-import android.util.Log
-
-
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesDigitTranslateViewModel
 
 
 @Composable
 fun ExerciseDigitTranslateScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesDigitTranslateViewModel,
 
-) {
+    ) {
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
     }

@@ -9,7 +9,7 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.ExerciseDigitTranslateRepository
 import com.example.german.data.repository.exercises.ExerciseDigitTranslateViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.ExercisesDigitTranslateViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.ExerciseDigitTranslateScreen
 import android.util.Log
 
@@ -17,7 +17,7 @@ import android.util.Log
 
 fun NavGraphBuilder.exercisesDigitTranslateNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("DIGIT_", "Navigation")
     composable("exercise_digit_translate_screen") {

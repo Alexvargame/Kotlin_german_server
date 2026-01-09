@@ -77,4 +77,6 @@ dependencies {
     implementation("androidx.room:room-ktx:2.5.2") // Kotlin extensions
     implementation("androidx.compose.material3:material3:1.1.0")
 
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
 }

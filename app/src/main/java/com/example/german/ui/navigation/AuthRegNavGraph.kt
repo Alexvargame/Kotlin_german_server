@@ -15,15 +15,14 @@ import com.example.german.data.ui.viewModel.autorization.AutorizationViewModel
 import com.example.german.data.repository.autorization.AutorizationViewModelFactory
 
 import com.example.german.data.ui.viewModel.registration.RegistrationViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
-import com.example.german.data.datastore.AuthDataStore
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.Registration_screen
 import com.example.german.ui.screens.Start_app_screen
 
 
 fun NavGraphBuilder.authRegNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel)
+    userProfileViewModel: UserViewModel)
 {
     composable("start_app"){
         val context = LocalContext.current

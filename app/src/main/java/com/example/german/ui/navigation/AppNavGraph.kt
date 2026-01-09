@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.navigation.exercises.exercisesNavGraph
 import com.example.german.ui.navigation.exercises.exercisesDigitTranslateNavGraph
 import com.example.german.ui.navigation.exercises.exercisesDigitTranslateResultNavGraph
@@ -25,7 +25,6 @@ import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounEnter
 import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounEnterResultNavGraph
 import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounButtonNavGraph
 import com.example.german.ui.navigation.exercises.pronouns.exercisesPronounButtonResultNavGraph
-import com.example.german.ui.navigation.backUpNavGraph
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveNavGraph
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveCasusNavGraph
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveCasusResultNavGraph
@@ -33,13 +32,16 @@ import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveKo
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveKomparativSuperlativNavGraph
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveDeclensionsNavGraph
 import com.example.german.ui.navigation.exercises.adjective.exercisesAdjectiveDeclensionsResultNavGraph
+import com.example.german.ui.navigation.user.userNavGraph
+import com.example.german.ui.navigation.user.userProfileNavGraph
+import com.example.german.ui.navigation.user.userProfileEditNavGraph
 
 import com.example.german.ui.screens.HomeScreen
 
 
 @Composable
-fun appNavGraph(navController: NavHostController, userProfileViewModel: UserProfileViewModel,
-               greetingText: String) {
+fun appNavGraph(navController: NavHostController, userProfileViewModel: UserViewModel,
+                greetingText: String) {
     NavHost(
         navController = navController,
         startDestination = "home"
@@ -52,7 +54,15 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserProf
             navController = navController,
             userProfileViewModel = userProfileViewModel
         )
+        userNavGraph(
+                navController = navController,
+        userProfileViewModel = userProfileViewModel,
+        )
         userProfileNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        userProfileEditNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
         )

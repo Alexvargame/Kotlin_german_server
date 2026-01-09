@@ -22,13 +22,13 @@ class Read_users(private val context: Context) {
         Log.d("TEST_APP_DB", "DB path: ${context.getDatabasePath("app.db")}")
         val BaseUserDao = db.baseUserDao()
         val userRoleDao = db.userRoleDao()
-        //BaseUserDao.deleteAll()
-        //userRoleDao.deleteAll()
+
         CoroutineScope(Dispatchers.IO).launch {
 
             val users = BaseUserDao.getAll()
             users.forEach {
-                Log.d("TEST_DB", "USERS: ${it.username} / ${it.email}")
+                Log.d("TEST_DB", "USERS: ${it.username} / ${it.email} " +
+                        "/${it.registration_date} /${it.last_login_date}")
             }
 
         }

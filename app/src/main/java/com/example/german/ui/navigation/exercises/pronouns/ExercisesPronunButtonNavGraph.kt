@@ -10,13 +10,13 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.pronoun.ExercisePronounButtonRepoRepository
 import com.example.german.data.repository.exercises.pronoun.ExercisePronounButtonViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.pronoun.ExercisesPronounButtonViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.pronouns.ExercisePronounButtonScreen
 
 
 fun NavGraphBuilder.exercisesPronounButtonNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     Log.e("Pronoun_", "Navigation")

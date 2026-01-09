@@ -1,7 +1,6 @@
 package com.example.german.ui.screens
 
 import android.app.Activity
-import android.util.Log
 
 
 import androidx.compose.foundation.layout.*
@@ -17,13 +16,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.composable
-import com.example.german.GreetingButton
+import com.example.german.data.ui.components.GreetingButton
 
 import com.example.german.data.ui.viewModel.autorization.AutorizationViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.repository.autorization.AutorizationViewModelFactory
-import com.example.german.data.repository.user_profile.UserProfileViewModelFactory
+import com.example.german.data.repository.user_profile.UserViewModelFactory
 import com.example.german.data.AppDatabase
 
 @Composable
@@ -38,8 +36,8 @@ fun HomeScreen(navController: NavController, greetingText: String) {
         )
     )
     val userDao = AppDatabase.getInstance(context).baseUserDao()
-    val userviewModel: UserProfileViewModel = viewModel(
-        factory = UserProfileViewModelFactory(userDao)
+    val userviewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(userDao)
     )
 
 
@@ -71,11 +69,12 @@ fun HomeScreen(navController: NavController, greetingText: String) {
                     onClick = { navController.navigate("start_app") })
 
                 Spacer(modifier = Modifier.height(16.dp))
-                GreetingButton( text = "Зарегистрироваться",
-                    onClick = {
-                        Log.d("REG_SCREEN", "Нажата кнопка Регистрация")
-                        navController.navigate("registration")
-                    })
+                if (!autoviewModel.checkUserLoggedIn(context)) {
+                    GreetingButton(
+                        text = "Зарегистрироваться",
+                        onClick = { navController.navigate("registration")}
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 GreetingButton(text = "Back Up",
                     onClick = {

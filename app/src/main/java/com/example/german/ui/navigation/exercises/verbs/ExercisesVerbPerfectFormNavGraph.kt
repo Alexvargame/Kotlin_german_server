@@ -9,14 +9,14 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.verb.ExerciseVerbPerfectFormRepoRepository
 import com.example.german.data.repository.exercises.verb.ExerciseVerbPerfectViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbPerfectViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.verbs.ExerciseVerbPerfectFormScreen
 
 import android.util.Log
 
 fun NavGraphBuilder.exercisesVerbPerfectFormNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     Log.e("VERB_PERF", "Navigation")

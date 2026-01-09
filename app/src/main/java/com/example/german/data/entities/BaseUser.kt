@@ -2,7 +2,7 @@ package com.example.german.data.entities
 
 
 import androidx.room.*
-import java.util.*
+
 
 @Entity(
     tableName = "users_baseuser",
@@ -42,5 +42,9 @@ data class BaseUser(
     val last_life_update: Long, // timestamp
     val chat_id: Long?,
     val telegram_username: String?,
-    val user_bot_id: Long?
+    val user_bot_id: Long?,
+
+    // ⬇️ НОВОЕ ПОЛЕ
+    @ColumnInfo(name = "avatar_path")
+    val avatarPath: String? = null
 )

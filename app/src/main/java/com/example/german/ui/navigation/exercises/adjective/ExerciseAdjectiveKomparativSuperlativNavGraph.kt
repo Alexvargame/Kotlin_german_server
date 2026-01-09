@@ -9,14 +9,14 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.adjective.ExerciseAdjectiveKomparativSuperlativRepotory
 import com.example.german.data.repository.exercises.adjective.ExerciseAdjectiveKomparativSuperlativViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveKomparativSuperlativViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.adjective.ExerciseAdjectiveKomparativSuperlativScreen
 import android.util.Log
 
 
 fun NavGraphBuilder.exercisesAdjectiveKomparativSuperlativNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("WORD_PAIR_", "Navigation")
     composable("exercise_adjective_komparativ_superlativ_screen") {

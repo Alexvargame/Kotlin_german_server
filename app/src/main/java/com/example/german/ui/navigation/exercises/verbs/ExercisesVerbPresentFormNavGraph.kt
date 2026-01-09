@@ -10,13 +10,13 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.verb.ExerciseVerbPresentFormRepoRepository
 import com.example.german.data.repository.exercises.verb.ExerciseVerbPresentViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbPresentViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.verbs.ExerciseVerbPresentFormScreen
 
 
 fun NavGraphBuilder.exercisesVerbPresentFormNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     Log.e("VERB_PRES_", "Navigation")

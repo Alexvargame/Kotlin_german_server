@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.verbs.ExerciseVerbPerfectFormResultScreen
 import android.util.Log
 
@@ -15,7 +15,7 @@ import android.util.Log
 
 fun NavGraphBuilder.exercisesVerbPerfectFormResultNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("VERB_PERF", "NavigationREsult")
     composable(

@@ -10,13 +10,13 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.verb.ExerciseVerbPrateritumFormRepoRepository
 import com.example.german.data.repository.exercises.verb.ExerciseVerbPrateritumViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbPrateritumViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.verbs.ExerciseVerbPrateritumFormScreen
 
 
 fun NavGraphBuilder.exercisesVerbPrateritumFormNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     Log.e("VERB_PRAT", "Navigation")

@@ -1,4 +1,4 @@
-package com.example.german
+package com.example.german.data.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

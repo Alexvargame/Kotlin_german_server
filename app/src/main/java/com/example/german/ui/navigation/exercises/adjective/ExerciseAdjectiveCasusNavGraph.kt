@@ -9,17 +9,14 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.adjective.ExerciseAdjectiveCasusRepository
 import com.example.german.data.repository.exercises.adjective.ExerciseAdjectiveCasusViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveCasusViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.adjective.ExerciseAdjectiveCasusScreen
 import android.util.Log
-import com.example.german.data.dao.AdjectiveDao
-import com.example.german.data.dao.ArticleDao
-import com.example.german.data.dao.NounDao
 
 
 fun NavGraphBuilder.exercisesAdjectiveCasusNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("WORD_PAIR_", "Navigation")
     composable("exercise_adjective_casus_screen") {

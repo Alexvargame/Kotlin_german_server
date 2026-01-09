@@ -30,17 +30,17 @@ import android.util.Log
 
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesArticleViewModel
 
 
 @Composable
 fun ExerciseArticleScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesArticleViewModel,
 
-) {
+    ) {
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
         viewModel.exercises.forEach { ex ->

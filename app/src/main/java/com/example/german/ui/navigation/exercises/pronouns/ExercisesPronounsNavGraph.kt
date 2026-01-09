@@ -8,13 +8,13 @@ import androidx.navigation.NavGraphBuilder
 import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.pronoun.ExercisesPronounsViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.pronoun.ExercisesPronounsViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.pronouns.Exercises_pronouns_screen
 
 
 fun NavGraphBuilder.exercisesPronounsNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     composable("exercises_pronouns_screen") {

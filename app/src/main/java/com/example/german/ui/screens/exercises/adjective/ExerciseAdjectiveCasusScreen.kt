@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.LaunchedEffect
 
 
@@ -31,7 +29,7 @@ import android.util.Log
 import androidx.navigation.NavController
 
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.adjective.ColumnTypeAdjective
 import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveCasusViewModel
 
@@ -40,10 +38,10 @@ import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjecti
 @Composable
 fun ExerciseAdjectiveCasusScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesAdjectiveCasusViewModel,
 
-) {
+    ) {
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
     }

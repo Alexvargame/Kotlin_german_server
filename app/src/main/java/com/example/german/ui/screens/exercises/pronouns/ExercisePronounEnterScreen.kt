@@ -33,17 +33,17 @@ import android.util.Log
 
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.pronoun.ExercisesPronounEnterViewModel
 
 
 @Composable
 fun ExercisePronounEnterScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesPronounEnterViewModel,
 
-) {
+    ) {
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
         viewModel.exercises.forEach { ex ->

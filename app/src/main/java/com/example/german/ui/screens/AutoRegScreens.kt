@@ -19,19 +19,18 @@ import androidx.compose.ui.platform.LocalContext
 
 import com.example.german.data.ui.viewModel.autorization.AutorizationViewModel
 import com.example.german.data.ui.viewModel.registration.RegistrationViewModel
-import com.example.german.data.entities.BaseUser
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 
 import androidx.navigation.NavController
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import kotlinx.coroutines.delay
 
 
 @Composable
-fun Start_app_screen(userviewModel: UserProfileViewModel,
+fun Start_app_screen(userviewModel: UserViewModel,
                      autoviewModel: AutorizationViewModel,
                      navController: NavController,) {
 
@@ -82,7 +81,7 @@ fun Start_app_screen(userviewModel: UserProfileViewModel,
             userviewModel.setUser(user)
             delay(1)
             Log.d("AUTO_VIEWMODEL_CHECK", "Переходим на user_profile_screen")
-            navController.navigate("user_profile_screen") {
+            navController.navigate("user_screen") {
                 popUpTo("start_app_screen") { inclusive = true }
             }
         } ?: Log.d("AUTO_VIEWMODEL_CHECK", "loginResult null, ничего не делаем")
@@ -146,7 +145,7 @@ fun Start_app_screen(userviewModel: UserProfileViewModel,
 
 
 @Composable
-fun Registration_screen(userviewModel: UserProfileViewModel, viewModel: RegistrationViewModel, navController: NavController  ) {
+fun Registration_screen(userviewModel: UserViewModel, viewModel: RegistrationViewModel, navController: NavController  ) {
     Log.d("TEST_REGISTR", "registraion_screen() started")
     // Подписка на состояние ViewModel
     val registrationResult by viewModel.registrationResult
@@ -171,7 +170,7 @@ fun Registration_screen(userviewModel: UserProfileViewModel, viewModel: Registra
     LaunchedEffect(registrationResult) {
         registrationResult?.let { user ->
             userviewModel.setUser(user)
-            navController.navigate("user_profile_screen") {
+            navController.navigate("user_screen") {
                 popUpTo("registration_screen") { inclusive = true }
             }
         }

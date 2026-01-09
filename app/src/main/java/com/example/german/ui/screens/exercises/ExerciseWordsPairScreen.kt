@@ -27,17 +27,17 @@ import androidx.compose.material3.ButtonDefaults
 
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesWordsPairViewModel
 import com.example.german.data.ui.viewModel.exercises.ColumnType
 
 @Composable
 fun ExerciseWordsPairScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesWordsPairViewModel,
 
-) {
+    ) {
     Log.e("WORD_PAIR_", "Screen")
     LaunchedEffect(Unit) {
         viewModel.loadExercises()

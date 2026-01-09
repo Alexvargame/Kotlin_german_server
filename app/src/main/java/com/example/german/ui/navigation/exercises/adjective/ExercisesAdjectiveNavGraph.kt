@@ -8,13 +8,13 @@ import androidx.navigation.NavGraphBuilder
 import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.adjective.ExercisesAdjectiveViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.adjective.Exercises_adjectives_screen
 
 
 fun NavGraphBuilder.exercisesAdjectiveNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     composable("exercises_adjective_screen") {

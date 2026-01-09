@@ -33,17 +33,17 @@ import android.util.Log
 
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbPrateritumViewModel
 
 
 @Composable
 fun ExerciseVerbPrateritumFormScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesVerbPrateritumViewModel,
 
-) {
+    ) {
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
         viewModel.exercises.forEach { ex ->

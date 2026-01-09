@@ -16,14 +16,14 @@ import androidx.compose.ui.graphics.Color
 
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 
 @Composable
 fun ExerciseDigitTranslateResultScreen(
     correctCount: Int,
     totalQuestions: Int,
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel
+    userProfileViewModel: UserViewModel
 ) {
     val user = userProfileViewModel.currentUser.value
 

@@ -9,14 +9,14 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.adjective.ExerciseDeclensionsRepository
 import com.example.german.data.repository.exercises.adjective.ExerciseAdjectiveDeclensionsViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveDeclensionsViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.adjective.ExerciseAdjectiveDeclensionsScreen
 import android.util.Log
 
 
 fun NavGraphBuilder.exercisesAdjectiveDeclensionsNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("Declen_", "Navigation")
     composable("exercise_adjective_declensions_screen") {

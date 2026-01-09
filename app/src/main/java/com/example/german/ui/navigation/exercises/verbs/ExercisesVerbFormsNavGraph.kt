@@ -8,13 +8,13 @@ import androidx.navigation.NavGraphBuilder
 import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.verb.ExercisesVerbFormsViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbFormsViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.verbs.Exercises_verb_forms_screen
 
 
 fun NavGraphBuilder.exercisesVerbFormsNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {
     composable("exercises_verb_forms_screen") {

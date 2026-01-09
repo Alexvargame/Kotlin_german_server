@@ -1,4 +1,4 @@
-package com.example.german.ui.screens
+package com.example.german.ui.screens.user
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
@@ -17,11 +17,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 
 @Composable
-fun User_profile_screen(
-    userviewModel: UserProfileViewModel,
+fun User_screen(
+    userviewModel: UserViewModel,
     navController: NavController,
 ) {
 
@@ -56,7 +56,8 @@ fun User_profile_screen(
         Spacer(Modifier.height(24.dp))
 
         Button(
-            onClick = { /* TODO вход */ },
+            onClick = {Log.d("USER_SCREEN_MODEL", "profile")
+                navController.navigate("user_profile_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Ваш профиль")

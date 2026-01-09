@@ -9,7 +9,7 @@ import com.example.german.data.AppDatabase
 import com.example.german.data.repository.exercises.ExerciseWordsPairRepository
 import com.example.german.data.repository.exercises.ExerciseWordsPairViewModelFactory
 import com.example.german.data.ui.viewModel.exercises.ExercisesWordsPairViewModel
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.ExerciseWordsPairScreen
 import android.util.Log
 
@@ -17,7 +17,7 @@ import android.util.Log
 
 fun NavGraphBuilder.exercisesWordsPairNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("WORD_PAIR_", "Navigation")
     composable("exercise_words_translate_screen") {

@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.ui.screens.exercises.verbs.ExerciseVerbPrateritumFormResultScreen
 import android.util.Log
 
@@ -15,7 +15,7 @@ import android.util.Log
 
 fun NavGraphBuilder.exercisesVerbPrateritumFormResultNavGraph(
     navController: NavHostController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     )
 {   Log.e("VERB_PRAT_RES", "NavigationREsult")
     composable(

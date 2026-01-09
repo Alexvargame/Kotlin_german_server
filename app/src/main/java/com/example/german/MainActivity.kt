@@ -17,11 +17,9 @@ import java.io.File
 
 
 import com.example.german.data.AppDatabase
-import com.example.german.data.dao.BaseUserDao
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
-import com.example.german.data.repository.user_profile.UserProfileViewModelFactory
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german.data.repository.user_profile.UserViewModelFactory
 
-import com.example.german.test_add.Read_users
 import com.example.german.ui.navigation.appNavGraph
 
 import com.example.german.test_add.*
@@ -31,12 +29,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //TestDb(this).testLectionDao()
         Log.e("TEST", "APP STARTED")
-        TestAdjectiveRepository(this).testAdjectives()
+        //TestAdjectiveRepository(this).testAdjectives()
+        //Check_user_avatar(this).checkuseravatar()
         //TestDb_words(this).testAllWordRelatedTables()
         //TestDb_users_roles(this).testusersroles()
         //TestDb_messages(this).testmessages()
        // Add_users_roles(this).addusersroles()
-        //Read_users(this).readusers()
+        Read_users(this).readusers()
        // Add_word_types(this).addwordtypes()
        // Add_books(this).addbooks()
         //Add_lections(this).addlections()
@@ -64,8 +63,8 @@ class MainActivity : ComponentActivity() {
             val db = AppDatabase.getInstance(context)
             val userDao = db.baseUserDao()
 
-            val userProfileViewModel: UserProfileViewModel = viewModel(
-                factory = UserProfileViewModelFactory(userDao)
+            val userProfileViewModel: UserViewModel = viewModel(
+                factory = UserViewModelFactory(userDao)
             )
             Log.e("USER_after", "${userProfileViewModel}")
             val navController = rememberNavController()

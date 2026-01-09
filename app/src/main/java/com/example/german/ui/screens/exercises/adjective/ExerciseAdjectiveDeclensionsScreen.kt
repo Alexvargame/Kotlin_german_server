@@ -33,17 +33,17 @@ import android.util.Log
 
 import androidx.navigation.NavController
 
-import com.example.german.data.ui.viewModel.user_profile.UserProfileViewModel
+import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveDeclensionsViewModel
 
 
 @Composable
 fun ExerciseAdjectiveDeclensionsScreen(
     navController: NavController,
-    userProfileViewModel: UserProfileViewModel,
+    userProfileViewModel: UserViewModel,
     viewModel: ExercisesAdjectiveDeclensionsViewModel,
 
-) {
+    ) {
     LaunchedEffect(Unit) {
         viewModel.loadExercises()
         viewModel.exercises.forEach { ex ->
