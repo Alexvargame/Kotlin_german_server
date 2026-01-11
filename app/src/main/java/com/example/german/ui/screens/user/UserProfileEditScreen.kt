@@ -18,12 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.material3.Surface
+import android.widget.Toast
 
-import com.example.german.data.ui.components.InfoRow
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Brush
 
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
+
 
 @Composable
 fun User_profile_edit_screen(
@@ -214,7 +212,9 @@ fun User_profile_edit_screen(
                 // Если всё ок, сохраняем
                 if (!emailError && !usernameError) {
                     userviewModel.updateUser(email, username, phone,
-                        telegram, botPass) // ✅ Публичный метод
+                        telegram, botPass) //
+                    Toast.makeText(context, "Профиль сохранён", Toast.LENGTH_SHORT).show()
+
                     navController.navigate("user_profile_screen") {
                         // Очистка экрана редактирования из backstack
                         popUpTo("user_profile_edit_screen") { inclusive = true }

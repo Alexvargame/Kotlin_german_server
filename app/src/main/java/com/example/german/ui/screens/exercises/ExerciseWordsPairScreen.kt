@@ -30,6 +30,8 @@ import androidx.navigation.NavController
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesWordsPairViewModel
 import com.example.german.data.ui.viewModel.exercises.ColumnType
+import com.example.german.data.ui.components.UserStatsBlock
+
 
 @Composable
 fun ExerciseWordsPairScreen(
@@ -58,6 +60,7 @@ fun ExerciseWordsPairScreen(
         LaunchedEffect(exerciseFinished) {
             if (exerciseFinished) {
                 userProfileViewModel.addScore(viewModel.leftButtons.size)
+                userProfileViewModel.updateShockMod()
                 if (viewModel.errorCount > 0 && viewModel.errorCount < 2) {
                     userProfileViewModel.decreaseLife()
                 } else {
@@ -70,6 +73,7 @@ fun ExerciseWordsPairScreen(
                         userProfileViewModel.decreaseLife()
                     }
                 }
+
             }
         }
 
@@ -81,14 +85,7 @@ fun ExerciseWordsPairScreen(
         )
 
         user?.let { u ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text("Имя: ${u.username}", color = Color.Blue)
-                Text("❤️ ${u.lifes}", color = Color.Red)
-                Text("Баллы: ${u.score}", color = Color.Green)
-            }
+            UserStatsBlock(u)
         }
 
         Row(

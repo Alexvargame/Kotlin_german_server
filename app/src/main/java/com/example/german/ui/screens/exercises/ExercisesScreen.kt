@@ -18,6 +18,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 
 import com.example.german.data.ui.viewModel.exercises.ExercisesViewModel
+import com.example.german.data.ui.components.UserStatsBlock
+
 @Composable
 fun Exercises_screen(
     navController: NavController,

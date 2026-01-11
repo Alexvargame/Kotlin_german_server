@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german.data.ui.components.UserStatsBlock
 
 @Composable
 fun ExerciseDigitTranslateResultScreen(
@@ -37,9 +38,14 @@ fun ExerciseDigitTranslateResultScreen(
         Spacer(modifier = Modifier.height(16.dp))
         //Text("Очки: ${user?.score ?: 0}")
         //Text("Жизни: ${user?.lifes ?: 0}")
-        Text("Имя: ${user?.username ?: 0}", color = Color.Blue)
-        Text("❤️ ${user?.lifes ?: 0}", color = Color.Red)
-        Text("Баллы: ${user?.score ?: 0}", color = Color.Green)
+        user?.let { u ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                UserStatsBlock(u)
+            }
+        }
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(onClick = {

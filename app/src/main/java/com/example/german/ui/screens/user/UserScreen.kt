@@ -16,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
+import com.example.german.data.ui.components.UserStatsBlock
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 
@@ -44,13 +45,13 @@ fun User_screen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        user?.let {
-            Text(
-                "Добро пожаловать, ${it.username}\n" +
-                        "Ваши баллы: ${it.score}. Ваши жизни: ${it.lifes}",
-                fontSize = 24.sp,
-                color = Color.White
-            )
+        user?.let { u ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                UserStatsBlock(u)
+            }
         }
 
         Spacer(Modifier.height(24.dp))

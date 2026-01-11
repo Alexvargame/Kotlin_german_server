@@ -32,6 +32,7 @@ import androidx.compose.ui.text.TextStyle
 import android.util.Log
 
 import androidx.navigation.NavController
+import com.example.german.data.ui.components.UserStatsBlock
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.verb.ExercisesVerbPerfectViewModel
@@ -75,9 +76,7 @@ fun ExerciseVerbPerfectFormScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Имя: ${u.username}", color = Color.Blue)
-                Text("❤️ ${u.lifes}", color = Color.Red)
-                Text("Баллы: ${u.score}", color = Color.Green)
+                UserStatsBlock(u)
             }
         }
 

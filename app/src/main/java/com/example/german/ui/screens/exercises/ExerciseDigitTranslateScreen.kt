@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesDigitTranslateViewModel
-
+import com.example.german.data.ui.components.UserStatsBlock
 
 @Composable
 fun ExerciseDigitTranslateScreen(
@@ -65,9 +65,7 @@ fun ExerciseDigitTranslateScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Имя: ${u.username}", color = Color.Blue)
-                Text("❤️ ${u.lifes}", color = Color.Red)
-                Text("Баллы: ${u.score}", color = Color.Green)
+                UserStatsBlock(u)
             }
         }
 
@@ -125,7 +123,7 @@ fun ExerciseDigitTranslateScreen(
                     userProfileViewModel.decreaseLife()
                 }
                 userProfileViewModel.addScore(result.correctCount)
-
+                userProfileViewModel.updateShockMod()
                 // 3️⃣ Навигация на экран результатов
                 navController.navigate(
                     "exercise_digit_translate_result_screen/${result.correctCount}/${result.totalQuestions}"

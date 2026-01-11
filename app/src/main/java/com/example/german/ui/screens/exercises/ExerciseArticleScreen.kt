@@ -29,6 +29,7 @@ import android.util.Log
 
 
 import androidx.navigation.NavController
+import com.example.german.data.ui.components.UserStatsBlock
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesArticleViewModel
@@ -72,9 +73,7 @@ fun ExerciseArticleScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Имя: ${u.username}", color = Color.Blue)
-                Text("❤️ ${u.lifes}", color = Color.Red)
-                Text("Баллы: ${u.score}", color = Color.Green)
+                UserStatsBlock(u)
             }
         }
 
@@ -131,6 +130,7 @@ fun ExerciseArticleScreen(
                 }
                 Log.d("USER_SCXREEN_DECREASE","setUser -> ${user}")
                 userProfileViewModel.addScore(result.correctCount)
+                userProfileViewModel.updateShockMod()
                 Log.d("USER_SCREEN_LIFES","setUser -> ${user}")
                 // 3️⃣ Навигация на экран результатов
                 navController.navigate(

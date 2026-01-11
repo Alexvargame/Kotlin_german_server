@@ -44,7 +44,16 @@ data class BaseUser(
     val telegram_username: String?,
     val user_bot_id: Long?,
 
-    // ⬇️ НОВОЕ ПОЛЕ
     @ColumnInfo(name = "avatar_path")
-    val avatarPath: String? = null
+    val avatarPath: String? = null,
+
+    // ⬇️ STREAK (shock mode)
+    @ColumnInfo(name = "shockmod_begin")
+    val shockmodBegin: Long? = null,   // дата начала серии
+
+    @ColumnInfo(name = "shockmod_now")
+    val shockmodNow: Long? = null,     // дата последнего выполнения
+
+    @ColumnInfo(name = "shockmod_long")
+    val shockmodLong: Int = 0          // длина серии (дни подряд)
 )

@@ -7,8 +7,9 @@ import android.util.Log
 
 class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrationDao) {
 
-    suspend fun registerUser(email: String, username: String, password: String): BaseUser? {
+    suspend fun registerUser(email: String, username: String, password: String, userRoleId: Long = 1L ): BaseUser? {
         val now = System.currentTimeMillis()
+
         val user = BaseUser(
             email = email,
             username = username,
@@ -17,9 +18,9 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             last_login_date = now,
             last_login = null,
             is_superuser = false,
-            is_admin = false,
+            is_admin =  userRoleId == 1L,
             is_active = true,
-            userRoleId = 1,
+            userRoleId = userRoleId,
             lifes = 5,
             score = 0,
             last_life_update = now,
@@ -29,7 +30,8 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             user_bot_pass = null,
             chat_id = null,
             telegram_username = null,
-            user_bot_id = null
+            user_bot_id = null,
+
         )
         return try {
             Log.e("USER_", "vor insert")

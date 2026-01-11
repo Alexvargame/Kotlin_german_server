@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.german.data.dao.*
 import com.example.german.data.entities.*
 import com.example.german.data.ui.MIGRATION_1_2
+import com.example.german.data.ui.MIGRATION_2_3
 
 import android.util.Log
 
@@ -29,7 +30,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         Numeral::class,
         NounDeclensionsForm::class,
     ],
-    version = 2
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
@@ -68,6 +69,7 @@ abstract class AppDatabase : RoomDatabase() {
 
                     .createFromAsset("databases/app.db")
                     .addMigrations(MIGRATION_1_2) // <-- вставляешь сюда
+                    .addMigrations(MIGRATION_2_3)
                     .build()
                 INSTANCE = instance
                 instance
