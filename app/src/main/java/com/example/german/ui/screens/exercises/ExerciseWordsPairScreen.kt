@@ -22,10 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 
 import androidx.navigation.NavController
+import com.example.german.data.ui.components.ConfettiEffect
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german.data.ui.viewModel.exercises.ExercisesWordsPairViewModel
@@ -49,7 +53,11 @@ fun ExerciseWordsPairScreen(
     val rightButtons = viewModel.rightButtons
 
     val exerciseFinished = viewModel.exerciseFinished
+    var playConfetti by remember { mutableStateOf(false) }
 
+    // Если все ответы верны — включаем конфетти
+
+    Box(modifier = Modifier.fillMaxSize()) {
 
     Column(
         modifier = Modifier
@@ -61,8 +69,9 @@ fun ExerciseWordsPairScreen(
             if (exerciseFinished) {
                 userProfileViewModel.addScore(viewModel.leftButtons.size)
                 userProfileViewModel.updateShockMod()
-                if (viewModel.errorCount > 0 && viewModel.errorCount < 2) {
+                if (viewModel.errorCount >= 0 && viewModel.errorCount < 2) {
                     userProfileViewModel.decreaseLife()
+                    playConfetti = true
                 } else {
                     if (viewModel.errorCount > 1 && viewModel.errorCount < 4) {
                         userProfileViewModel.decreaseLife()
@@ -155,5 +164,10 @@ fun ExerciseWordsPairScreen(
         ) {
             Text("Назад")
         }
+    }
+        ConfettiEffect(
+            modifier = Modifier.fillMaxSize(),
+            play = playConfetti
+        )
     }
 }

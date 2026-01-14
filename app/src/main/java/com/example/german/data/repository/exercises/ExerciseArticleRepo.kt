@@ -28,7 +28,7 @@ class ExerciseArticleRepository(
         val variantsAnswer = listOf(Article(id = 1, name = "der", description = "мужской"),
             Article(id = 3, name = "die", description = "женский"),
             Article(id = 2, name = "das", description = "средний"),
-            Article(id = 4, name = "die (Plural)", description = "множественное число")
+            Article(id = 4, name = "die (Pl)", description = "множественное число")
         )
         Log.e("Article_", "repo")
         return nouns.map { noun ->

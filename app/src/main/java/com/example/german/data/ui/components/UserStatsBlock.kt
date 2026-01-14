@@ -81,7 +81,8 @@ fun UserStatsBlock(u: BaseUser) {
         ) {
             Text("❤️ ${u.lifes}", color = Color.Red)
             Text("Баллы: ${u.score}", color = Color.Green)
-            Text("Ударный режим: ${u.shockmodLong}", color = Color.Red)
+            Text("⚡ ${u.shockmodLong}", color = Color.Red)
+
         }
     }
 }

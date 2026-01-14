@@ -15,10 +15,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.ui.graphics.Color
 
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
+
 import androidx.navigation.NavController
 import com.example.german.data.ui.components.UserStatsBlock
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german.data.ui.components.ConfettiEffect
 
 @Composable
 fun ExerciseArticleResultScreen(
@@ -28,14 +35,24 @@ fun ExerciseArticleResultScreen(
     userProfileViewModel: UserViewModel
 ) {
     val user = userProfileViewModel.currentUser.value
+    var playConfetti by remember { mutableStateOf(false) }
 
+    // Если все ответы верны — включаем конфетти
+    LaunchedEffect(Unit) {
+        if (correctCount == totalQuestions) {
+            playConfetti = true
+        }
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Вы ответили на $correctCount из $totalQuestions вопросов",
-            color=Color.White)
+        Text(
+            "Вы ответили на $correctCount из $totalQuestions вопросов",
+            color = Color.White
+        )
         Spacer(modifier = Modifier.height(16.dp))
         user?.let { u ->
             Row(
@@ -64,5 +81,11 @@ fun ExerciseArticleResultScreen(
         }) {
             Text("Назад")
         }
+
     }
+    ConfettiEffect(
+        modifier = Modifier.fillMaxSize(),
+        play = playConfetti
+    )
+}
 }

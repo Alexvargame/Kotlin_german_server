@@ -12,9 +12,15 @@ import androidx.compose.ui.Alignment
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 
 import androidx.navigation.NavController
+import com.example.german.data.ui.components.ConfettiEffect
 import com.example.german.data.ui.components.UserStatsBlock
 
 import com.example.german.data.ui.viewModel.user_profile.UserViewModel
@@ -27,7 +33,15 @@ fun ExercisePronounEnterResultScreen(
     userProfileViewModel: UserViewModel
 ) {
     val user = userProfileViewModel.currentUser.value
+    var playConfetti by remember { mutableStateOf(false) }
 
+    // Если все ответы верны — включаем конфетти
+    LaunchedEffect(Unit) {
+        if (correctCount == totalQuestions) {
+            playConfetti = true
+        }
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
@@ -63,5 +77,10 @@ fun ExercisePronounEnterResultScreen(
         }) {
             Text("Назад")
         }
+    }
+        ConfettiEffect(
+            modifier = Modifier.fillMaxSize(),
+            play = playConfetti
+        )
     }
 }
