@@ -8,13 +8,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.german"
+    namespace = "com.example.german_server"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.german"
+        applicationId = "com.example.german_server"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

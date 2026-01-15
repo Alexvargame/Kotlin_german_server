@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "German"
+rootProject.name = "German_server"
 include(":app")
  

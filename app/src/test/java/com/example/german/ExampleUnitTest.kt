@@ -1,4 +1,4 @@
-package com.example.german
+package com.example.german_server
 
 import org.junit.Test
 

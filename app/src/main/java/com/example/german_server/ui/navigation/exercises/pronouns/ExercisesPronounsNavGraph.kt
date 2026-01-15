@@ -1,0 +1,32 @@
+package com.example.german_server.ui.navigation.exercises.pronouns
+
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import androidx.navigation.NavGraphBuilder
+import com.example.german_server.data.AppDatabase
+import com.example.german_server.data.repository.exercises.pronoun.ExercisesPronounsViewModelFactory
+import com.example.german_server.data.ui.viewModel.exercises.pronoun.ExercisesPronounsViewModel
+import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german_server.ui.screens.exercises.pronouns.Exercises_pronouns_screen
+
+
+fun NavGraphBuilder.exercisesPronounsNavGraph(
+    navController: NavHostController,
+    userProfileViewModel: UserViewModel,
+    )
+{
+    composable("exercises_pronouns_screen") {
+        val context = LocalContext.current
+        val db = AppDatabase.getInstance(context)
+
+        val viewModel: ExercisesPronounsViewModel =
+            viewModel(factory = ExercisesPronounsViewModelFactory(db))
+
+        Exercises_pronouns_screen(
+            navController = navController,
+            viewModel = viewModel
+        )
+    }
+}
