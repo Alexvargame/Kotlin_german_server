@@ -18,6 +18,7 @@ import com.example.german_server.data.ui.viewModel.registration.RegistrationView
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.screens.Registration_screen
 import com.example.german_server.ui.screens.Start_app_screen
+import com.example.german_server.data.network.RetrofitClient
 
 
 fun NavGraphBuilder.authRegNavGraph(
@@ -35,7 +36,10 @@ fun NavGraphBuilder.authRegNavGraph(
         Log.d("ER_NAV_DEBUG", "Открыт экран регистрации")
         val context = LocalContext.current.applicationContext
         val repo =
-            UserRegistrationRepository(AppDatabase.getInstance(context).registrationDao())
+            UserRegistrationRepository(
+                AppDatabase.getInstance(context).registrationDao(),
+                AppDatabase.getInstance(context).baseUserDao(),
+                RetrofitClient.apiService)
         val factory = RegistrationViewModelFactory(repo)
 
         val registrationViewModel: RegistrationViewModel =

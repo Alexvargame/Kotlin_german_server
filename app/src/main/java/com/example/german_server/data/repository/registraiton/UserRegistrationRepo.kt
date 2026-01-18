@@ -16,8 +16,9 @@ import retrofit2.Response
 
 
 class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrationDao,
+                                 private val baseUserDao: BaseUserDao,
                                  private val apiService: ApiService,
-                                 private val baseUserDao: BaseUserDao,// добавляем ApiService для работы с сервером
+
                                   ) {
 
     suspend fun registerUser(email: String,
