@@ -55,5 +55,10 @@ data class BaseUser(
     val shockmodNow: Long? = null,     // дата последнего выполнения
 
     @ColumnInfo(name = "shockmod_long")
-    val shockmodLong: Int = 0          // длина серии (дни подряд)
+    val shockmodLong: Int = 0,          // длина серии (дни подряд)
+
+    val serverUid: String? = null,
+    val loginToken: String? = null,
+    var emailVerified: Boolean = false,
+
 )
