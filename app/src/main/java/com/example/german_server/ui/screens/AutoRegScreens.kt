@@ -155,18 +155,6 @@ fun Registration_screen(userviewModel: UserViewModel, viewModel: RegistrationVie
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
 
-    /*LaunchedEffect(registrationResult.value) {
-        if (registrationResult == true) {
-
-
-            newUser?.let { user ->
-                // Записываем пользователя в глобальный UserProfileViewModel
-                userviewModel.setUser(user)
-            navController.navigate("exercises_screen") {
-                popUpTo("registration_screen") { inclusive = true }
-            }
-        }
-    }*/
     LaunchedEffect(registrationResult) {
         registrationResult?.let { user ->
             userviewModel.setUser(user)

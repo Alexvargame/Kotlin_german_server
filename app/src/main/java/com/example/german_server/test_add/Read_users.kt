@@ -27,9 +27,11 @@ class Read_users(private val context: Context) {
 
             val users = BaseUserDao.getAll()
             users.forEach {
-                Log.d("TEST_DB", "USERS: ${it.username} / ${it.email} " +
+                Log.d("TEST_DB", "USERS_1: ${it.username} / ${it.email} " +
                         "/${it.registration_date} /${it.last_login_date}" +
-                        "/${it.shockmodBegin} / ${it.shockmodLong}")
+                        "/${it.shockmodBegin} / ${it.shockmodLong}" +
+                        "/${it.serverUid} / ${it.loginToken} /" +
+                            "${it.emailVerified}")
 
             }
 

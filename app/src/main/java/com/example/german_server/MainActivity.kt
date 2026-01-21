@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         //TestDb_words(this).testAllWordRelatedTables()
         //TestDb_users_roles(this).testusersroles()
         //TestDb_messages(this).testmessages()
-       // Add_users_roles(this).addusersroles()
+        Add_users_roles(this).addusersroles()
         Read_users(this).readusers()
        // Add_word_types(this).addwordtypes()
        // Add_books(this).addbooks()

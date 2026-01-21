@@ -1,6 +1,7 @@
 package com.example.german_server.data.network
 
 
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
@@ -8,9 +9,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://127.0.0.1:8000" // или реальный URL сервера
-
+    private const val BASE_URL = "http://localhost:8000/" // или реальный URL сервера
+    //private const val BASE_URL = "http://192.168.179.240:8000/"
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        Log.d("REG_REPO_Api", "log")
         level = HttpLoggingInterceptor.Level.BODY
     }
 
@@ -19,6 +21,7 @@ object RetrofitClient {
         .build()
 
     val apiService: ApiService by lazy {
+        Log.d("REG_REPO_Api", "API")
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)

@@ -189,7 +189,16 @@ class UserViewModel (private val userDao: BaseUserDao): ViewModel() {
             null
         }
     }
+    fun setServerData(uid: String, token: String) {
+        currentUser.value?.let { user ->
+            val updatedUser = user.copy(serverUid = uid, loginToken = token)
+            _currentUser.value = updatedUser
+            saveCurrentUser() // уже сохраняет в Room через DAO
+        }
+
+    }
 }
+
 
 
 fun Long.startOfDay(): Long {

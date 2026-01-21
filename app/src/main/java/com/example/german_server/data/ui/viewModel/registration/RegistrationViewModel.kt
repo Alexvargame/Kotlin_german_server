@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
 import kotlinx.coroutines.launch
 import android.database.sqlite.SQLiteConstraintException
+import com.example.german_server.data.network.models.RegisterRequest
+import com.example.german_server.data.network.models.RegisterResponse
 
 import android.util.Log
 
@@ -22,7 +24,13 @@ class RegistrationViewModel(private val repo: UserRegistrationRepository) : View
         viewModelScope.launch {
             Log.d("REG_VIEWMODEL", "registerUser called with username=$username")
             try {
-                val newUser = repo.registerUser(email, username, password) // EMAIL  <- Repository создаёт BaseUser
+                val newUser = repo.registerUser(
+                    email,
+                    username,
+                    password,
+                    serverUid = "",//registerResponse.uid,
+                    loginToken ="",// registerResponse.login_token
+                ) // EMAIL  <- Repository создаёт BaseUser
                 registrationResult.value = newUser
                 Log.d("REG_VIEWMODEL", "registerUser success=$newUser")
 
