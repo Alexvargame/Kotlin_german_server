@@ -23,13 +23,14 @@ class RegistrationViewModel(private val repo: UserRegistrationRepository) : View
     fun registerUser(email: String, username: String, password: String) {
         viewModelScope.launch {
             Log.d("REG_VIEWMODEL", "registerUser called with username=$username")
+
             try {
                 val newUser = repo.registerUser(
                     email,
                     username,
                     password,
-                    serverUid = "",//registerResponse.uid,
-                    loginToken ="",// registerResponse.login_token
+                   // serverUid = null,//registerResponse.uid,
+                   // loginToken = null,// registerResponse.login_token
                 ) // EMAIL  <- Repository создаёт BaseUser
                 registrationResult.value = newUser
                 Log.d("REG_VIEWMODEL", "registerUser success=$newUser")

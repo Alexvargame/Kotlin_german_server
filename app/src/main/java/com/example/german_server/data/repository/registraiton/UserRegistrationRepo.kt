@@ -19,11 +19,10 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
                              username: String,
                              password: String,
                              userRoleId: Long = 1L,
-                             serverUid: String?,
-                             loginToken: String? ): BaseUser? {
+                            // serverUid: String?,loginToken: String?
+    ): BaseUser? {
         Log.d("REG_REPO", "registerRepo ${username}")
-        Log.d("REG_REPO", "registerRepo ${username}  ${email} ${userRoleId}" +
-                "${serverUid} ${loginToken}")
+        Log.d("REG_REPO", "registerRepo ${username}  ${email} ${userRoleId}" )
         val now = System.currentTimeMillis()
         val request = RegisterRequest(
             email = email,
@@ -33,24 +32,27 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
         Log.d("REG_REPO", "${request}")
         val response: Response<RegisterResponse>
         try {
-            response = apiService.registerUser(request)
+            Log.d("REG_REPO", "1. Before api call")
+            response = apiService.registerUser(request) // если падает здесь, дальше логов не будет
+            Log.d("REG_REPO", "2. After api call, response=$response")
         } catch (e: Exception) {
             Log.e("USER_ERROR_REPO1", "Network error: ${e.message}")
             return null
         }
-        Log.d("REG_REPO", "${response}")
+        Log.d("REG_REPO", "response${response}")
         // 🔹 5. Сервер отклонил регистрацию (HTTP код != 2xx)
-        if (!response.isSuccessful) {
-            val errorMsg = response.errorBody()?.string()
-            Log.e("USER_ERROR_REPO2", "Server rejected registration: $errorMsg")
-            return null
-        }
+//        if (!response.isSuccessful) {
+//            val errorMsg = response.errorBody()?.string()
+//            Log.e("USER_ERROR_REPO2", "Server rejected registration: $errorMsg")
+//            return null
+//        }
 
         // 🔹 6. Сервер не прислал тело ответа
         val registerResponse = response.body() ?: run {
             Log.e("USER_ERROR_REPO3", "Server returned empty response")
             return null
         }
+        Log.d("REG_REPO", "6. Creating BaseUser")
         val user = BaseUser(
             email = email,
             username = username,
@@ -75,8 +77,6 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             serverUid = registerResponse.uid,
             loginToken = registerResponse.login_token,
             emailVerified = false
-
-
             )
         return try {
             Log.e("USER_", "vor insert")

@@ -11,8 +11,12 @@ object RetrofitClient {
 
     private const val BASE_URL = "http://localhost:8000/" // или реальный URL сервера
     //private const val BASE_URL = "http://192.168.179.240:8000/"
-    private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        Log.d("REG_REPO_Api", "log")
+
+    private val loggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+        override fun log(message: String) {
+            Log.d("RETROFIT_HTTP", message) // Все HTTP-запросы/ответы здесь
+        }
+    }).apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
