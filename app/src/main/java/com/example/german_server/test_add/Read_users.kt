@@ -31,7 +31,7 @@ class Read_users(private val context: Context) {
                         "/${it.registration_date} /${it.last_login_date}" +
                         "/${it.shockmodBegin} / ${it.shockmodLong}" +
                         "/${it.serverUid} / ${it.loginToken} /" +
-                            "${it.emailVerified}")
+                            "Вериф  ${it.emailVerified}")
 
             }
 

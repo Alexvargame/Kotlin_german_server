@@ -1,5 +1,5 @@
 package com.example.german_server.data.network
-
+import java.util.concurrent.TimeUnit
 
 import android.util.Log
 import retrofit2.Retrofit
@@ -9,9 +9,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://localhost:8000/" // или реальный URL сервера
-    //private const val BASE_URL = "http://192.168.179.240:8000/"
+    //private const val BASE_URL = "http://localhost:8000/" // или реальный URL сервера
 
+    //private const val BASE_URL = "http://192.168.179.240:8000/"
+    private const val BASE_URL = "https://alexdirect.pythonanywhere.com/"
     private val loggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
             Log.d("RETROFIT_HTTP", message) // Все HTTP-запросы/ответы здесь
@@ -20,7 +21,20 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    private val client = OkHttpClient.Builder()
+     /*
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        Log.d("REG_REPO_Api", "log")
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+      */
+
+        private val client = OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+
+
         .addInterceptor(loggingInterceptor)
         .build()
 

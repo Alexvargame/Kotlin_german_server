@@ -30,6 +30,13 @@ fun User_screen(
     val context = LocalContext.current
     Log.d("AUTO_USERSCREEN", "${user}")
     Log.d("AUTO_USERSCREEN_MODEL", "${userviewModel.currentUser} , ${userviewModel}")
+
+    // ⬇️⬇️⬇️ ПРОВЕРКА ВЕРИФИКАЦИИ ПРИ ЗАХОДЕ ⬇️⬇️⬇️
+    LaunchedEffect(user) {
+        Log.d("USER_SCREEN_DEBUG", "LaunchedEffect, user = $user")
+
+    }
+    // ⬆️⬆️⬆️ КОНЕЦ ПРОВЕРКИ ⬆️⬆️⬆️
     if (user == null) {
         Log.d("AUTO_USERSCREEN_NULL", "${user}")
         // Если кто-то попал без логина — вернём на старт
@@ -44,7 +51,45 @@ fun User_screen(
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    ) { // ВЕРИФИКАЦИЯ
+        user.let { u ->
+            if (!u.emailVerified) {
+                val daysLeft = userviewModel.getDaysLeft(u)
+
+                if (daysLeft == 0) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text("🚫 Доступ заблокирован", color = Color.Red)
+                        Button(
+                            onClick = { /* TODO */ },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Отправить письмо верификации")
+                        }
+                    }
+                    Spacer(Modifier.height(16.dp))
+                } else if (daysLeft > 0) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text("⚠️ Требуется верификация")
+                        Text("Осталось дней: $daysLeft")
+                        Button(
+                            onClick = { /* TODO */ },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Отправить письмо верификации")
+                        }
+                    }
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
+        }
         user?.let { u ->
             Row(
                 modifier = Modifier.fillMaxWidth(),

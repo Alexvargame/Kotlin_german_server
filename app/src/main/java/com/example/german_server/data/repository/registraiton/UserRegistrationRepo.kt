@@ -11,6 +11,8 @@ import com.example.german_server.data.network.EmailRequest
 import com.example.german_server.data.entities.BaseUser
 import android.util.Log
 import retrofit2.Response
+
+
 class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrationDao,
                                  private val baseUserDao: BaseUserDao,
                                  private val apiService: ApiService) {
@@ -33,6 +35,7 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
         val response: Response<RegisterResponse>
         try {
             Log.d("REG_REPO", "1. Before api call")
+
             response = apiService.registerUser(request) // если падает здесь, дальше логов не будет
             Log.d("REG_REPO", "2. After api call, response=$response")
         } catch (e: Exception) {
@@ -40,12 +43,12 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             return null
         }
         Log.d("REG_REPO", "response${response}")
-        // 🔹 5. Сервер отклонил регистрацию (HTTP код != 2xx)
-//        if (!response.isSuccessful) {
-//            val errorMsg = response.errorBody()?.string()
-//            Log.e("USER_ERROR_REPO2", "Server rejected registration: $errorMsg")
-//            return null
-//        }
+//         🔹 5. Сервер отклонил регистрацию (HTTP код != 2xx)
+        if (!response.isSuccessful) {
+            val errorMsg = response.errorBody()?.string()
+            Log.e("USER_ERROR_REPO2", "Server rejected registration: $errorMsg")
+            return null
+        }
 
         // 🔹 6. Сервер не прислал тело ответа
         val registerResponse = response.body() ?: run {

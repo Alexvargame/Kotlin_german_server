@@ -29,6 +29,7 @@ class RegistrationViewModel(private val repo: UserRegistrationRepository) : View
                     email,
                     username,
                     password,
+                    1L,
                    // serverUid = null,//registerResponse.uid,
                    // loginToken = null,// registerResponse.login_token
                 ) // EMAIL  <- Repository создаёт BaseUser

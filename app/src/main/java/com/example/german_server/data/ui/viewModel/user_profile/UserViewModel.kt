@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
+
+import kotlin.math.max
 
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.dao.BaseUserDao
@@ -197,6 +200,17 @@ class UserViewModel (private val userDao: BaseUserDao): ViewModel() {
         }
 
     }
+    fun shouldShowVerificationWarning(user: BaseUser): Boolean {
+        return !user.emailVerified
+    }
+
+    fun getDaysLeft(user: BaseUser): Int {
+        val daysPassed = TimeUnit.MILLISECONDS.toDays(
+            System.currentTimeMillis() - user.registration_date
+        ).toInt()
+        return max(0, 7 - daysPassed)
+    }
+
 }
 
 
