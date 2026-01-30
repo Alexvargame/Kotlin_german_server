@@ -13,7 +13,6 @@ import android.content.Context
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
-import com.example.german_server.data.dao.UserRegistrationDao
 import com.example.german_server.data.network.RetrofitClient
 
 class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {

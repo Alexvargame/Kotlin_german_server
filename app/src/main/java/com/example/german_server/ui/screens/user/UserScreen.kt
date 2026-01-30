@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 
@@ -27,7 +26,6 @@ fun User_screen(
 ) {
 
     val user = userviewModel.currentUser.value
-    val context = LocalContext.current
     Log.d("AUTO_USERSCREEN", "${user}")
     Log.d("AUTO_USERSCREEN_MODEL", "${userviewModel.currentUser} , ${userviewModel}")
 

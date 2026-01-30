@@ -7,7 +7,6 @@ import java.lang.IllegalArgumentException
 import com.example.german_server.data.dao.BaseUserDao
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
-import com.example.german_server.data.repository.user_profile.UserProfileRepository
 class UserViewModelFactory(
     private val userDao: BaseUserDao,
     private val repo: UserProfileRepository

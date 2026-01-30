@@ -42,6 +42,8 @@ interface BaseUserDao {
     @Delete
     suspend fun delete(user: BaseUser)
 
+    @Query("DELETE FROM users_baseuser WHERE serverUid = :uid")
+    suspend fun deleteByServerUid(uid: String)
     @Query("UPDATE users_baseuser SET avatar_path = :path WHERE id = :userId")
     fun updateAvatar(userId: Long, path: String?)  // Обновление аватарки
 

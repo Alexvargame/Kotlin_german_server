@@ -34,49 +34,17 @@ class UserProfileRepository(
         }
     }
 
-    // Функция для синхронизации статуса (переносим из UserRegistrationRepository)
-    suspend fun resendSyncUserByEmail(email: String): Boolean {
+    suspend fun deleteAccount(uid: String): Boolean {
+        Log.e("DELETE_ACCOUNT_REPO", "Enter")
         return try {
-            Log.d("SYNC", "Синхронизация по email: $email")
-
-            val request = SyncRequest(email)
-            val response = apiService.syncUser(request)
-
-            if (!response.isSuccessful) {
-                Log.e("SYNC", "Ошибка сервера при синхронизации")
-                return false
-            }
-
-            val syncData = response.body()
-            if (syncData == null) {
-                Log.e("SYNC", "Пустой ответ при синхронизации")
-                return false
-            }
-
-            Log.d("SYNC", "Получены данные: uid=${syncData.uid}, verified=${syncData.isVerified}")
-
-            // Ищем локального пользователя по email
-            val localUser = baseUserDao.getByEmail(email)
-
-            if (localUser == null) {
-                Log.e("SYNC", "Локальный пользователь не найден")
-                return false
-            }
-
-            // Обновляем ВСЕ поля из ответа сервера
-            val updatedUser = localUser.copy(
-                serverUid = syncData.uid,
-                loginToken = syncData.loginToken,
-                emailVerified = syncData.isVerified
-            )
-
-            baseUserDao.update(updatedUser)
-            Log.d("SYNC", "Локальная запись обновлена")
-            true
-
+            val response = apiService.deleteAccount(uid)
+            Log.e("DELETE_ACCOUNT_REPO", "${response}/ ${response.isSuccessful}")
+            response.isSuccessful
         } catch (e: Exception) {
-            Log.e("SYNC", "Ошибка синхронизации: ${e.message}")
+            Log.e("DELETE_ACCOUNT", "Network error", e)
             false
         }
     }
+
+
 }

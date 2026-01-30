@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.navigation.exercises.exercisesNavGraph
@@ -36,11 +37,14 @@ import com.example.german_server.ui.navigation.user.userNavGraph
 import com.example.german_server.ui.navigation.user.userProfileNavGraph
 import com.example.german_server.ui.navigation.user.userProfileEditNavGraph
 
+import com.example.german_server.ui.navigation.blockNavGraph
+
 import com.example.german_server.ui.screens.HomeScreen
 
 
 @Composable
 fun appNavGraph(navController: NavHostController, userProfileViewModel: UserViewModel,
+                autoviewModel: AutorizationViewModel,
                 greetingText: String) {
     NavHost(
         navController = navController,
@@ -168,6 +172,12 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
         exercisesAdjectiveDeclensionsResultNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
+        )
+        blockNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+            autoviewModel = autoviewModel,
+
         )
     }
 }

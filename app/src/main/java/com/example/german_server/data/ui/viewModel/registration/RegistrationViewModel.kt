@@ -6,8 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
 import kotlinx.coroutines.launch
 import android.database.sqlite.SQLiteConstraintException
-import com.example.german_server.data.network.models.RegisterRequest
-import com.example.german_server.data.network.models.RegisterResponse
+
 
 import android.util.Log
 

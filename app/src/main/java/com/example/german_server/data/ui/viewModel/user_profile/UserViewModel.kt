@@ -10,8 +10,6 @@ import kotlinx.coroutines.launch
 import android.content.Context
 import android.net.Uri
 import java.io.File
-import java.io.InputStream
-import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -203,9 +201,6 @@ class UserViewModel (private val userDao: BaseUserDao,
         }
 
     }
-    fun shouldShowVerificationWarning(user: BaseUser): Boolean {
-        return !user.emailVerified
-    }
 
     fun getDaysLeft(user: BaseUser): Int {
         val daysPassed = TimeUnit.MILLISECONDS.toDays(
@@ -220,6 +215,18 @@ class UserViewModel (private val userDao: BaseUserDao,
             if (success) {
                 Log.d("USER_VIEWMODEL", "Запрос на отправку письма выполнен")
             }
+        }
+    }
+    // UserViewModel.kt
+    fun deleteAccount(uid: String, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch { // Используем встроенный viewModelScope
+            Log.e("DELETE_ACCOUNT_MODEL", "Enter_ model")
+            val success = profileRepository.deleteAccount(uid)
+            if (success) {
+                userDao.deleteByServerUid(uid)
+            }
+            Log.e("DELETE_ACCOUNT_MODEL", "${success}")
+            onResult(success)
         }
     }
 

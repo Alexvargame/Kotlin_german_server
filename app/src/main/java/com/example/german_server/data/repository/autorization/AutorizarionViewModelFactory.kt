@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
-import com.example.german_server.data.datastore.AuthDataStore
-import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
+
 
 
 class AutorizationViewModelFactory(private val db: AppDatabase) : ViewModelProvider.Factory {

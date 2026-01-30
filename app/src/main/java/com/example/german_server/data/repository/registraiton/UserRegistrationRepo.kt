@@ -6,7 +6,6 @@ import com.example.german_server.data.dao.BaseUserDao
 import com.example.german_server.data.network.ApiService
 import com.example.german_server.data.network.models.RegisterRequest
 import com.example.german_server.data.network.models.RegisterResponse
-import com.example.german_server.data.network.EmailRequest
 import com.example.german_server.data.network.models.SyncRequest
 import com.example.german_server.data.entities.BaseUser
 import android.util.Log
@@ -96,11 +95,6 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
 
     }
 
-
-    suspend fun userExists(email: String, username: String): Boolean {
-        return UserRegistrationDao.getUserByEmail(email) != null ||
-                UserRegistrationDao.getUserByUsername(username) != null
-    }
     suspend fun syncUserByEmail(email: String): Boolean {
         return try {
             Log.d("SYNC", "Синхронизация по email: $email")

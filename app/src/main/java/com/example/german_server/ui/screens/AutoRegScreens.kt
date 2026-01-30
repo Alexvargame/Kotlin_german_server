@@ -80,10 +80,23 @@ fun Start_app_screen(userviewModel: UserViewModel,
             Log.d("AUTO_VIEWMODEL_CHECK", "loginResult не null, устанавливаем пользователя: $user")
             userviewModel.setUser(user)
             delay(1)
+            val daysLeft = userviewModel.getDaysLeft(user)
+            val isBlocked = (!user.emailVerified) && (daysLeft <= 0)
+            Log.d("AUTO_VIEWMODEL_CHECK", "${daysLeft}/ ${isBlocked}")
             Log.d("AUTO_VIEWMODEL_CHECK", "Переходим на user_profile_screen")
-            navController.navigate("user_screen") {
-                popUpTo("start_app_screen") { inclusive = true }
+            if (isBlocked) {
+                Log.d("AUTO_BLOCK", "Пользователь заблокирован (дней: $daysLeft). Переход на blocked_screen")
+                // Переходим на экран блокировки, очищаем стек
+                navController.navigate("block_screen") {
+                    popUpTo("start_app_screen") { inclusive = true }
+                }
+            } else {
+                Log.d("AUTO_VIEWMODEL_CHECK", "Переходим на user_screen")
+                navController.navigate("user_screen") {
+                    popUpTo("start_app_screen") { inclusive = true }
+                }
             }
+
         } ?: Log.d("AUTO_VIEWMODEL_CHECK", "loginResult null, ничего не делаем")
     }
 

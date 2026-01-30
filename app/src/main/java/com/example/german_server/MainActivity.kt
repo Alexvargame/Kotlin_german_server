@@ -18,10 +18,12 @@ import java.io.File
 
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.network.RetrofitClient
-import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
 import com.example.german_server.data.repository.user_profile.UserViewModelFactory
 import com.example.german_server.data.repository.user_profile.UserProfileRepository
+import com.example.german_server.data.repository.autorization.AutorizationViewModelFactory
+
 import com.example.german_server.ui.navigation.appNavGraph
 
 import com.example.german_server.test_add.*
@@ -72,31 +74,19 @@ class MainActivity : ComponentActivity() {
             val userProfileViewModel: UserViewModel = viewModel(
                 factory = UserViewModelFactory(userDao, repo)
             )
+            val autorizationViewModel: AutorizationViewModel = viewModel(
+                factory = AutorizationViewModelFactory(db)
+            )
             Log.e("USER_after", "${userProfileViewModel}")
             val navController = rememberNavController()
 
             //val userProfileViewModel: UserProfileViewModel = viewModel()   // Пробуем создать профиль для всех экранов
-            appNavGraph(navController, userProfileViewModel, greetingText)
+            appNavGraph(navController, userProfileViewModel, autorizationViewModel, greetingText)
 
         }
     }
 }
 
-
-fun copyDatabaseFile(sourcePath: String, destinationPath: String) {
-    val sourceFile = File(sourcePath)
-    val destinationFile = File(destinationPath)
-
-    FileInputStream(sourceFile).use { fis ->
-        FileOutputStream(destinationFile).use { fos ->
-            val buffer = ByteArray(1024)
-            var length: Int
-            while (fis.read(buffer).also { length = it } > 0) {
-                fos.write(buffer, 0, length)
-            }
-        }
-    }
-}
 
 fun getCurrentHour(): Int {
     val calendar = Calendar.getInstance()
