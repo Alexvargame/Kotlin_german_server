@@ -22,7 +22,9 @@ import com.example.german_server.data.ui.viewModel.autorization.AutorizationView
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.repository.autorization.AutorizationViewModelFactory
 import com.example.german_server.data.repository.user_profile.UserViewModelFactory
+import com.example.german_server.data.repository.user_profile.UserProfileRepository
 import com.example.german_server.data.AppDatabase
+import com.example.german_server.data.network.RetrofitClient
 
 @Composable
 fun HomeScreen(navController: NavController, greetingText: String) {
@@ -35,9 +37,14 @@ fun HomeScreen(navController: NavController, greetingText: String) {
             AppDatabase.getInstance(context)
         )
     )
+    val repo =
+        UserProfileRepository(
+            RetrofitClient.apiService,
+            AppDatabase.getInstance(context).baseUserDao(),
+        )
     val userDao = AppDatabase.getInstance(context).baseUserDao()
     val userviewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(userDao)
+        factory = UserViewModelFactory(userDao, repo)
     )
 
 

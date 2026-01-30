@@ -47,4 +47,7 @@ interface BaseUserDao {
 
     @Query("UPDATE users_baseuser SET serverUid = :uid, loginToken = :token WHERE id = :userId")
     suspend fun updateServerData(userId: Long, uid: String?, token: String?)
+
+    @Query("SELECT * FROM users_baseuser WHERE serverUid = :uid")
+    suspend fun getByServerUid(uid: String): BaseUser?
 }

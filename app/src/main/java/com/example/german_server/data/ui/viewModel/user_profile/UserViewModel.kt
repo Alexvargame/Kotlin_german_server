@@ -22,8 +22,11 @@ import kotlin.math.max
 
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.dao.BaseUserDao
+import com.example.german_server.data.repository.user_profile.UserProfileRepository
 
-class UserViewModel (private val userDao: BaseUserDao): ViewModel() {
+class UserViewModel (private val userDao: BaseUserDao,
+                     private val profileRepository: UserProfileRepository
+): ViewModel() {
 
     private val _currentUser = mutableStateOf<BaseUser?>(null)
     val currentUser: State<BaseUser?> = _currentUser
@@ -210,6 +213,16 @@ class UserViewModel (private val userDao: BaseUserDao): ViewModel() {
         ).toInt()
         return max(0, 7 - daysPassed)
     }
+    fun resendVerification(email: String) {
+        viewModelScope.launch {
+            val success = profileRepository.resendVerificationEmail(email)
+            // Можно обновить UI состояние (например, показать Snackbar)
+            if (success) {
+                Log.d("USER_VIEWMODEL", "Запрос на отправку письма выполнен")
+            }
+        }
+    }
+
 
 }
 

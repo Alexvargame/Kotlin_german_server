@@ -80,7 +80,11 @@ fun User_screen(
                         Text("⚠️ Требуется верификация")
                         Text("Осталось дней: $daysLeft")
                         Button(
-                            onClick = { /* TODO */ },
+                            onClick = {
+                                user?.email?.let { email ->
+                                    userviewModel.resendVerification(email)
+                                }
+                            },
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text("Отправить письмо верификации")

@@ -28,6 +28,7 @@ fun NavGraphBuilder.authRegNavGraph(
     composable("start_app"){
         val context = LocalContext.current
         val db = AppDatabase.getInstance(context)
+
         val factory = AutorizationViewModelFactory(db)
         val autoviewModel: AutorizationViewModel =
             viewModel(factory = factory)

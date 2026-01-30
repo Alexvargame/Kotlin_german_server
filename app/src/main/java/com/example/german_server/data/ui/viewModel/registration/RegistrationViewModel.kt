@@ -30,9 +30,7 @@ class RegistrationViewModel(private val repo: UserRegistrationRepository) : View
                     username,
                     password,
                     1L,
-                   // serverUid = null,//registerResponse.uid,
-                   // loginToken = null,// registerResponse.login_token
-                ) // EMAIL  <- Repository создаёт BaseUser
+                )
                 registrationResult.value = newUser
                 Log.d("REG_VIEWMODEL", "registerUser success=$newUser")
 

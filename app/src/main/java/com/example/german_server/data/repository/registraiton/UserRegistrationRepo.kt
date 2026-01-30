@@ -7,7 +7,7 @@ import com.example.german_server.data.network.ApiService
 import com.example.german_server.data.network.models.RegisterRequest
 import com.example.german_server.data.network.models.RegisterResponse
 import com.example.german_server.data.network.EmailRequest
-
+import com.example.german_server.data.network.models.SyncRequest
 import com.example.german_server.data.entities.BaseUser
 import android.util.Log
 import retrofit2.Response
@@ -87,10 +87,7 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             UserRegistrationDao.insertUser(user)
             Log.e("USER_", "after insert")
             user  // успешно вставили
-        } /*catch (e: SQLiteConstraintException) {
-            Log.e("USER_", "false")
-            false // пользователь с таким email или username уже есть
-        }*/
+        }
         catch (e: Exception) {
             Log.e("USER_ERROR", "insert failed: ${e.message}")
             e.printStackTrace()
@@ -103,5 +100,49 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
     suspend fun userExists(email: String, username: String): Boolean {
         return UserRegistrationDao.getUserByEmail(email) != null ||
                 UserRegistrationDao.getUserByUsername(username) != null
+    }
+    suspend fun syncUserByEmail(email: String): Boolean {
+        return try {
+            Log.d("SYNC", "Синхронизация по email: $email")
+
+            val request = SyncRequest(email)
+            val response = apiService.syncUser(request)
+
+            if (!response.isSuccessful) {
+                Log.e("SYNC", "Ошибка сервера при синхронизации")
+                return false
+            }
+
+            val syncData = response.body()
+            if (syncData == null) {
+                Log.e("SYNC", "Пустой ответ при синхронизации")
+                return false
+            }
+
+            Log.d("SYNC", "Получены данные: uid=${syncData.uid}, verified=${syncData.isVerified}")
+
+            // Ищем локального пользователя по email
+            val localUser = baseUserDao.getByEmail(email)
+
+            if (localUser == null) {
+                Log.e("SYNC", "Локальный пользователь не найден")
+                return false
+            }
+
+            // Обновляем ВСЕ поля из ответа сервера
+            val updatedUser = localUser.copy(
+                serverUid = syncData.uid,
+                loginToken = syncData.loginToken,
+                emailVerified = syncData.isVerified
+            )
+
+            baseUserDao.update(updatedUser)
+            Log.d("SYNC", "Локальная запись обновлена")
+            true
+
+        } catch (e: Exception) {
+            Log.e("SYNC", "Ошибка синхронизации: ${e.message}")
+            false
+        }
     }
 }

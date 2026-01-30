@@ -17,9 +17,11 @@ import java.io.File
 
 
 import com.example.german_server.data.AppDatabase
+import com.example.german_server.data.network.RetrofitClient
+import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.repository.user_profile.UserViewModelFactory
-
+import com.example.german_server.data.repository.user_profile.UserProfileRepository
 import com.example.german_server.ui.navigation.appNavGraph
 
 import com.example.german_server.test_add.*
@@ -62,9 +64,13 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
             val db = AppDatabase.getInstance(context)
             val userDao = db.baseUserDao()
-
+            val repo =
+                UserProfileRepository(
+                    RetrofitClient.apiService,
+                    AppDatabase.getInstance(context).baseUserDao(),
+                    )
             val userProfileViewModel: UserViewModel = viewModel(
-                factory = UserViewModelFactory(userDao)
+                factory = UserViewModelFactory(userDao, repo)
             )
             Log.e("USER_after", "${userProfileViewModel}")
             val navController = rememberNavController()

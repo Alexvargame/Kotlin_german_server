@@ -12,11 +12,19 @@ import android.content.Context
 
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.entities.BaseUser
+import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
+import com.example.german_server.data.dao.UserRegistrationDao
+import com.example.german_server.data.network.RetrofitClient
 
 class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
 
     // Состояние результата логина: true = успешный, false = ошибка, null = ещё не пытались
     private val _loginResult = mutableStateOf<BaseUser?>(null)
+    private val repo = UserRegistrationRepository(
+        db.registrationDao(),
+        db.baseUserDao(),
+        RetrofitClient.apiService // Ваш ApiService
+    )
     val loginResult: State<BaseUser?> = _loginResult
 
     private val _errorMessage = mutableStateOf("")
@@ -33,6 +41,12 @@ class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
                 _loginResult.value = user
                 //_errorMessage.value = ""
                 // === ДОБАВЛЯЕМ СОХРАНЕНИЕ АВТОРИЗАЦИИ ===
+                val syncSuccess = repo.syncUserByEmail(user.email)
+                if (syncSuccess) {
+                    Log.d("SYNC", "Синхронизация успешна")
+                } else {
+                    Log.w("SYNC", "Синхронизация не удалась")
+                }
                 saveUserLoggedInStatus(context,user)
                 Log.d("AUTO_VIEWMODEL_CHECK", "aoturiz called with username=${saveUserLoggedInStatus(context,user)}")
 
