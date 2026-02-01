@@ -81,7 +81,7 @@ fun Start_app_screen(userviewModel: UserViewModel,
             userviewModel.setUser(user)
             delay(1)
             val daysLeft = userviewModel.getDaysLeft(user)
-            val isBlocked = (!user.emailVerified) && (daysLeft <= 0)
+            val isBlocked = (!user.emailVerified) && (daysLeft <= 9)
             Log.d("AUTO_VIEWMODEL_CHECK", "${daysLeft}/ ${isBlocked}")
             Log.d("AUTO_VIEWMODEL_CHECK", "Переходим на user_profile_screen")
             if (isBlocked) {

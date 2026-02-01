@@ -1,23 +1,27 @@
 package com.example.german_server.ui.screens
 
 
+import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.ui.Alignment
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import android.util.Log
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Button
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 
 
+import android.widget.Toast
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
@@ -32,6 +36,7 @@ fun BlockScreen(
 ) {
     val userEmail = userviewModel.currentUser.value?.email ?: ""
     val context = LocalContext.current
+    var showDeleteDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,18 +75,22 @@ fun BlockScreen(
         // Кнопка "Удалить аккаунт"
         Button(
             onClick = {
-                val uid = userviewModel.currentUser.value?.serverUid
-                Log.e("DELETE_ACCOUNT_SCREEN", "${uid}")
-                if (uid != null) {
-                    // Вызываем метод ViewModel, как в других экранах
-                    userviewModel.deleteAccount(uid) { success ->
-                        if (success) {
-                            autoviewModel.logout(context)
-                            navController.navigate("start_app_screen") { popUpTo(0) }
-                        }
-                    }
-                }
-            }
+                showDeleteDialog = true
+            },
+
+//            onClick = {
+//                val uid = userviewModel.currentUser.value?.serverUid
+//                Log.e("DELETE_ACCOUNT_SCREEN", "${uid}")
+//                if (uid != null) {
+//                    // Вызываем метод ViewModel, как в других экранах
+//                    userviewModel.deleteAccount(uid) { success ->
+//                        if (success) {
+//                            autoviewModel.logout(context)
+//                            navController.navigate("home") { popUpTo(0) }
+//                        }
+//                    }
+//                }
+//            }
         ) {
             Text("Удалить аккаунт")
         }
@@ -99,5 +108,57 @@ fun BlockScreen(
         ) {
             Text("🚪 Выйти из аккаунта")
         }
+        if (showDeleteDialog) {
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = {
+                    Text(text = "Подтверждение удаления", color = Color.Red)
+                },
+                text = {
+                    Text("Вы уверены, что хотите полностью удалить аккаунт?\n\nЭто действие невозможно отменить. Все ваши данные будут удалены безвозвратно.")
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            showDeleteDialog = false
+                            val uid = userviewModel.currentUser.value?.serverUid
+                            Log.e("DELETE_ACCOUNT_SCREEN", "${uid}")
+                            if (uid != null) {
+                                userviewModel.deleteAccount(uid) { success ->
+                                    if (success) {
+                                        autoviewModel.logout(context)
+                                        userviewModel.logout()
+                                        navController.navigate("home") { popUpTo(0) }
+                                        Toast.makeText(
+                                            context,
+                                            "Аккаунт удалён",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "Ошибка при удалении",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            }
+                        }
+                    ) {
+                        Text("УДАЛИТЬ", color = Color.Red)
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = { showDeleteDialog = false }
+                    ) {
+                        Text("Отмена")
+                    }
+                },
+                containerColor = Color.White,
+                titleContentColor = Color.Red
+            )
+        }
+
     }
 }
