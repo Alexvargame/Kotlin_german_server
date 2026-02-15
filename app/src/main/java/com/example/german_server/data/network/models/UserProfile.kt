@@ -2,8 +2,7 @@ package com.example.german_server.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class ProfileResponse(
-
+data class UserProfile(
     @SerializedName("uid")
     val uid: String,
 
@@ -13,22 +12,15 @@ data class ProfileResponse(
     @SerializedName("username")
     val username: String?,
 
-    @SerializedName("score")
-    val score: Int,
-
-    @SerializedName("streak_days")
-    val streakDays: Int,
-
-    @SerializedName("phone")
-    val phone: String?,
-
     @SerializedName("is_verified")
     val isVerified: Boolean,
 
-    @SerializedName("created_at")
-    val createdAt: String,
+    @SerializedName("streak_days")
+    val shockmodLong: Int,            // BaseUser.shockmodLong
 
     @SerializedName("last_session_date")
-    val shockmodNow: Long?,
+    val shockmodNow: Long?
+
+
 
 )

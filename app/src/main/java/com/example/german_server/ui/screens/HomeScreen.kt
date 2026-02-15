@@ -1,8 +1,9 @@
 package com.example.german_server.ui.screens
 
 import android.app.Activity
+import android.util.Log
 
-
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -43,8 +44,11 @@ fun HomeScreen(navController: NavController, greetingText: String) {
             AppDatabase.getInstance(context).baseUserDao(),
         )
     val userDao = AppDatabase.getInstance(context).baseUserDao()
+    val prefs = remember {
+        context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+    }
     val userviewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(userDao, repo)
+        factory = UserViewModelFactory(userDao, repo, prefs)
     )
 
 
@@ -92,6 +96,8 @@ fun HomeScreen(navController: NavController, greetingText: String) {
                     GreetingButton(
                         text = "Выйти",
                         onClick = {
+                            Log.d("SYNC_COMPARE_screen", "✅ local exit")
+                            userviewModel.syncProgressAfterLesson()
                             (context as? Activity)?.finish()
                         }
                     )
@@ -103,6 +109,8 @@ fun HomeScreen(navController: NavController, greetingText: String) {
                     text = if (autoviewModel.checkUserLoggedIn(context)) "Разлогиниться" else "Выйти",
                     onClick = {
                         if (autoviewModel.checkUserLoggedIn(context)) {
+                            Log.d("SYNC_COMPARE_screen", "✅ local logout")
+                            userviewModel.syncProgressAfterLesson()
                             autoviewModel.logout(context)
                             userviewModel.logout()
                             navController.navigate("home")

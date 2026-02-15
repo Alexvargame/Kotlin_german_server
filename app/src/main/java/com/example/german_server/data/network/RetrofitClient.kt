@@ -35,7 +35,12 @@ object RetrofitClient {
         .writeTimeout(30, TimeUnit.SECONDS)
 
 
-        .addInterceptor(loggingInterceptor)
+       // .addInterceptor(loggingInterceptor)
+        .addInterceptor { chain ->
+            val request = chain.request()
+            Log.d("RETROFIT", "URL: ${request.url}")
+            chain.proceed(request)
+        }
         .build()
 
     val apiService: ApiService by lazy {

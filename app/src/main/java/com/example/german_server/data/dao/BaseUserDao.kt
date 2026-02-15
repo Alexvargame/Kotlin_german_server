@@ -47,9 +47,18 @@ interface BaseUserDao {
     @Query("UPDATE users_baseuser SET avatar_path = :path WHERE id = :userId")
     fun updateAvatar(userId: Long, path: String?)  // Обновление аватарки
 
+    @Query("UPDATE users_baseuser SET avatar_name = :name WHERE id = :userId")
+    fun updateAvatarName(userId: Long, name: String?)  // Обновление аватарки
+
     @Query("UPDATE users_baseuser SET serverUid = :uid, loginToken = :token WHERE id = :userId")
     suspend fun updateServerData(userId: Long, uid: String?, token: String?)
 
     @Query("SELECT * FROM users_baseuser WHERE serverUid = :uid")
     suspend fun getByServerUid(uid: String): BaseUser?
+
+
+    @Query("UPDATE users_baseuser SET score = :score, shockmod_long = :shockmodLong, " +
+            "shockmod_now = :shockmodNow WHERE serverUid = :serverId")
+    suspend fun updateUserStats(serverId: String?, score: Int?, shockmodLong: Int, shockmodNow: Long?)
+
 }

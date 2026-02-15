@@ -117,6 +117,12 @@ fun User_screen(
             Text("Упражнения")
         }
         Button(
+            onClick = { navController.navigate("rating_screen") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Рейтинг")
+        }
+        Button(
             onClick = { /* TODO вход */ },
             modifier = Modifier.fillMaxWidth()
         ) {

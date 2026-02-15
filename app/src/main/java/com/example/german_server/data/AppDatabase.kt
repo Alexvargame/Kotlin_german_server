@@ -10,6 +10,7 @@ import com.example.german_server.data.ui.MIGRATION_1_2
 import com.example.german_server.data.ui.MIGRATION_2_3
 import com.example.german_server.data.ui.MIGRATION_3_4
 import com.example.german_server.data.ui.MIGRATION_4_5
+import com.example.german_server.data.ui.MIGRATION_5_6
 
 import android.util.Log
 
@@ -32,7 +33,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         Numeral::class,
         NounDeclensionsForm::class,
     ],
-    version = 5
+    version = 6
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
@@ -74,6 +75,7 @@ abstract class AppDatabase : RoomDatabase() {
                     .addMigrations(MIGRATION_2_3)
                     .addMigrations(MIGRATION_3_4)
                     .addMigrations(MIGRATION_4_5)
+                    .addMigrations(MIGRATION_5_6)
                     .build()
                 INSTANCE = instance
                 instance

@@ -26,7 +26,7 @@ import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.R
 import java.io.File
 import android.util.Log
-
+import androidx.compose.ui.res.painterResource
 
 
 @Composable
@@ -42,20 +42,56 @@ fun UserStatsBlock(u: BaseUser) {
             horizontalArrangement = androidx.compose.foundation.layout.Arrangement.Start,
             modifier = Modifier.fillMaxWidth()
         ) {
-            val avatarPainter = if (!u.avatarPath.isNullOrBlank()) {
-                val file = File(u.avatarPath)
-                if (file.exists()) {
-                    Log.d("USER_STATS", "Avatar file exists: ${file.absolutePath}")
-                    rememberAsyncImagePainter(file)
-                } else {
-                    Log.e("USER_STATS", "Avatar file NOT FOUND: ${file.absolutePath}")
+//            val avatarPainter = if (!u.avatarPath.isNullOrBlank()) {
+//                val file = if ((u.score ?: 0) < 5000) {
+//                    Log.d("USER_STATS", "AVATAR)NAME")
+//                    File(u.avatarPath ?: "")
+//
+//                } else {
+//                    Log.d("USER_STATS", "AVATAR)PATH")
+//                    File(u.avatarName ?: "")
+//                }
+//
+//                if (file.exists()) {
+//                    Log.d("USER_STATS", "Avatar file exists: ${file.absolutePath}")
+//                    rememberAsyncImagePainter(file)
+//                } else {
+//                    Log.e("USER_STATS", "Avatar file NOT FOUND: ${file.absolutePath}")
+//                    rememberAsyncImagePainter(R.drawable.placeholder_avatar)
+//                }
+//            } else {
+//                Log.d("USER_STATS", "Avatar path is null, using placeholder")
+//                rememberAsyncImagePainter(R.drawable.placeholder_avatar)
+//            }
+            val avatarPainter = when {
+                !u.avatarPath.isNullOrBlank() -> {
+                    val file = File(u.avatarPath!!)
+                    if (file.exists()) {
+                        rememberAsyncImagePainter(file)
+                    } else {
+                        rememberAsyncImagePainter(R.drawable.placeholder_avatar)
+                    }
+                }
+
+                !u.avatarName.isNullOrBlank() -> {
+                    val context = LocalContext.current
+                    val resId = context.resources.getIdentifier(
+                        u.avatarName,
+                        "drawable",
+                        context.packageName
+                    )
+
+                    if (resId != 0) {
+                        painterResource(resId)
+                    } else {
+                        rememberAsyncImagePainter(R.drawable.placeholder_avatar)
+                    }
+                }
+
+                else -> {
                     rememberAsyncImagePainter(R.drawable.placeholder_avatar)
                 }
-            } else {
-                Log.d("USER_STATS", "Avatar path is null, using placeholder")
-                rememberAsyncImagePainter(R.drawable.placeholder_avatar)
             }
-
             Image(
                 painter = avatarPainter,
                 contentDescription = "User avatar",

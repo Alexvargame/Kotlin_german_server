@@ -13,6 +13,7 @@ import android.content.Context
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.repository.registraiton.UserRegistrationRepository
+import com.example.german_server.data.repository.user_profile.UserProfileRepository
 import com.example.german_server.data.network.RetrofitClient
 
 class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
@@ -22,7 +23,11 @@ class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
     private val repo = UserRegistrationRepository(
         db.registrationDao(),
         db.baseUserDao(),
-        RetrofitClient.apiService // Ваш ApiService
+        RetrofitClient.apiService
+    )
+    private val repo_user = UserProfileRepository(
+        RetrofitClient.apiService,
+        db.baseUserDao()
     )
     val loginResult: State<BaseUser?> = _loginResult
 
@@ -38,7 +43,6 @@ class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
             if (user != null) {
                 Log.d("AUTO_VIEWMODEL", "auotriz called with username=$user")
                 _loginResult.value = user
-                //_errorMessage.value = ""
                 // === ДОБАВЛЯЕМ СОХРАНЕНИЕ АВТОРИЗАЦИИ ===
                 val syncSuccess = repo.syncUserByEmail(user.email)
                 if (syncSuccess) {
@@ -48,7 +52,6 @@ class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
                 }
                 saveUserLoggedInStatus(context,user)
                 Log.d("AUTO_VIEWMODEL_CHECK", "aoturiz called with username=${saveUserLoggedInStatus(context,user)}")
-
             } else {
                 //_loginResult.value = false
                 _errorMessage.value = "Неверный логин или пароль"
@@ -100,5 +103,41 @@ class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
         _loginResult.value = null
     }
 
-
+    // Добавить в AuthViewModel
+//    fun syncProgressOnLogin(user: BaseUser) {
+//        viewModelScope.launch {
+//            try {
+//                Log.d("SYNC_COMPARE_LOGIN", "✅ user ${user.score}, ${user.shockmodNow}")
+//                val serverProfile = repo_user.loadProfileFromServer(user.email, "Token ${user.loginToken}")
+//                Log.d("SYNC_COMPARE_LOGIN", "✅ serverdata ${serverProfile}")
+//                val idUser = user.id
+//                serverProfile?.let {
+//                    val serverDate = it.shockmodNow ?: 0L
+//                    val localDate = user.shockmodNow ?: 0L
+//                    Log.d("SYNC_COMPARE_LOGIN", "✅ serverdata ${serverDate}")
+//                    Log.d("SYNC_COMPARE_LOGIN", "✅ local data ${localDate}")
+//                    if (serverDate > localDate) {
+//                        withContext(Dispatchers.IO) {
+//                            Log.d("SYNC_COMPARE_LOGIN", "✅ server MORE ")
+////                            db.baseUserDao().updateUserStats(user.serverUid, user.score,
+////                                user.shockmodLong, user.shockmodNow)
+//                            db.baseUserDao().update(
+//                                user.copy(
+//                                    score = it.score,
+//                                    shockmodLong = it.streakDays,
+//                                    shockmodNow = it.shockmodNow
+//                            )
+//                            )
+//                            val user = withContext(Dispatchers.IO) {
+//                                db.baseUserDao().getById(idUser)
+//                            }
+//                            Log.d("SYNC_COMPARE_LOGIN", "✅ local data ${user?.score} | ${user?.shockmodNow}")
+//                        }
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                Log.e("SYNC", "Ошибка синхронизации", e)
+//            }
+//        }
+//    }
 }

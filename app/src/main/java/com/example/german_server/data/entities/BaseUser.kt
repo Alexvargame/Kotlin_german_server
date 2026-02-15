@@ -46,6 +46,9 @@ data class BaseUser(
 
     @ColumnInfo(name = "avatar_path")
     val avatarPath: String? = null,
+    @ColumnInfo(name = "avatar_name")
+    val avatarName: String? = null,
+    //val avatarName: String? = avatarPath,
 
     // ⬇️ STREAK (shock mode)
     @ColumnInfo(name = "shockmod_begin")

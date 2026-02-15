@@ -36,6 +36,8 @@ import com.example.german_server.ui.navigation.exercises.adjective.exercisesAdje
 import com.example.german_server.ui.navigation.user.userNavGraph
 import com.example.german_server.ui.navigation.user.userProfileNavGraph
 import com.example.german_server.ui.navigation.user.userProfileEditNavGraph
+import com.example.german_server.ui.navigation.user.avatarChoiceNavGraph
+import com.example.german_server.ui.navigation.user.anotherProfileNavGraph
 
 import com.example.german_server.ui.navigation.blockNavGraph
 
@@ -60,15 +62,27 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
         )
         userNavGraph(
                 navController = navController,
-        userProfileViewModel = userProfileViewModel,
+            userProfileViewModel = userProfileViewModel,
+        )
+        ratingNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
         )
         userProfileNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        anotherProfileNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
         )
         userProfileEditNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
+        )
+        avatarChoiceNavGraph(
+        navController = navController,
+        userProfileViewModel = userProfileViewModel,
         )
         exercisesNavGraph(
             navController = navController,
@@ -178,6 +192,10 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
             userProfileViewModel = userProfileViewModel,
             autoviewModel = autoviewModel,
 
+        )
+        userNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
         )
     }
 }

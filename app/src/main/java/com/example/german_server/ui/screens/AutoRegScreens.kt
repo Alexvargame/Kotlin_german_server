@@ -70,6 +70,7 @@ fun Start_app_screen(userviewModel: UserViewModel,
     } else {
         Log.d("AUTO_VIEWMODEL_CHECK", "Подписываемся на autoviewModel.loginResult")
         autoviewModel.loginResult
+
     }
 
     val errorMessage by autoviewModel.errorMessage
@@ -79,6 +80,7 @@ fun Start_app_screen(userviewModel: UserViewModel,
         loginResult?.let { user ->
             Log.d("AUTO_VIEWMODEL_CHECK", "loginResult не null, устанавливаем пользователя: $user")
             userviewModel.setUser(user)
+            userviewModel.compareWithServerProfile()
             delay(1)
             val daysLeft = userviewModel.getDaysLeft(user)
             val isBlocked = (!user.emailVerified) && (daysLeft <= 9)

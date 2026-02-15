@@ -8,7 +8,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import java.util.Calendar
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
-
+import android.content.Context
+import androidx.compose.runtime.remember
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
@@ -71,8 +72,11 @@ class MainActivity : ComponentActivity() {
                     RetrofitClient.apiService,
                     AppDatabase.getInstance(context).baseUserDao(),
                     )
+            val prefs = remember {
+                context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            }
             val userProfileViewModel: UserViewModel = viewModel(
-                factory = UserViewModelFactory(userDao, repo)
+                factory = UserViewModelFactory(userDao, repo, prefs)
             )
             val autorizationViewModel: AutorizationViewModel = viewModel(
                 factory = AutorizationViewModelFactory(db)
