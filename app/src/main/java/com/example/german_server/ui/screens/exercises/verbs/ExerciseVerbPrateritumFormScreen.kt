@@ -76,7 +76,7 @@ fun ExerciseVerbPrateritumFormScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                UserStatsBlock(u)
+                UserStatsBlock(u, userProfileViewModel)
             }
         }
 

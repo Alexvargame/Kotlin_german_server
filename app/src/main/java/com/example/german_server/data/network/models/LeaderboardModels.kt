@@ -23,7 +23,10 @@ data class LeaderboardUser(
     val phone: String?,
     @SerializedName("is_verified") val isVerified: Boolean,
     @SerializedName("created_at") val createdAt: String,
-    @SerializedName("last_session_date") val lastSessionDate: Long?
+    @SerializedName("last_session_date") val lastSessionDate: Long?,
+    @SerializedName("avatar_name") val avatarName: String?,
+    @SerializedName("avatar_path") val avatarPath: String?,
+
 
 )
 

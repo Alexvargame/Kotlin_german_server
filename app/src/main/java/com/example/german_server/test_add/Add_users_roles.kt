@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class Add_users_roles(private val context: Context) {
 
     fun addusersroles() {
-        Log.d("TEST_DB", " Context ${context}")
+        Log.d("TEST_DB_roles", " Context ${context}")
         //AppDatabase.resetInstance()
         //context.deleteDatabase("app_database_name.db")
 
@@ -20,7 +20,7 @@ class Add_users_roles(private val context: Context) {
        // Log.d("TEST_DB", "DB path: ${context.getDatabasePath("app_database_name.db")}")
         val userRoleDao = db.userRoleDao()
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d("TEST_DB", "testAllWordRelatedTables() started")
+            Log.d("TEST_DB_roles", "testAllWordRelatedTables() started")
 
             /*val UserRoleAdmin = UserRole(name = "Admin", description = "Admin")
             userRoleDao.insert(UserRoleAdmin)
@@ -29,10 +29,15 @@ class Add_users_roles(private val context: Context) {
             userRoleDao.insert(UserRoleUser)
             Log.d("ADD_USER_ROLE", "Новая  role вставлена")
             */
-            val userRoles = userRoleDao.getAll()
-            userRoles.forEach {
-                Log.d("TEST_DB", "USER_ROLE: ${it.name} / ${it.description}/ ${it.id}")
+            try {
+                val userRoles = userRoleDao.getAll()
+                userRoles.forEach {
+                    Log.d("TEST_DB", "USER_ROLE: ${it.name} / ${it.description}/ ${it.id}")
+                }
+            } catch (e: Exception) {
+                Log.e("TEST_DB_FATAL", "Ошибка при запросе ролей", e)
             }
+
         }
     }
 }

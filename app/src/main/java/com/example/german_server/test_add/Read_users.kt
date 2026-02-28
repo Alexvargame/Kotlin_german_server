@@ -13,13 +13,13 @@ class Read_users(private val context: Context) {
     fun readusers() {
    
 
-        Log.d("TEST_DB", " Context ${context}")
+        Log.d("TEST_DB_users", " Context ${context}")
         //AppDatabase.resetInstance()
         //context.deleteDatabase("app_database_name.db")
 
 
         val db = AppDatabase.getInstance(context)
-        Log.d("TEST_APP_DB", "DB path: ${context.getDatabasePath("app.db")}")
+        Log.d("TEST_APP_DB_users", "DB path: ${context.getDatabasePath("app.db")}")
         val BaseUserDao = db.baseUserDao()
         val userRoleDao = db.userRoleDao()
 
@@ -28,10 +28,12 @@ class Read_users(private val context: Context) {
             val users = BaseUserDao.getAll()
             users.forEach {
                 Log.d("TEST_DB", "USERS_1: ${it.username} / ${it.email} " +
-                        "/${it.registration_date} /${it.last_login_date}" +
+                        " Name /${it.avatarName} / Path ${it.avatarPath}" +
                         "/${it.shockmodBegin} / ${it.shockmodLong}" +
                         "/${it.serverUid} / ${it.loginToken} /" +
-                            "Вериф  ${it.emailVerified}  Lustsession ${it.shockmodNow}")
+                            "Lustsession ${it.shockmodNow} " +
+                        "avatar_change ${it.avatarLastChanged}"
+                                   )
 
             }
 

@@ -31,4 +31,12 @@ data class ProfileResponse(
     @SerializedName("last_session_date")
     val shockmodNow: Long?,
 
-)
+    @SerializedName("avatar_name")
+    val avatarName: String?,
+
+    @SerializedName("active_gallery_avatar_url")
+    val activeGalleryAvatarUrl: String?,
+
+    @SerializedName("avatar_last_changed")
+    val avatarLastChanged: Long?,
+    )

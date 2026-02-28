@@ -60,6 +60,12 @@ data class BaseUser(
     @ColumnInfo(name = "shockmod_long")
     val shockmodLong: Int = 0,          // длина серии (дни подряд)
 
+    @ColumnInfo(name = "active_gallery_avatar_url")
+    val activeGalleryAvatarUrl: String? = null,
+
+    @ColumnInfo(name = "avatar_last_changed")
+    val avatarLastChanged: Long? = null,
+
     val serverUid: String? = null,
     val loginToken: String? = null,
     var emailVerified: Boolean = false,

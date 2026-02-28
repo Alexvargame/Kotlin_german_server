@@ -94,7 +94,7 @@ fun ExerciseWordsPairScreen(
         )
 
         user?.let { u ->
-            UserStatsBlock(u)
+            UserStatsBlock(u, userProfileViewModel)
         }
 
         Row(

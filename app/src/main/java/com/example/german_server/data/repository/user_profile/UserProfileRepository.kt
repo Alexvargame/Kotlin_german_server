@@ -2,11 +2,20 @@ package com.example.german_server.data.repository.user_profile
 
 // ProfileRepository.kt
 import android.util.Log
+import java.io.File
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import kotlin.Result
+
 import com.example.german_server.data.dao.BaseUserDao
+import com.example.german_server.data.dao.UserAvatarDao
 import com.example.german_server.data.network.ApiService
 import com.example.german_server.data.network.models.ResendVerificationRequest
 import com.example.german_server.data.network.models.ProfileResponse
 import com.example.german_server.data.network.models.SyncProgressRequest
+import com.example.german_server.data.network.models.AvatarUploadRequest
 
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.network.models.LeaderboardResponse
@@ -14,7 +23,9 @@ import com.example.german_server.data.network.models.LeaderboardResponse
 
 class UserProfileRepository(
     private val apiService: ApiService,
-    private val baseUserDao: BaseUserDao
+    private val baseUserDao: BaseUserDao,
+    private val avatarDao: UserAvatarDao,
+
 ) {
 
     // Функция для повторной отправки письма (переносим из UserRegistrationRepository)
@@ -101,6 +112,25 @@ class UserProfileRepository(
             shockmodNow = user.shockmodNow ?: System.currentTimeMillis()
         )
     }
+    fun createUploadAvatarRequest(user: BaseUser): AvatarUploadRequest? {
+        val uid = user.serverUid ?: return null
+
+        return AvatarUploadRequest(
+            serverUid = uid,
+            avatarName = user.avatarName,
+            avatarLastChanged = user.avatarLastChanged ?: 0L
+        )
+    }
+    fun createUploadGalleryAvatarRequest(user: BaseUser): AvatarUploadRequest? {
+        val uid = user.serverUid ?: return null
+
+        return AvatarUploadRequest(
+            serverUid = uid,
+            avatarName = user.avatarName,
+            avatarLastChanged = user.avatarLastChanged ?: 0L // либо timestamp локального файла
+        )
+    }
+
     suspend fun loadRating(token: String?): LeaderboardResponse? {
         return try {
             Log.d("LeaderboardRepository", "🔄 Загрузка рейтинга по token: $token")
@@ -132,6 +162,77 @@ class UserProfileRepository(
                 "🔥 Ошибка сети: ${e.message}"
             )
             null
+        }
+    }
+    suspend fun uploadAvatar(request: AvatarUploadRequest): Boolean {
+        return try {
+            Log.d("SYNC_REPO", "🔄 Отправка аватара на сервер")
+            val response = apiService.uploadAvatar(request = request)
+            Log.d("SYNC_REPO", "🔄 ${response}")
+
+            if (response.isSuccessful) {
+                Log.d("SYNC_REPO", "✅ Аватар отправлен")
+                true
+            } else {
+                Log.e("SYNC_REPO", "❌ Ошибка сервера: ${response.code()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("SYNC_REPO", "🔥 Ошибка сети: ${e.message}")
+            false
+        }
+    }
+
+    suspend fun uploadGalleryAvatar(file: File, user: BaseUser): Boolean {
+        return try {
+            Log.d("SYNC_REPO_GAL", "🔄 Начало загрузки галерейного аватара: ${file.name}")
+
+            // --- Превращаем файл в RequestBody с MIME типом "image/png" ---
+            val requestFile = file.asRequestBody("image/png".toMediaTypeOrNull())
+            Log.d("SYNC_REPO_GAL", "📄 RequestBody создан для файла: ${requestFile}")
+
+            // --- Создаём multipart-часть для Retrofit ---
+            val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestFile)
+            Log.d("SYNC_REPO_GAL", "📦 MultipartBody создан для Retrofit  - ${multipartBody}")
+
+            // --- Преобразуем serverUid пользователя в RequestBody ---
+            val serverUidBody = user.serverUid?.toRequestBody("text/plain".toMediaTypeOrNull())
+                ?: run {
+                    Log.e("SYNC_REPO_GAL", "❌ serverUid пустой, прерываем загрузку")
+                    return false
+                }
+            Log.d("SYNC_REPO", "🆔 serverUid подготовлен: ${user.serverUid} - ${serverUidBody}")
+
+            val timestampBody = System.currentTimeMillis().toString()
+                .toRequestBody("text/plain".toMediaTypeOrNull())
+            Log.d("SYNC_REPO_GAL", "⏱ timestamp подготовлен: ${System.currentTimeMillis()}")
+
+            // --- Вызываем Retrofit эндпоинт uploadGalleryAvatar ---
+            val response = apiService.uploadGalleryAvatar(
+                authorization = "Token ${user.loginToken}",
+                file = multipartBody,
+                serverUid = serverUidBody,
+                avatarLastChanged = timestampBody
+            )
+            Log.d("SYNC_REPO_GAL", "📤${response}")
+            Log.d("SYNC_REPO_GAL", "Status: ${response.code()}")
+            Log.d("SYNC_REPO_GAL", "Headers: ${response.headers()}")
+            Log.d("SYNC_REPO_GAL", "Body: ${response.errorBody()?.string() ?: response.body()}")
+            Log.d("SYNC_REPO_GAL", "📤 Отправка на сервер завершена, код ответа: ${response.code()}")
+
+            // --- Проверяем успешность ответа ---
+            if (response.isSuccessful) {
+                Log.d("SYNC_REPO_GAL", "✅ Галерейный аватар успешно загружен: ${file.name}")
+                true
+            } else {
+                Log.e("SYNC_REPO_GAL", "❌ Сервер вернул ошибку: ${response.code()} / ${response.message()}")
+                false
+            }
+
+        } catch (e: Exception) {
+            // --- Логируем ошибки сети или исключения ---
+            Log.e("SYNC_REPO", "🔥 Исключение при загрузке галерейного аватара: ${e.message}", e)
+            false
         }
     }
 

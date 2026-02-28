@@ -26,12 +26,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.rememberAsyncImagePainter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import android.net.Uri
+
+
+
+
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 
 import androidx.compose.ui.text.font.FontWeight
 import com.example.german_server.data.network.models.LeaderboardUser
 import com.example.german_server.data.network.models.SortType
+import com.example.german_server.data.ui.components.AvatarRepository
+import com.example.german_server.R
+
+
+
 @Composable
 fun Rating_screen(
     navController: NavController,
@@ -40,6 +57,7 @@ fun Rating_screen(
     // --- Лог: экран создан
     Log.d("RatingScreen", "🏁 RatingScreen создан")
 
+   // var activeAvatarPath by remember { mutableStateOf<String?>(null) }
 
 
     //var byScore by remember { mutableStateOf(true) }
@@ -50,6 +68,7 @@ fun Rating_screen(
     LaunchedEffect(Unit) {
         Log.d("RatingScreen", "🔄 Вызов UserViewModel.loadLeaderboard()")
         userViewModel.loadLeaderboard()
+        userViewModel.loadActiveAvatar()
     }
 
     // =========================
@@ -58,6 +77,12 @@ fun Rating_screen(
     val leaderboardState = userViewModel.leaderboardState
     val currentUser = userViewModel.currentUser.value// id текущего пользователя
     val isLoading = leaderboardState == null
+
+    val currentUserAvatarPath by userViewModel.activeAvatarPath
+
+
+
+ //   Log.d("RatingScreen", "⏳ ${userViewModel.} ")
 
     Column(
         modifier = Modifier
@@ -98,6 +123,7 @@ fun Rating_screen(
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
         // --- Данные рейтинга
+
         else {
             leaderboardState?.let { state ->
                 Log.d("RatingScreen", "📊 Отображаем рейтинг на экране")
@@ -112,6 +138,7 @@ fun Rating_screen(
                     LeaderboardTable(
                         users = users,
                         currentUserUid = currentUser?.serverUid,
+                        currentUserAvatarPath = currentUserAvatarPath,
                         valueType =  valueType,
                         formatDate = { ts -> ts?.let { userViewModel.formatDate(it) } ?: "-" },
                         onUserClick = { user ->
@@ -146,11 +173,13 @@ fun Rating_screen(
 @Composable
 fun LeaderboardTable(
     users: List<LeaderboardUser>,   // список пользователей
-    currentUserUid: String?,          // id текущего пользователя для выделения
+    currentUserUid: String?, // id текущего пользователя для выделения
+    currentUserAvatarPath: String?,
     valueType: String,
     formatDate: (Long) -> String,
     onUserClick: (LeaderboardUser) -> Unit
 ) {
+
     Column(
     modifier = Modifier
         .fillMaxWidth()
@@ -159,7 +188,11 @@ fun LeaderboardTable(
     )
     {
         // Заголовок таблицы
-        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)) {
+            Text("", modifier = Modifier.weight(0.5f),
+                fontWeight = FontWeight.Bold,  color = Color.White)
             Text("№", modifier = Modifier.weight(0.5f),
                 fontWeight = FontWeight.Bold,  color = Color.White)
             Text("Ник", modifier = Modifier.weight(2f),
@@ -184,6 +217,40 @@ fun LeaderboardTable(
                 val requestUserColor =
                     if (user.uid == currentUserUid) Color.Blue else Color.Green
 
+                val isCurrent = user.uid == currentUserUid
+
+// Получаем painter для аватара
+                val avatarPainter = if (isCurrent) {
+                    // Текущий игрок
+                    Log.d("RatingScreen", "📊 curernt AVABTAR path ${currentUserAvatarPath}")
+                    when {
+                        !currentUserAvatarPath.isNullOrBlank() ->
+                            rememberAsyncImagePainter(Uri.parse(currentUserAvatarPath))
+                        !user?.avatarName.isNullOrBlank() &&
+                                AvatarRepository.drawableAvatars.contains(user?.avatarName) -> {
+                            painterResource(
+                                id = LocalContext.current.resources.getIdentifier(user!!.avatarName,
+                                    "drawable", LocalContext.current.packageName
+                                )
+                            )
+                        }
+                        else -> painterResource(id = R.drawable.placeholder_avatar)
+                    }
+                } else {
+                    // Другие пользователи
+                    if (!user.avatarName.isNullOrBlank() &&
+                        AvatarRepository.drawableAvatars.contains(user.avatarName)) {
+                        Log.d("RatingScreen", "PATH ${user.avatarName}")
+                        painterResource(
+                            id = LocalContext.current.resources.getIdentifier(
+                                user.avatarName, "drawable", LocalContext.current.packageName
+                            )
+                        )
+                    } else {
+                        painterResource(id = R.drawable.placeholder_avatar)
+                    }
+                }
+
 
                 Row(
                     modifier = Modifier
@@ -191,6 +258,14 @@ fun LeaderboardTable(
                         //.background(backgroundColor)
                         .padding(vertical = 8.dp, horizontal = 4.dp)
                 ) {
+                    Image(
+                        painter = avatarPainter,
+                        contentDescription = "Avatar",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .border(1.dp, Color.Gray, CircleShape)
+                    )
                     Text("${index + 1}", modifier = Modifier.weight(0.5f),
                         color = requestUserColor)
                     Text(user.username ?: "-",
@@ -199,7 +274,7 @@ fun LeaderboardTable(
                             .clickable {
                                 onUserClick(user)
 
-                        },
+                            },
                         color = requestUserColor)
                     Text(
                         text = if (valueType == "score") user.score.toString()

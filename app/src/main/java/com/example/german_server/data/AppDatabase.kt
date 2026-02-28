@@ -11,10 +11,11 @@ import com.example.german_server.data.ui.MIGRATION_2_3
 import com.example.german_server.data.ui.MIGRATION_3_4
 import com.example.german_server.data.ui.MIGRATION_4_5
 import com.example.german_server.data.ui.MIGRATION_5_6
+import com.example.german_server.data.ui.MIGRATION_6_7
+import com.example.german_server.data.ui.MIGRATION_7_8
+//import android.util.Log
 
-import android.util.Log
 
-import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(
     entities = [
         Book::class,
@@ -32,8 +33,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         OtherWord::class,
         Numeral::class,
         NounDeclensionsForm::class,
+        UserAvatar::class,
+
     ],
-    version = 6
+    version = 8
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
@@ -54,6 +57,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun registrationDao(): UserRegistrationDao
 
+    abstract fun userAvatarDao(): UserAvatarDao
+
 
 
     companion object {
@@ -68,14 +73,15 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app.db"
                 )
-                    // Если используешь готовую базу из assets
 
                     .createFromAsset("databases/app.db")
-                    .addMigrations(MIGRATION_1_2) // <-- вставляешь сюда
+                    .addMigrations(MIGRATION_1_2)
                     .addMigrations(MIGRATION_2_3)
                     .addMigrations(MIGRATION_3_4)
                     .addMigrations(MIGRATION_4_5)
                     .addMigrations(MIGRATION_5_6)
+                    .addMigrations(MIGRATION_6_7)
+                    .addMigrations(MIGRATION_7_8)
                     .build()
                 INSTANCE = instance
                 instance

@@ -26,6 +26,7 @@ fun User_screen(
 ) {
 
     val user = userviewModel.currentUser.value
+
     Log.d("AUTO_USERSCREEN", "${user}")
     Log.d("AUTO_USERSCREEN_MODEL", "${userviewModel.currentUser} , ${userviewModel}")
 
@@ -33,6 +34,10 @@ fun User_screen(
     LaunchedEffect(user) {
         Log.d("USER_SCREEN_DEBUG", "LaunchedEffect, user = $user")
 
+    }
+    LaunchedEffect(Unit) {
+        Log.d("UserScreen", "🔄 Вызов UserViewModel.loadActiceAvatar()")
+        userviewModel.loadActiveAvatar()
     }
     // ⬆️⬆️⬆️ КОНЕЦ ПРОВЕРКИ ⬆️⬆️⬆️
     if (user == null) {
@@ -97,7 +102,7 @@ fun User_screen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                UserStatsBlock(u)
+                UserStatsBlock(u, userviewModel)
             }
         }
 

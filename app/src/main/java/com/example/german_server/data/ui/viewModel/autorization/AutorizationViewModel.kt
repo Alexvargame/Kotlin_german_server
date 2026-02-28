@@ -27,7 +27,8 @@ class AutorizationViewModel(private val db: AppDatabase) : ViewModel() {
     )
     private val repo_user = UserProfileRepository(
         RetrofitClient.apiService,
-        db.baseUserDao()
+        db.baseUserDao(),
+        db.userAvatarDao()
     )
     val loginResult: State<BaseUser?> = _loginResult
 

@@ -41,6 +41,7 @@ class MainActivity : ComponentActivity() {
         //TestDb_messages(this).testmessages()
         Add_users_roles(this).addusersroles()
         Read_users(this).readusers()
+        Read_avatars(this).readavatars()
        // Add_word_types(this).addwordtypes()
        // Add_books(this).addbooks()
         //Add_lections(this).addlections()
@@ -67,16 +68,18 @@ class MainActivity : ComponentActivity() {
             val context = LocalContext.current
             val db = AppDatabase.getInstance(context)
             val userDao = db.baseUserDao()
+            val avatarDao = db.userAvatarDao()
             val repo =
                 UserProfileRepository(
                     RetrofitClient.apiService,
                     AppDatabase.getInstance(context).baseUserDao(),
+                    AppDatabase.getInstance(context).userAvatarDao(),
                     )
             val prefs = remember {
                 context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             }
             val userProfileViewModel: UserViewModel = viewModel(
-                factory = UserViewModelFactory(userDao, repo, prefs)
+                factory = UserViewModelFactory(userDao, avatarDao,repo, prefs)
             )
             val autorizationViewModel: AutorizationViewModel = viewModel(
                 factory = AutorizationViewModelFactory(db)

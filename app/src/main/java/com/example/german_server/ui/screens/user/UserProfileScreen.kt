@@ -13,7 +13,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import android.net.Uri
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.rememberScrollState          // ⬅️ ДОБАВЛЕНО: для скролла
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.background
 import androidx.compose.runtime.remember
@@ -36,10 +36,12 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.AlertDialog
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.R
-import com.example.german_server.data.ui.components.InfoRow
+import com.example.german_server.data.ui.components.AvatarRepository
+import java.io.File
 
 
 @Composable
@@ -51,13 +53,20 @@ fun User_profile_screen(
     val user = userviewModel.currentUser.value
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    var showAvatarSourceDialog by remember { mutableStateOf(false) }
     var isPrivateExpanded by remember { mutableStateOf(false) }
+    val currentUserAvatarPath by userviewModel.activeAvatarPath
 
-    Log.d("AUTO_USERSCREEN", "${user}")
+
+    Log.d("AUTO_USER_PROFILE_SCREEN", "${user}")
     if (user == null) {
         Log.d("AUTO_USERSCREEN_NULL", "${user}")
         LaunchedEffect(Unit) { navController.navigate("start_app_screen") { popUpTo(0) } }
         return
+    }
+    LaunchedEffect(Unit) {
+        Log.d("UserProfileScreen", "🔄 Вызов UserViewModel.loadActivveAvstar()")
+        userviewModel.loadActiveAvatar()
     }
     val pickImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -65,9 +74,16 @@ fun User_profile_screen(
         uri?.let {
             Log.d("AVATAR_PICKER", "Выбрана картинка: $it")
             val localPath = userviewModel.saveAvatarToInternalStorage(context, it)
-            localPath?.let { path -> userviewModel.updateAvatar(path) }
+
+            localPath?.let { path ->
+                userviewModel.saveGalleryAvatar(path)
+               // userviewModel.addGalleryAvatar(path)
+                userviewModel.updateAvatar(path)
+                //userviewModel.uploadGalleryAvatar(path)
+            }
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -91,21 +107,18 @@ fun User_profile_screen(
         contentAlignment = Alignment.Center
     ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Log.d("AVATAR_DEBUG", "LJ: ${currentUserAvatarPath} " +
+                        "${user.avatarName}  --${AvatarRepository.drawableAvatars.contains(user.avatarName)}" +
+                        "${user.avatarPath != null}")
 
-//                Image(
-//                    painter = if (user.avatarPath != null)
-//                        rememberAsyncImagePainter(Uri.parse(user.avatarPath))
-//                    else
-//                        rememberAsyncImagePainter(R.drawable.placeholder_avatar),
-//                    contentDescription = "User Avatar",
-//                    modifier = Modifier
-//                        .size(128.dp)
-//                        .clickable { pickImageLauncher.launch("image/*") }
-//                )
                 Image(
                     painter = when {
-                        user.avatarPath != null -> rememberAsyncImagePainter(Uri.parse(user.avatarPath))
-                        user.avatarName != null -> {
+                        currentUserAvatarPath != null -> {
+                            Log.d("AVATAR_DEBUG", "Используем activeAvatarPath: $currentUserAvatarPath")
+                            rememberAsyncImagePainter(File(currentUserAvatarPath))
+                        }
+                        user.avatarName != null && AvatarRepository.drawableAvatars.contains(user.avatarName) -> {
+                            Log.d("AVATAR_DEBUG", "Используем avatarName: ${user.avatarName}")
                             val resId = context.resources.getIdentifier(
                                 user.avatarName,
                                 "drawable",
@@ -113,21 +126,60 @@ fun User_profile_screen(
                             )
                             painterResource(id = resId)
                         }
-                        else -> painterResource(R.drawable.placeholder_avatar)
+
+                        else -> {
+                            Log.d("AVATAR_DEBUG", "Используем placeholder")
+                            painterResource(R.drawable.placeholder_avatar)
+                        }
                     },
+
                     contentDescription = "User Avatar",
                     modifier = Modifier
                         .size(128.dp)
                         .clickable {
                             if ((user.score ?: 0) >= 5000) {
                                 // >5000 очков — открыть галерею
-                                pickImageLauncher.launch("image/*")
+                                //pickImageLauncher.launch("image/*")
+                                showAvatarSourceDialog = true
                             } else {
                                 // <5000 очков — открыть выбор из drawable
+
                                 navController.navigate("avatar_choice_screen")
                             }
+
                         }
+
                 )
+                if (showAvatarSourceDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showAvatarSourceDialog = false },
+                        title = {
+                            Text(text="Выберите источник аватара",
+                                color=Color.Black)
+                                },
+                        text = {
+                            Text(text="Откуда вы хотите выбрать аватар?",
+                                color=Color.Black)
+                               },
+                        confirmButton = {
+                            Button(onClick = {
+
+                                navController.navigate("avatar_choice_screen")
+                                showAvatarSourceDialog = false
+                            }) {
+                                Text("Аватары")
+                            }
+                        },
+                        dismissButton = {
+                            Button(onClick = {
+                                pickImageLauncher.launch("image/*")
+                                showAvatarSourceDialog = false
+                            }) {
+                                Text("Галерея")
+                            }
+                        }
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
                 InfoRow(

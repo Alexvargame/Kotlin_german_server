@@ -23,14 +23,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.german_server.data.entities.BaseUser
+import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.R
 import java.io.File
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 
 
 @Composable
-fun UserStatsBlock(u: BaseUser) {
+fun UserStatsBlock(u: BaseUser,
+                   userviewModel: UserViewModel) {
+
+    val currentUserAvatarPath by userviewModel.activeAvatarPath
+    val context = LocalContext.current
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -42,39 +49,29 @@ fun UserStatsBlock(u: BaseUser) {
             horizontalArrangement = androidx.compose.foundation.layout.Arrangement.Start,
             modifier = Modifier.fillMaxWidth()
         ) {
-//            val avatarPainter = if (!u.avatarPath.isNullOrBlank()) {
-//                val file = if ((u.score ?: 0) < 5000) {
-//                    Log.d("USER_STATS", "AVATAR)NAME")
-//                    File(u.avatarPath ?: "")
-//
-//                } else {
-//                    Log.d("USER_STATS", "AVATAR)PATH")
-//                    File(u.avatarName ?: "")
-//                }
-//
-//                if (file.exists()) {
-//                    Log.d("USER_STATS", "Avatar file exists: ${file.absolutePath}")
-//                    rememberAsyncImagePainter(file)
-//                } else {
-//                    Log.e("USER_STATS", "Avatar file NOT FOUND: ${file.absolutePath}")
-//                    rememberAsyncImagePainter(R.drawable.placeholder_avatar)
-//                }
-//            } else {
-//                Log.d("USER_STATS", "Avatar path is null, using placeholder")
-//                rememberAsyncImagePainter(R.drawable.placeholder_avatar)
-//            }
+            Log.d("AVATAR_BLOCK", "==============================")
+            Log.d("AVATAR_BLOCK", "currentUserAvatarPath: $currentUserAvatarPath")
+            Log.d("AVATAR_BLOCK", "u.avatarPath: ${u.avatarPath}")
+            Log.d("AVATAR_BLOCK", "u.avatarName: ${u.avatarName}")
+
             val avatarPainter = when {
-                !u.avatarPath.isNullOrBlank() -> {
-                    val file = File(u.avatarPath!!)
+                !currentUserAvatarPath.isNullOrBlank() -> {
+
+                    val file = File(currentUserAvatarPath!!)
+                    Log.d("AVATAR_BLOCK", "Using ACTIVE avatar path")
+                    Log.d("AVATAR_BLOCK", "File exists: ${file.exists()}")
+                    Log.d("AVATAR_BLOCK", "Full path: $currentUserAvatarPath")
+
                     if (file.exists()) {
-                        rememberAsyncImagePainter(file)
+                        rememberAsyncImagePainter(currentUserAvatarPath)
                     } else {
+                        Log.d("AVATAR_BLOCK", "Active avatar file NOT FOUND → placeholder")
                         rememberAsyncImagePainter(R.drawable.placeholder_avatar)
                     }
                 }
 
                 !u.avatarName.isNullOrBlank() -> {
-                    val context = LocalContext.current
+                    Log.d("AVATAR_BLOCK", "Using avatarName drawable: ${u.avatarName}")
                     val resId = context.resources.getIdentifier(
                         u.avatarName,
                         "drawable",
@@ -84,11 +81,13 @@ fun UserStatsBlock(u: BaseUser) {
                     if (resId != 0) {
                         painterResource(resId)
                     } else {
+                        Log.d("AVATAR_BLOCK", "Drawable avatar found → placeholder")
                         rememberAsyncImagePainter(R.drawable.placeholder_avatar)
                     }
                 }
 
                 else -> {
+                    Log.d("AVATAR_BLOCK", "No avatar found → placeholder")
                     rememberAsyncImagePainter(R.drawable.placeholder_avatar)
                 }
             }
@@ -112,7 +111,7 @@ fun UserStatsBlock(u: BaseUser) {
         Row (
             modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp), // отступ слева/справа
+            .padding(horizontal = 16.dp),
             horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween
         ) {
             Text("❤️ ${u.lifes}", color = Color.Red)

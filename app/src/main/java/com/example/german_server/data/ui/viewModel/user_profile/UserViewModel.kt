@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import android.content.Context
 import android.net.Uri
@@ -22,32 +23,52 @@ import kotlin.math.max
 
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.dao.BaseUserDao
+import com.example.german_server.data.dao.UserAvatarDao
 import com.example.german_server.data.repository.user_profile.UserProfileRepository
 import android.content.SharedPreferences
+import com.example.german_server.data.entities.UserAvatar
 import com.example.german_server.data.network.models.LeaderboardState
 import com.example.german_server.data.network.models.LeaderboardUser
-import java.util.TimeZone
+import java.util.UUID
 
 class UserViewModel (private val userDao: BaseUserDao,
+                     private val avatarDao: UserAvatarDao,
                      private val profileRepository: UserProfileRepository,
                      private val prefs: SharedPreferences
 ): ViewModel() {
 
+
+
     private val _currentUser = mutableStateOf<BaseUser?>(null)
     val currentUser: State<BaseUser?> = _currentUser
 
+    private val _galleryAvatars = mutableStateOf<List<String>>(emptyList())
+    val galleryAvatars: State<List<String>> = _galleryAvatars
 
     private val _selectedUser = mutableStateOf<LeaderboardUser?>(null)
     val selectedUser: State<LeaderboardUser?> = _selectedUser
 
+    private val _activeAvatarPath = mutableStateOf<String?>(null)
+    val activeAvatarPath: State<String?> = _activeAvatarPath
     fun selectUser(user: LeaderboardUser) {
         _selectedUser.value = user
     }
 
+
+    fun setUser(user: BaseUser) {
+        _currentUser.value = user
+        Log.d("AUTO_USERMODEL", "setUser -> $user in $this")
+        user.serverUid?.let { uid -> setCurrentUid(uid) }
+    }
+
+
     var leaderboardState by mutableStateOf<LeaderboardState?>(null)
         private set
+
     init {
         Log.d("VM_LIFECYCLE", "UserProfileViewModel CREATED: $this")
+        loadAllAvatars()
+
     }
 
     private fun getCurrentUid(): String? {
@@ -62,14 +83,9 @@ class UserViewModel (private val userDao: BaseUserDao,
         prefs.edit().remove("current_uid").apply()
     }
 
-    fun setUser(user: BaseUser) {
-        _currentUser.value = user
-        Log.d("AUTO_USERMODEL","setUser -> $user in $this")
-        user.serverUid?.let { uid -> setCurrentUid(uid) }
-    }
 
     fun logout() {
-        Log.d("AUTO_USERMODEL","LOGOUT_USER")
+        Log.d("AUTO_USERMODEL", "LOGOUT_USER")
 
         Log.d("LOGOUT_DEBUG", "ДО: _currentUser = ${_currentUser.value}")
         clearCurrentUid()
@@ -78,17 +94,18 @@ class UserViewModel (private val userDao: BaseUserDao,
     }
 
     fun isAuthorized(): Boolean {
-        Log.d("AUTO_RISED","${_currentUser.value}")
+        Log.d("AUTO_RISED", "${_currentUser.value}")
         return _currentUser.value != null
     }
+
     fun decreaseLife() {
-        Log.d("USER_DECREASE","setUser -> ")
+        Log.d("USER_DECREASE", "setUser -> ")
         currentUser.value?.let { user ->
             val lifes = user.lifes ?: 0
             if (lifes > 0) {
-                Log.d("USER_DECREASE_USER","setUser -> ${user}")
+                Log.d("USER_DECREASE_USER", "setUser -> ${user}")
                 val updatedUser = user.copy(lifes = lifes - 1)
-                Log.d("USER_DECREASE_LIFES","setUser -> ${updatedUser}")
+                Log.d("USER_DECREASE_LIFES", "setUser -> ${updatedUser}")
                 _currentUser.value = updatedUser//user.copy(lifes = lifes - 1)
                 saveCurrentUser()
             }
@@ -98,13 +115,14 @@ class UserViewModel (private val userDao: BaseUserDao,
     fun addScore(points: Int) {
         currentUser.value?.let { user ->
             val score = user.score ?: 0
-            Log.d("USER_ADDCORE_USER","setUser -> ${user}")
+            Log.d("USER_ADDCORE_USER", "setUser -> ${user}")
             val updatedUser = user.copy(score = score + points)
-            Log.d("USER_ADDCORE_LIFES","setUser -> ${updatedUser}")
+            Log.d("USER_ADDCORE_LIFES", "setUser -> ${updatedUser}")
             _currentUser.value = updatedUser //user.copy(score = score + points)
             saveCurrentUser()
         }
     }
+
     private fun saveCurrentUser() {
         currentUser.value?.let { user ->
             viewModelScope.launch {
@@ -123,6 +141,7 @@ class UserViewModel (private val userDao: BaseUserDao,
             userDao.insert(user)  // Сохраняем или обновляем пользователя в базе
         }
     }
+
     fun loadUserById(userId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -130,7 +149,7 @@ class UserViewModel (private val userDao: BaseUserDao,
                 userFromDb?.let {
                     // Перекладываем в main thread, чтобы Compose увидел изменения
                     _currentUser.value = it
-                    Log.d("AUTO_USERMODEL","loadUserById -> $it")
+                    Log.d("AUTO_USERMODEL", "loadUserById -> $it")
                     compareWithServerProfile()
                 }
             } catch (e: Exception) {
@@ -138,22 +157,104 @@ class UserViewModel (private val userDao: BaseUserDao,
             }
         }
     }
+
     fun updateAvatar(newPath: String) {
         currentUser.value?.let { user ->
             val updatedUser = user.copy(avatarPath = newPath)
             _currentUser.value = updatedUser
-            saveCurrentUser() // уже в ней есть корутина для записи в базу
-            Log.d("AVATAR_UPDATE", "Avatar updated to $newPath")
+            saveCurrentUser() // запись в базу
+
+            Log.d("AVATAR_UPDATE_VIEW", "Avatar updated to $newPath")
+
+            // 🔥 Дополняем: синхронизация с галереей и активным аватаром
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    if (newPath.isNotEmpty()) {
+                        // Деактивируем все предыдущие галерейные аватары
+                        avatarDao.deactivateAll(_currentUser.value!!.id)
+
+                        // Активируем текущий
+                        avatarDao.activateAvatar(_currentUser.value!!.id, newPath)
+
+                        // Обновляем activeAvatarPath для UI
+                        _activeAvatarPath.value = newPath
+                        Log.d("AVATAR_UPDATE_VIEW_ACTIVE", "Active avatar path set: $newPath")
+
+                        // Обновляем users.avatarPath в базе
+                        userDao.updateAvatarPath(_currentUser.value!!.id, newPath)
+                    } else {
+                        // Если сброс
+                        avatarDao.deactivateAll(_currentUser.value!!.id)
+                        _activeAvatarPath.value = null
+                        userDao.updateAvatarPath(_currentUser.value!!.id, null)
+                        Log.d("AVATAR_UPDATE_VIEW_ACTIVE", "Avatar cleared")
+                    }
+                } catch (e: Exception) {
+                    Log.e("AVATAR_UPDATE_VIEW_ERR", "Error updating avatar", e)
+                }
+            }
         }
     }
     fun updateAvatarName(newName: String) {
+        Log.d("AVATAR_NAmE_UPDATE", "Avatar updated to $newName")
+        val now = System.currentTimeMillis()
         currentUser.value?.let { user ->
-            val updatedUser = user.copy(avatarName = newName)
+            val updatedUser = user.copy(
+                avatarName = newName,
+                avatarLastChanged = now
+            )
             _currentUser.value = updatedUser
             saveCurrentUser() // уже в ней есть корутина для записи в базу
-            Log.d("AVATAR_NMAE_UPDATE", "Avatar updated to $newName")
+            Log.d("AVATAR_Name_UPDATE_1", "Avatar updated to $_currentUser")
         }
     }
+
+
+    fun updateAvatarPath(filePath: String?) {
+        Log.d("AVATAR_PATH_UPDATE", "Avatar updated to $filePath")
+
+        _currentUser.value = _currentUser.value?.copy(avatarPath = filePath)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                if (filePath != null) {
+                    val fileName = File(filePath).name
+                    Log.d("AVATAR_NAME_EXTRACT", "Extracted avatarName: $fileName")
+
+                    // 1️⃣ Обновляем users.avatarPath полным путем
+                    userDao.updateAvatarPath(_currentUser.value!!.id, filePath)
+
+                    // 2️⃣ Деактивируем все предыдущие
+                    avatarDao.deactivateAll(_currentUser.value!!.id)
+
+                    // 3️⃣ Активируем новый
+                    avatarDao.activateAvatar(_currentUser.value!!.id, filePath)
+
+                    // 4️⃣ Сразу обновляем activeAvatarPath для UI
+                    _activeAvatarPath.value = filePath
+                    Log.d("AVATAR_PATH_UPDATE_ACTIVE", "Active avatar path set: $filePath")
+                } else {
+                    // Если сброс
+                    userDao.updateAvatarPath(_currentUser.value!!.id, null)
+                    _activeAvatarPath.value = null
+                }
+            } catch (e: Exception) {
+                Log.e("AVATAR_PATH_UPDATE_ERR", "Error updating avatar", e)
+            }
+        }
+    }
+    fun uploadGalleryAvatar(path: String) {
+        val user = _currentUser.value ?: return
+        viewModelScope.launch {
+            val file = File(path)
+            val success = profileRepository.uploadGalleryAvatar(file, user)
+            if (success) {
+                updateAvatarPath(file.name)
+                Log.d("AVATAR_UPLOAD", "Галерейный аватар загружен на сервер")
+            }
+        }
+    }
+
     fun updateUser(
         email: String,
         username: String,
@@ -178,6 +279,7 @@ class UserViewModel (private val userDao: BaseUserDao,
         val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
         return sdf.format(Date(timestamp))
     }
+
     fun parseIsoToLong(dateString: String): Long {
         return try {
             Instant.parse(dateString).toEpochMilli()
@@ -185,9 +287,11 @@ class UserViewModel (private val userDao: BaseUserDao,
             0L
         }
     }
+
     fun getAvatarPath(): String? {
         return currentUser.value?.avatarPath
     }
+
     fun updateShockMod() {
         currentUser.value?.let { user ->
             val today = System.currentTimeMillis().startOfDay() // timestamp начала сегодняшнего дня
@@ -199,6 +303,7 @@ class UserViewModel (private val userDao: BaseUserDao,
                     // Уже обновляли сегодня → ничего не меняем
                     user
                 }
+
                 lastUpdateDay == today - 1 * 24 * 60 * 60 * 1000 -> {
                     // Продолжаем серию
                     user.copy(
@@ -206,6 +311,7 @@ class UserViewModel (private val userDao: BaseUserDao,
                         shockmodNow = today
                     )
                 }
+
                 else -> {
                     // Сброс серии
                     user.copy(
@@ -221,26 +327,56 @@ class UserViewModel (private val userDao: BaseUserDao,
         }
     }
 
+
     fun saveAvatarToInternalStorage(context: Context, uri: Uri): String? {
+        val user = currentUser.value
+        if (user == null) {
+            Log.e("AVATAR_SAVE", "currentUser отсутствует, сохранение прервано")
+            return null
+        }
+
         return try {
             val avatarsDir = File(context.filesDir, "avatars")
-            if (!avatarsDir.exists()) avatarsDir.mkdirs()
+            if (!avatarsDir.exists()) {
+                avatarsDir.mkdirs()
+                Log.d("AVATAR_SAVE", "Создана папка для аватаров: ${avatarsDir.absolutePath}")
+            } else {
+                Log.d(
+                    "AVATAR_SAVE",
+                    "Папка для аватаров уже существует: ${avatarsDir.absolutePath}"
+                )
+            }
 
-            val filename = "avatar_user_${currentUser.value?.id ?: System.currentTimeMillis()}.png"
+            // Генерация уникального имени файла
+            val uniqueId =
+                System.currentTimeMillis().toString() + "_" + UUID.randomUUID().toString().take(8)
+            val filename = "avatar_user_${user.id}_$uniqueId.png"
             val destFile = File(avatarsDir, filename)
+            Log.d(
+                "AVATAR_SAVE",
+                "Файл будет сохранён: ${destFile.absolutePath}, существует ли уже: ${destFile.exists()}"
+            )
 
             context.contentResolver.openInputStream(uri).use { inputStream ->
+                if (inputStream == null) {
+                    Log.e("AVATAR_SAVE", "Не удалось открыть InputStream для uri: $uri")
+                    return null
+                }
                 destFile.outputStream().use { outputStream ->
-                    inputStream?.copyTo(outputStream)
+                    inputStream.copyTo(outputStream)
                 }
             }
 
+            Log.d("AVATAR_SAVE", "Файл успешно сохранён: ${destFile.absolutePath}")
             destFile.absolutePath
         } catch (e: Exception) {
-            Log.e("USER_AVATAR_SAVE", "Error saving avatar", e)
+            Log.e("AVATAR_SAVE", "Ошибка при сохранении аватара", e)
             null
         }
     }
+
+
+
     fun setServerData(uid: String, token: String) {
         currentUser.value?.let { user ->
             val updatedUser = user.copy(serverUid = uid, loginToken = token)
@@ -256,6 +392,7 @@ class UserViewModel (private val userDao: BaseUserDao,
         ).toInt()
         return max(0, 7 - daysPassed)
     }
+
     fun resendVerification(email: String) {
         viewModelScope.launch {
             val success = profileRepository.resendVerificationEmail(email)
@@ -265,6 +402,7 @@ class UserViewModel (private val userDao: BaseUserDao,
             }
         }
     }
+
     // UserViewModel.kt
     fun deleteAccount(uid: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch { // Используем встроенный viewModelScope
@@ -277,6 +415,7 @@ class UserViewModel (private val userDao: BaseUserDao,
             onResult(success)
         }
     }
+
     fun syncProgressAfterLesson() {
         viewModelScope.launch {
             Log.d("SYNC_PROGRESS", "✅ progress")
@@ -311,13 +450,53 @@ class UserViewModel (private val userDao: BaseUserDao,
             }
         }
     }
+
+    fun syncAvatarIfNeeded() {
+        viewModelScope.launch {
+            Log.d("SYNC_AVATAR", "✅ avatar sync")
+
+            val currentUid = getCurrentUid()
+            Log.d("SYNC_AVATAR", "✅ currentUid из SharedPreferences: $currentUid")
+
+            val user = if (currentUid != null) {
+                userDao.getByServerUid(currentUid)
+            } else {
+                null
+            }
+
+            if (user == null) {
+                Log.e("SYNC_AVATAR", "❌ Нет UID")
+                return@launch
+            }
+            val request = profileRepository.createUploadAvatarRequest(user)
+            Log.d("SYNC_AVATAR", "❌ req  ${request}")
+            if (request == null) {
+                Log.e("SYNC_AVATAR", "❌ Не удалось создать запрос")
+                return@launch
+            }
+            // Отправляем аватар на сервер только если локальный новее
+            val success = profileRepository.uploadAvatar(request)
+
+            if (success) {
+                Log.d("SYNC_AVATAR", "✅ Аватар успешно отправлен на сервер")
+                // Ничего больше не делаем — серверные данные нас не интересуют
+            } else {
+                Log.e("SYNC_AVATAR", "❌ Ошибка отправки аватара")
+            }
+        }
+    }
+
     fun compareWithServerProfile() {
         viewModelScope.launch {
             Log.d("SYNC_COMPARE", "✅ Compsre")
             val localUser = _currentUser.value ?: return@launch
             Log.d("SYNC_COMPARE", "✅ ${localUser}")
             Log.d("SYNC_COMPARE", "✅ ${localUser.email}")
-            val serverProfile = profileRepository.loadProfileFromServer(localUser.email,  token = "Token ${localUser.loginToken}"  )
+
+            val serverProfile = profileRepository.loadProfileFromServer(
+                localUser.email,
+                token = "Token ${localUser.loginToken}"
+            )
             Log.d("SYNC_COMPARE", "✅ server profile ${serverProfile}")
 
             if (serverProfile == null || localUser == null) return@launch
@@ -327,6 +506,11 @@ class UserViewModel (private val userDao: BaseUserDao,
             Log.d("SYNC_COMPARE", "✅ serverdata ${serverDate}")
             Log.d("SYNC_COMPARE", "✅ local data ${localDate}")
             Log.d("SYNC_COMPARE", "✅ local data ${localDate >= serverDate}")
+            val serverAvatarDate = serverProfile.avatarLastChanged ?: 0L
+            val localAvatarDate = localUser.avatarLastChanged ?: 0L
+            Log.d("SYNC_COMPARE", "✅ serverAVA ${serverAvatarDate}")
+            Log.d("SYNC_COMPARE", "✅ local AVA ${localAvatarDate}")
+            Log.d("SYNC_COMPARE", "✅ local q ${localAvatarDate >= serverAvatarDate}")
             when {
                 serverDate > localDate -> {
                     Log.d("SYNC_COMPARE", "✅ server MORE then ")
@@ -344,9 +528,22 @@ class UserViewModel (private val userDao: BaseUserDao,
                     syncProgressAfterLesson()
                 }
             }
+            when {
+                localAvatarDate > serverAvatarDate -> {
+                    Log.d("SYNC_AVATAR", "✅ AVATAR change  ")
+                    syncAvatarIfNeeded()
+                }
+
+                localAvatarDate >= serverAvatarDate -> {
+                    // Локальные данные нов
+                    Log.d("SYNC_AVATAR", "✅ AVATAR - not ")
+
+                }
+            }
         }
     }
-    fun loadLeaderboard(){
+
+    fun loadLeaderboard() {
         viewModelScope.launch {
             val token = currentUser.value?.loginToken ?: return@launch
             try {
@@ -365,7 +562,145 @@ class UserViewModel (private val userDao: BaseUserDao,
         }
     }
 
+    fun saveGalleryAvatar(path: String) {
+        val user = _currentUser.value ?: run {
+            Log.e("AVATAR_ADD", "currentUser отсутствует")
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                Log.d("AVATAR_ADD", "Сохраняем галерейный аватар для userId=${user.id}, путь=$path")
+
+                // 1️⃣ Деактивируем все аватары пользователя
+                avatarDao.deactivateAll(user.id)
+                Log.d("AVATAR_ADD", "Все аватары пользователя ${user.id} деактивированы")
+
+                // 2️⃣ Вставляем новый аватар в Room
+                val newAvatar = UserAvatar(
+                    userId = user.id,
+                    path = path,
+                    isActive = true
+                )
+                val newId = avatarDao.insertAvatar(newAvatar)
+                Log.d("AVATAR_ADD", "Новый аватар вставлен: id=$newId, path=$path")
+
+                // 3️⃣ Обновляем текущего пользователя в памяти
+                _currentUser.value = _currentUser.value?.copy(avatarPath = path)
+                Log.d(
+                    "AVATAR_ADD",
+                    "Текущий пользователь обновлён с новым аватаром: ${_currentUser.value}"
+                )
+
+            } catch (e: Exception) {
+                Log.e("AVATAR_ADD", "Ошибка при сохранении галерейного аватара", e)
+            }
+        }
+    }
+    fun loadAllAvatars(): State<List<String>> {
+        val userId = _currentUser.value?.id ?: return galleryAvatars
+        Log.d("AVATAR_LOAD", "loadAllAvatars: userId=$userId")
+        viewModelScope.launch {
+            try {
+                val avatarsFromDb = avatarDao.getUserAvatars(userId).map { it.path }
+                Log.d("AVATAR_LOAD", "Loaded avatars: $avatarsFromDb")
+                _galleryAvatars.value = avatarsFromDb
+            } catch (e: Exception) {
+                Log.e("AVATAR_LOAD", "Error loading avatars", e)
+            }
+        }
+        return galleryAvatars
+    }
+
+
+    fun deleteGalleryAvatar(avatarPath: String) {
+        val userId = _currentUser.value?.id ?: return
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Log.d("AVATAR_DELETE", "Deleting avatar: $avatarPath")
+
+                val avatar = avatarDao.getAvatarByPath(userId, avatarPath)
+
+                if (avatar != null) {
+
+                    val wasActive = avatar.isActive
+                    Log.d("AVATAR_DELETE", "Was active: $wasActive")
+
+                    // 1️⃣ удалить файл
+                    val fileDeleted = File(avatarPath).delete()
+                    Log.d("AVATAR_DELETE", "File deleted: $fileDeleted")
+
+                    // 2️⃣ удалить запись
+                    avatarDao.deleteAvatar(avatar.id)
+
+                    // 3️⃣ если был активным — ОБНУЛИТЬ ВСЁ
+                    if (wasActive) {
+
+                        Log.d("AVATAR_DELETE", "Active avatar removed → clearing states")
+
+                        // обновляем users.avatarPath
+                        userDao.updateAvatarPath(userId, null)
+
+                        // обновляем ViewModel state
+                        _activeAvatarPath.value = null
+
+                        _currentUser.value =
+                            _currentUser.value?.copy(avatarPath = null)
+
+                        Log.d("AVATAR_DELETE", "All avatar states cleared")
+                    }
+                }
+
+            } catch (e: Exception) {
+                Log.e("AVATAR_DELETE", "Ошибка удаления", e)
+            }
+        }
+    }
+    fun loadActiveAvatar() {
+        val userId = _currentUser.value?.id ?: return
+        Log.d("AVATAR_ACTIVE", "Loading active avatar for userId=$userId")
+
+        viewModelScope.launch {
+            try {
+                val avatar = avatarDao.getActiveAvatar(userId)
+                Log.d("AVATAR_ACTIVE", "DB active avatar: $avatar")
+
+                if (avatar != null) {
+                    _activeAvatarPath.value = avatar.path
+                    Log.d("AVATAR_ACTIVE", "Active avatar path set: ${avatar.path}")
+
+                    // 🔥 синхронизируем users.avatarPath
+                    userDao.updateAvatarPath(userId, avatar.path)
+                    Log.d("AVATAR_ACTIVE", "users.avatarPath updated")
+                } else {
+                    Log.d("AVATAR_ACTIVE", "No active avatar found")
+
+                    _activeAvatarPath.value = null
+
+                    // 🔥 ОБНУЛЯЕМ avatarPath
+                    userDao.updateAvatarPath(userId, null)
+                    Log.d("AVATAR_ACTIVE", "users.avatarPath cleared")
+                }
+
+            } catch (e: Exception) {
+                Log.e("AVATAR_ACTIVE", "Error loading avatars", e)
+            }
+        }
+    }
+    fun deactivateAllAvatars() {
+        val userId = _currentUser.value?.id ?: return
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                avatarDao.deactivateAll(userId)
+                Log.d("AVATAR_VM", "Все галерейные аватары деактивированы для userId=$userId")
+            } catch (e: Exception) {
+                Log.e("AVATAR_VM", "Ошибка деактивации аватаров", e)
+            }
+        }
+    }
 }
+
 
 
 

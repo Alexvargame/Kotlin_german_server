@@ -63,3 +63,28 @@ val MIGRATION_5_6= object : Migration(5, 6) {
         )
     }
 }
+val MIGRATION_6_7 = object : Migration(6, 7) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "ALTER TABLE users_baseuser ADD COLUMN active_gallery_avatar_url TEXT"
+        )
+        database.execSQL(
+            "ALTER TABLE users_baseuser ADD COLUMN avatar_last_changed INTEGER"
+        )
+    }
+}
+val MIGRATION_7_8 = object : Migration(7, 8) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Создаём новую таблицу user_avatars
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS user_avatars (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                userId INTEGER NOT NULL,
+                path TEXT NOT NULL,
+                isActive INTEGER NOT NULL DEFAULT 0
+            )
+        """.trimIndent())
+        database.execSQL("CREATE INDEX IF NOT EXISTS" +
+                " index_user_avatars_userId ON user_avatars(userId)")
+    }
+}

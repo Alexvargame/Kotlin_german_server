@@ -42,13 +42,15 @@ fun HomeScreen(navController: NavController, greetingText: String) {
         UserProfileRepository(
             RetrofitClient.apiService,
             AppDatabase.getInstance(context).baseUserDao(),
+            AppDatabase.getInstance(context).userAvatarDao(),
         )
     val userDao = AppDatabase.getInstance(context).baseUserDao()
+    val avatarDao = AppDatabase.getInstance(context).userAvatarDao()
     val prefs = remember {
         context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     }
     val userviewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(userDao, repo, prefs)
+        factory = UserViewModelFactory(userDao, avatarDao, repo, prefs)
     )
 
 

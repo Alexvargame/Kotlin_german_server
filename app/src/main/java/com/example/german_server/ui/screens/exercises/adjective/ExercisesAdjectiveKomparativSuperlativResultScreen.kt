@@ -55,7 +55,7 @@ fun ExerciseAdjectiveKomparativSuperlativResultScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                UserStatsBlock(u)
+                UserStatsBlock(u, userProfileViewModel)
             }
         }
         Spacer(modifier = Modifier.height(32.dp))

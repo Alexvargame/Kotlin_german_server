@@ -50,6 +50,12 @@ interface BaseUserDao {
     @Query("UPDATE users_baseuser SET avatar_name = :name WHERE id = :userId")
     fun updateAvatarName(userId: Long, name: String?)  // Обновление аватарки
 
+    @Query("UPDATE users_baseuser SET avatar_path = :name WHERE id = :userId")
+    fun updateAvatarPath(userId: Long, name: String?)
+
+    @Query("UPDATE users_baseuser SET active_gallery_avatar_url = :name WHERE id = :userId")
+    fun updateAvatarGalleryName(userId: Long, name: String?)  // Обновление аватарки
+
     @Query("UPDATE users_baseuser SET serverUid = :uid, loginToken = :token WHERE id = :userId")
     suspend fun updateServerData(userId: Long, uid: String?, token: String?)
 
