@@ -15,6 +15,9 @@ data class SyncProgressResponse(
     @SerializedName("score")
     val score: Int,                   // кладём в BaseUser.score
 
+    @SerializedName("lifes")
+    val lifes: Int,
+
     @SerializedName("streak_days")
     val streakDays: Int,              // кладём в BaseUser.shockmodLong
 

@@ -10,6 +10,9 @@ data class SyncProgressRequest(
     @SerializedName("score")
     val score: Int?,                  // BaseUser.score
 
+    @SerializedName("lifes")
+    val lifes: Int?,
+
     @SerializedName("streak_days")
     val shockmodLong: Int,            // BaseUser.shockmodLong
 

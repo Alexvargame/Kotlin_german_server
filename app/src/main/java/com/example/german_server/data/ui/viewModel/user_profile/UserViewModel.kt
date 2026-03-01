@@ -293,27 +293,35 @@ class UserViewModel (private val userDao: BaseUserDao,
     }
 
     fun updateShockMod() {
+        Log.d("SHOCK_MOD", "Серия")
         currentUser.value?.let { user ->
+            Log.d("SHOCK_MOD", "BEFORE startOfDay")
+
+            val now = System.currentTimeMillis()
+            Log.d("SHOCK_MOD", "now = $now")
             val today = System.currentTimeMillis().startOfDay() // timestamp начала сегодняшнего дня
             val lastUpdate = user.shockmodNow ?: 0L
             val lastUpdateDay = lastUpdate.startOfDay()
-
+            Log.d("SHOCK_MOD", "${user.shockmodNow}  - ${lastUpdateDay} = ${today}")
             val updatedUser = when {
+
                 lastUpdateDay == today -> {
-                    // Уже обновляли сегодня → ничего не меняем
+                    Log.d("SHOCK_MOD", "Ветка: УЖЕ ОБНОВЛЯЛИ СЕГОДНЯ")
                     user
                 }
 
                 lastUpdateDay == today - 1 * 24 * 60 * 60 * 1000 -> {
-                    // Продолжаем серию
+                    Log.d("SHOCK_MOD", "Ветка: ПРОДОЛЖАЕМ СЕРИЮ")
+                    Log.d("SHOCK_MOD", "Дальше")
                     user.copy(
                         shockmodLong = (user.shockmodLong ?: 0) + 1,
                         shockmodNow = today
                     )
+
                 }
 
                 else -> {
-                    // Сброс серии
+                    Log.d("SHOCK_MOD", "Ветка: СБРОС СЕРИИ")
                     user.copy(
                         shockmodBegin = today,
                         shockmodNow = today,
@@ -429,14 +437,14 @@ class UserViewModel (private val userDao: BaseUserDao,
             } else {
                 null
             }
-
+            Log.d("SYNC_VM", "${user}")
             if (user == null) {
                 Log.e("SYNC_VM", "❌ Нет UID")
                 return@launch
             }
 
             val request = profileRepository.createSyncRequest(user)
-            Log.d("SYNC_VM", "❌ req  ${request}")
+            Log.d("SYNC_VM", " req  ${request}")
             if (request == null) {
                 Log.e("SYNC_VM", "❌ Не удалось создать запрос")
                 return@launch

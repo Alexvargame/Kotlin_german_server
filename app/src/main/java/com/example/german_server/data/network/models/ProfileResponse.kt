@@ -16,6 +16,9 @@ data class ProfileResponse(
     @SerializedName("score")
     val score: Int,
 
+    @SerializedName("lifes")
+    val lifes: Int,
+
     @SerializedName("streak_days")
     val streakDays: Int,
 

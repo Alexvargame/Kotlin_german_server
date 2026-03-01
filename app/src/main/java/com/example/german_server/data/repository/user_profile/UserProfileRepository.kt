@@ -109,6 +109,7 @@ class UserProfileRepository(
             serverUid = uid,
             score = user.score ?: 0,
             shockmodLong = user.shockmodLong,
+            lifes = user.lifes,
             shockmodNow = user.shockmodNow ?: System.currentTimeMillis()
         )
     }
