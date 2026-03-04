@@ -41,4 +41,11 @@ interface UserAvatarDao {
 
     @Query("SELECT * FROM user_avatars WHERE userId = :userId AND path = :path")
     suspend fun getAvatarByPath(userId: Long, path: String): UserAvatar?
+
+//    @Query("SELECT * FROM user_avatars WHERE userId = :userId AND path LIKE :prefix || '%' LIMIT 1")
+//    suspend fun getServerAvatar(userId: Long, prefix: String = "server_"): UserAvatar?
+
+    @Query("SELECT * FROM user_avatars WHERE userId = :userId AND path LIKE '%' || :prefix || '%' LIMIT 1")
+    suspend fun getServerAvatar(userId: Long, prefix: String = "server_avatar"): UserAvatar?
 }
+

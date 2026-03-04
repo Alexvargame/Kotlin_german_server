@@ -7,6 +7,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.MediaType.Companion.toMediaType
+
 import kotlin.Result
 
 import com.example.german_server.data.dao.BaseUserDao
@@ -184,57 +186,121 @@ class UserProfileRepository(
         }
     }
 
-    suspend fun uploadGalleryAvatar(file: File, user: BaseUser): Boolean {
-        return try {
-            Log.d("SYNC_REPO_GAL", "🔄 Начало загрузки галерейного аватара: ${file.name}")
+//    suspend fun uploadGalleryAvatar(file: File, user: BaseUser): Boolean {
+//        return try {
+//            Log.d("SYNC_REPO_GAL", "🔄 Начало загрузки галерейного аватара: ${file.name}")
+//
+//            // --- Превращаем файл в RequestBody с MIME типом "image/png" ---
+//            val requestFile = file.asRequestBody("image/png".toMediaTypeOrNull())
+//            Log.d("SYNC_REPO_GAL", "📄 RequestBody создан для файла: ${requestFile}")
+//
+//            // --- Создаём multipart-часть для Retrofit ---
+//            val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestFile)
+//            Log.d("SYNC_REPO_GAL", "📦 MultipartBody создан для Retrofit  - ${multipartBody}")
+//
+//            // --- Преобразуем serverUid пользователя в RequestBody ---
+//            val serverUidBody = user.serverUid?.toRequestBody("text/plain".toMediaTypeOrNull())
+//                ?: run {
+//                    Log.e("SYNC_REPO_GAL", "❌ serverUid пустой, прерываем загрузку")
+//                    return false
+//                }
+//            Log.d("SYNC_REPO", "🆔 serverUid подготовлен: ${user.serverUid} - ${serverUidBody}")
+//
+//            val timestampBody = System.currentTimeMillis().toString()
+//                .toRequestBody("text/plain".toMediaTypeOrNull())
+//            Log.d("SYNC_REPO_GAL", "⏱ timestamp подготовлен: ${System.currentTimeMillis()}")
+//
+//            // --- Вызываем Retrofit эндпоинт uploadGalleryAvatar ---
+//            val response = apiService.uploadGalleryAvatar(
+//                authorization = "Token ${user.loginToken}",
+//                file = multipartBody,
+//                serverUid = serverUidBody,
+//                avatarLastChanged = timestampBody
+//            )
+//            Log.d("SYNC_REPO_GAL", "📤${response}")
+//            Log.d("SYNC_REPO_GAL", "Status: ${response.code()}")
+//            Log.d("SYNC_REPO_GAL", "Headers: ${response.headers()}")
+//            Log.d("SYNC_REPO_GAL", "Body: ${response.errorBody()?.string() ?: response.body()}")
+//            Log.d("SYNC_REPO_GAL", "📤 Отправка на сервер завершена, код ответа: ${response.code()}")
+//
+//            // --- Проверяем успешность ответа ---
+//            if (response.isSuccessful) {
+//                Log.d("SYNC_REPO_GAL", "✅ Галерейный аватар успешно загружен: ${file.name}")
+//                true
+//            } else {
+//                Log.e("SYNC_REPO_GAL", "❌ Сервер вернул ошибку: ${response.code()} / ${response.message()}")
+//                false
+//            }
+//
+//        } catch (e: Exception) {
+//            // --- Логируем ошибки сети или исключения ---
+//            Log.e("SYNC_REPO", "🔥 Исключение при загрузке галерейного аватара: ${e.message}", e)
+//            false
+//        }
+//    }
+suspend fun uploadGalleryAvatar(image: File, user: BaseUser): Boolean {
+    return try {
 
-            // --- Превращаем файл в RequestBody с MIME типом "image/png" ---
-            val requestFile = file.asRequestBody("image/png".toMediaTypeOrNull())
-            Log.d("SYNC_REPO_GAL", "📄 RequestBody создан для файла: ${requestFile}")
+        Log.d("UPLOAD", "🔄 Старт upload")
+        Log.d("UPLOAD", "📁 File path: ${image.absolutePath}")
+        Log.d("UPLOAD", "📁 File exists: ${image.exists()}")
+        Log.d("UPLOAD", "📁 File size: ${image.length()} bytes")
 
-            // --- Создаём multipart-часть для Retrofit ---
-            val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestFile)
-            Log.d("SYNC_REPO_GAL", "📦 MultipartBody создан для Retrofit  - ${multipartBody}")
-
-            // --- Преобразуем serverUid пользователя в RequestBody ---
-            val serverUidBody = user.serverUid?.toRequestBody("text/plain".toMediaTypeOrNull())
-                ?: run {
-                    Log.e("SYNC_REPO_GAL", "❌ serverUid пустой, прерываем загрузку")
-                    return false
-                }
-            Log.d("SYNC_REPO", "🆔 serverUid подготовлен: ${user.serverUid} - ${serverUidBody}")
-
-            val timestampBody = System.currentTimeMillis().toString()
-                .toRequestBody("text/plain".toMediaTypeOrNull())
-            Log.d("SYNC_REPO_GAL", "⏱ timestamp подготовлен: ${System.currentTimeMillis()}")
-
-            // --- Вызываем Retrofit эндпоинт uploadGalleryAvatar ---
-            val response = apiService.uploadGalleryAvatar(
-                authorization = "Token ${user.loginToken}",
-                file = multipartBody,
-                serverUid = serverUidBody,
-                avatarLastChanged = timestampBody
-            )
-            Log.d("SYNC_REPO_GAL", "📤${response}")
-            Log.d("SYNC_REPO_GAL", "Status: ${response.code()}")
-            Log.d("SYNC_REPO_GAL", "Headers: ${response.headers()}")
-            Log.d("SYNC_REPO_GAL", "Body: ${response.errorBody()?.string() ?: response.body()}")
-            Log.d("SYNC_REPO_GAL", "📤 Отправка на сервер завершена, код ответа: ${response.code()}")
-
-            // --- Проверяем успешность ответа ---
-            if (response.isSuccessful) {
-                Log.d("SYNC_REPO_GAL", "✅ Галерейный аватар успешно загружен: ${file.name}")
-                true
-            } else {
-                Log.e("SYNC_REPO_GAL", "❌ Сервер вернул ошибку: ${response.code()} / ${response.message()}")
-                false
-            }
-
-        } catch (e: Exception) {
-            // --- Логируем ошибки сети или исключения ---
-            Log.e("SYNC_REPO", "🔥 Исключение при загрузке галерейного аватара: ${e.message}", e)
-            false
+        if (!image.exists()) {
+            Log.e("UPLOAD", "❌ Файл не существует")
+            return false
         }
+
+        val requestFile = image.asRequestBody("image/*".toMediaTypeOrNull())
+
+        val multipartBody = MultipartBody.Part.createFormData(
+            name = "image",
+            filename = image.name,
+            body = requestFile
+        )
+        val uidPart = user.serverUid.toString().toRequestBody("text/plain".toMediaType())
+
+
+        Log.d("UPLOAD", "📦 Multipart создан: ${image.name}")
+
+        val token = user.loginToken
+        if (token.isNullOrBlank()) {
+            Log.e("UPLOAD", "❌ Token пустой")
+            return false
+        }
+
+        Log.d("UPLOAD", "🔐 Отправляем с Token")
+
+        val response = apiService.uploadGalleryAvatar(
+            authorization = "Token $token",
+            uid = uidPart,
+            image= multipartBody
+        )
+
+        Log.d("UPLOAD", "📤 Response code: ${response.code()}")
+        Log.d("UPLOAD", "📤 Response headers: ${response.headers()}")
+
+        if (!response.isSuccessful) {
+            Log.e("UPLOAD", "❌ HTTP ошибка: ${response.code()}")
+            Log.e("UPLOAD", "❌ Error body: ${response.errorBody()?.string()}")
+            return false
+        }
+
+        val body = response.body()
+        if (body == null) {
+            Log.e("UPLOAD", "❌ Response body null")
+            return false
+        }
+
+        Log.d("UPLOAD", "✅ success: ${body.success}")
+        Log.d("UPLOAD", "✅ updated: ${body.updated}")
+        Log.d("UPLOAD", "✅ message: ${body.message}")
+        body.success
+
+    } catch (e: Exception) {
+        Log.e("UPLOAD", "🔥 Исключение: ${e.message}", e)
+        false
     }
+}
 
 }

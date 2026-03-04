@@ -1,5 +1,6 @@
 package com.example.german_server.ui.screens.user
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -19,6 +20,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.material3.Surface
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Brush
@@ -30,8 +33,14 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
+import coil.compose.rememberAsyncImagePainter
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german_server.R
+
+import java.io.File
 
 
 @Composable
@@ -62,6 +71,27 @@ fun User_profile_edit_screen(
 
     var emailError by remember { mutableStateOf(false) }
     var usernameError by remember { mutableStateOf(false) }
+
+    val currentUserServerAvatarPath by userviewModel.serverAvatarPath
+
+
+
+    val pickImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            Log.d("AVATAR_SERVER", "Выбрана картинка: $it")
+            val localPath = userviewModel.saveAvatarToInternalStorage(context, it, "server")
+
+            localPath?.let { path ->
+                Log.d("AVATAR_SERVER", "Выбрана картинка: $path")
+                userviewModel.saveServerAvatar(path)
+                // userviewModel.addGalleryAvatar(path)
+                //userviewModel.updateAvatar(path)
+                //userviewModel.uploadGalleryAvatar(path)
+            }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,8 +125,26 @@ fun User_profile_edit_screen(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(8.dp))
+                Log.d("AVATAR_server_DEBUG", "serverAvatarPath: $currentUserServerAvatarPath")
+                Image(
+                    painter = when {
+                        currentUserServerAvatarPath != null -> {
+                            Log.d("AVATAR_server_DEBUG", "Используем serverAvatarPath: $currentUserServerAvatarPath")
+                            rememberAsyncImagePainter(File(currentUserServerAvatarPath))
+                        }
 
-
+                        else -> {
+                            Log.d("AVATAR_server_DEBUG", "Используем placeholder")
+                            painterResource(R.drawable.placeholder_avatar)
+                        }
+                    },
+                    contentDescription = "User Avatar",
+                    modifier = Modifier
+                        .size(128.dp)
+                        .clickable {
+                            pickImageLauncher.launch("image/*")
+                        }
+                )
             }
         }
         

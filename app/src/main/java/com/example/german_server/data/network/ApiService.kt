@@ -25,7 +25,7 @@ import com.example.german_server.data.network.models.SyncProgressResponse
 import com.example.german_server.data.network.models.LeaderboardResponse
 import com.example.german_server.data.network.models.AvatarUploadRequest
 import com.example.german_server.data.network.models.AvatarUploadResponse
-import com.example.german_server.data.network.models.AvatarGalleryUploadResponse
+import com.example.german_server.data.network.models.AvatarServerUploadResponse
 
 
 interface ApiService {
@@ -39,8 +39,7 @@ interface ApiService {
                            @Header("Authorization") token: String? = null): Response<ProfileResponse>
 
     @GET("api/rating/")
-    suspend fun getRating(//@Query("email") email: String? = null,
-                           @Header("Authorization") token: String? = null): Response<LeaderboardResponse>
+    suspend fun getRating(@Header("Authorization") token: String? = null): Response<LeaderboardResponse>
     @POST("api/sync-user/")
     suspend fun syncUser(@Body request: SyncRequest): Response<SyncResponse>
 
@@ -57,24 +56,15 @@ interface ApiService {
     @POST("api/upload-avatar/")
     suspend fun uploadAvatar(@Body request: AvatarUploadRequest): Response<AvatarUploadResponse>
 
-
     @Multipart
     @POST("api/upload-gallery-avatar/")
     suspend fun uploadGalleryAvatar(
         @Header("Authorization") authorization: String,
-        @Part file: MultipartBody.Part,
-        @Part("uid") serverUid: RequestBody,
-        @Part("avatar_last_changed") avatarLastChanged: RequestBody,
-       // @Part("loginToken") token: RequestBody
-    ): Response<AvatarGalleryUploadResponse>
-
-
+        @Part image: MultipartBody.Part,
+        @Part("uid") uid: RequestBody,
+        ): Response<AvatarServerUploadResponse>
 
 }
-//
-//data class EmailRequest(
-//    val email: String
-//)
 
 
 

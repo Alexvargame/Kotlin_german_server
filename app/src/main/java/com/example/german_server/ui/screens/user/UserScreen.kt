@@ -38,6 +38,7 @@ fun User_screen(
     LaunchedEffect(Unit) {
         Log.d("UserScreen", "🔄 Вызов UserViewModel.loadActiceAvatar()")
         userviewModel.loadActiveAvatar()
+        userviewModel.loadServerAvatar()
     }
     // ⬆️⬆️⬆️ КОНЕЦ ПРОВЕРКИ ⬆️⬆️⬆️
     if (user == null) {

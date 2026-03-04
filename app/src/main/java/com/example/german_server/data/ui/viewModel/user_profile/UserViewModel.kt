@@ -50,6 +50,10 @@ class UserViewModel (private val userDao: BaseUserDao,
 
     private val _activeAvatarPath = mutableStateOf<String?>(null)
     val activeAvatarPath: State<String?> = _activeAvatarPath
+
+    private val _serverAvatarPath = mutableStateOf<String?>(null)
+    val serverAvatarPath: State<String?> = _serverAvatarPath
+
     fun selectUser(user: LeaderboardUser) {
         _selectedUser.value = user
     }
@@ -243,13 +247,12 @@ class UserViewModel (private val userDao: BaseUserDao,
             }
         }
     }
-    fun uploadGalleryAvatar(path: String) {
+    fun uploadServerAvatar(path: String) {
         val user = _currentUser.value ?: return
         viewModelScope.launch {
             val file = File(path)
             val success = profileRepository.uploadGalleryAvatar(file, user)
             if (success) {
-                updateAvatarPath(file.name)
                 Log.d("AVATAR_UPLOAD", "Галерейный аватар загружен на сервер")
             }
         }
@@ -336,7 +339,7 @@ class UserViewModel (private val userDao: BaseUserDao,
     }
 
 
-    fun saveAvatarToInternalStorage(context: Context, uri: Uri): String? {
+    fun saveAvatarToInternalStorage(context: Context, uri: Uri, type: String): String? {
         val user = currentUser.value
         if (user == null) {
             Log.e("AVATAR_SAVE", "currentUser отсутствует, сохранение прервано")
@@ -358,7 +361,13 @@ class UserViewModel (private val userDao: BaseUserDao,
             // Генерация уникального имени файла
             val uniqueId =
                 System.currentTimeMillis().toString() + "_" + UUID.randomUUID().toString().take(8)
-            val filename = "avatar_user_${user.id}_$uniqueId.png"
+            val filename = if (type == "gallery") {
+                "avatar_user_${user.id}_$uniqueId.png"
+            } else if (type == "server") {
+                "server_avatar_user_${user.id}.png"
+            } else {
+                "avatar_default.png" // на случай других значений type
+            }
             val destFile = File(avatarsDir, filename)
             Log.d(
                 "AVATAR_SAVE",
@@ -605,6 +614,37 @@ class UserViewModel (private val userDao: BaseUserDao,
             }
         }
     }
+    fun saveServerAvatar(path: String) {
+        val user = _currentUser.value ?: run {
+            Log.e("AVATAR_Server_ADD", "currentUser отсутствует")
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                Log.d("AVATAR_Server_ADD", "Сохраняем галерейный аватар для userId=${user.id}, путь=$path")
+
+                // 2️⃣ Вставляем новый аватар в Room
+                val newAvatar = UserAvatar(
+                    userId = user.id,
+                    path = path,
+                    isActive = false
+                )
+                val newId = avatarDao.insertAvatar(newAvatar)
+                Log.d("AVATAR_Server_ADD", "Новый аватар вставлен: id=$newId, path=$path")
+
+                // 3️⃣ Обновляем текущего пользователя в памяти
+                _currentUser.value = _currentUser.value?.copy(avatarPath = path)
+                Log.d(
+                    "AVATAR_Server_ADD",
+                    "Текущий пользователь обновлён с новым аватаром: ${_currentUser.value}"
+                )
+
+            } catch (e: Exception) {
+                Log.e("AVATAR_Server_ADD", "Ошибка при сохранении галерейного аватара", e)
+            }
+        }
+    }
     fun loadAllAvatars(): State<List<String>> {
         val userId = _currentUser.value?.id ?: return galleryAvatars
         Log.d("AVATAR_LOAD", "loadAllAvatars: userId=$userId")
@@ -693,6 +733,39 @@ class UserViewModel (private val userDao: BaseUserDao,
 
             } catch (e: Exception) {
                 Log.e("AVATAR_ACTIVE", "Error loading avatars", e)
+            }
+        }
+    }
+    fun loadServerAvatar() {
+        val userId = _currentUser.value?.id ?: return
+        Log.d("AVATAR_SERVER", "Loading server avatar for userId=$userId")
+
+        viewModelScope.launch {
+            try {
+
+                val avatar = avatarDao.getServerAvatar(userId)
+//                val allAvatars = avatarDao.getUserAvatars(userId)
+//                val avatar = allAvatars.firstOrNull { it.path.contains("server_avatar") }
+                Log.d("AVATAR_SERVER", "DB active avatar: $avatar")
+
+                if (avatar != null) {
+                    _serverAvatarPath.value = avatar.path
+                    Log.d("AVATAR_SERVER", "Server avatar path set: ${avatar.path}")
+
+                    // 🔥 синхронизируем users.avatarPath
+
+                } else {
+                    Log.d("AVATAR_SERVER", "No server avatar found")
+
+                    _serverAvatarPath.value = null
+
+                    // 🔥 ОБНУЛЯЕМ avatarPath
+                    userDao.updateAvatarPath(userId, null)
+                    Log.d("AVATAR_ACTIVE", "users.avatarPath cleared")
+                }
+
+            } catch (e: Exception) {
+                Log.e("AVATAR_SERVER", "Error loading avatars", e)
             }
         }
     }

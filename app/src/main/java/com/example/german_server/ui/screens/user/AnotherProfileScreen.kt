@@ -9,9 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState          // ⬅️ ДОБАВЛЕНО: для скролла
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +25,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.Brush
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import coil.compose.rememberAsyncImagePainter
 
@@ -36,10 +35,12 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.R
-import com.example.german_server.data.ui.components.InfoRow
+import com.example.german_server.data.ui.components.AvatarRepository
 @Composable
 fun Another_profile_screen(
     userviewModel: UserViewModel,
@@ -47,24 +48,15 @@ fun Another_profile_screen(
 ) {
 
     val user = userviewModel.selectedUser.value
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
     var isPrivateExpanded by remember { mutableStateOf(false) }
+    val BASE_URL = "https://alexdirect.pythonanywhere.com/"
 
     Log.d("ANOTHER_SCREEN", "${user}")
     if (user == null) {
         Log.d("ANOTHER_USERSCREEN_NULL", "${user}")
         LaunchedEffect(Unit) { navController.navigate("start_app_screen") { popUpTo(0) } }
         return
-    }
-    val pickImageLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            Log.d("ANOTHER_AVATAR_PICKER", "Выбрана картинка: $it")
-            val localPath = userviewModel.saveAvatarToInternalStorage(context, it)
-            localPath?.let { path -> userviewModel.updateAvatar(path) }
-        }
     }
 
     Column(
@@ -89,16 +81,42 @@ fun Another_profile_screen(
         contentAlignment = Alignment.Center
     ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                Image(
-//                    painter = if (user.avatarPath != null)
-//                        rememberAsyncImagePainter(Uri.parse(user.avatarPath))
-//                    else
-//                        rememberAsyncImagePainter(R.drawable.placeholder_avatar),
-//                    contentDescription = "User Avatar",
-//                    modifier = Modifier
-//                        .size(128.dp)
-//                        .clickable { pickImageLauncher.launch("image/*") }
-//                )
+                val serverAvatar = user.avatarFullUrl
+                val avatarPainter = when {
+                    !serverAvatar.isNullOrBlank() -> {
+                        val cleanBase = BASE_URL.removeSuffix("/")
+                        val cleanPath = serverAvatar.removePrefix("/")
+                        val fullUrl = "$cleanBase/$cleanPath"
+
+                        Log.d("RatingScreen", "🌍 FULL URL = $fullUrl")
+
+                        rememberAsyncImagePainter(model = fullUrl)
+                    }
+
+                    !user.avatarName.isNullOrBlank() &&
+                            AvatarRepository.drawableAvatars.contains(user.avatarName) -> {
+
+                        val resId = LocalContext.current.resources.getIdentifier(
+                            user.avatarName,
+                            "drawable",
+                            LocalContext.current.packageName
+                        )
+
+                        painterResource(id = resId)
+                    }
+
+                    else -> {
+                        painterResource(id = R.drawable.placeholder_avatar)
+                    }
+                }
+                Image(
+                    painter = avatarPainter,
+                    contentDescription = "Avatar",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .border(1.dp, Color.Gray, CircleShape)
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 InfoRow(
                     icon = Icons.Default.Star,   // если хочешь настоящую иконку, а не символ
@@ -121,12 +139,6 @@ fun Another_profile_screen(
                         value = "${user.score ?: 0}",
                         valueColor = Color.White,
                     )
-//                    InfoRow(
-//                        icon = Icons.Default.Face,
-//                        label = "",
-//                        value = "${user.lifes ?: 0}",
-//                        valueColor = Color.White
-//                    )
                     InfoRow(
                         icon = Icons.Default.Face,
                         label = "",
@@ -184,31 +196,6 @@ fun Another_profile_screen(
                     isPrivateExpanded = !isPrivateExpanded
                 }
         )
-//        if (isPrivateExpanded) {
-//
-//            Spacer(Modifier.height(8.dp))
-//            Column(modifier = Modifier.padding(16.dp)) {
-//                InfoRow(
-//                    icon = Icons.Default.Send,
-//                    label = "Telegram",
-//                    value = user.telegram_username ?: "—"
-//                )
-//                InfoRow(
-//                    label = "Chat ID",
-//                    value = user.chat_id?.toString() ?: "—"
-//                )
-//                InfoRow(
-//                    label = "Bot pass",
-//                    value = user.user_bot_pass ?: "—"
-//                )
-//                InfoRow(
-//                    icon = Icons.Default.Star,
-//                    label = "Администратор",
-//                    value = if (user.is_admin) "Да" else "Нет"
-//                )
-//            }
-//        }
-
         Spacer(Modifier.height(32.dp))
         Button(
             onClick = { navController.navigate("rating_screen") },

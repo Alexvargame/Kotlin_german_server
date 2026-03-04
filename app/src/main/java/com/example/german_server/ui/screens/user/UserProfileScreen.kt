@@ -67,13 +67,15 @@ fun User_profile_screen(
     LaunchedEffect(Unit) {
         Log.d("UserProfileScreen", "🔄 Вызов UserViewModel.loadActivveAvstar()")
         userviewModel.loadActiveAvatar()
+        userviewModel.loadServerAvatar()
     }
     val pickImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
             Log.d("AVATAR_PICKER", "Выбрана картинка: $it")
-            val localPath = userviewModel.saveAvatarToInternalStorage(context, it)
+            val localPath = userviewModel.saveAvatarToInternalStorage(context, it,
+                "gallery")
 
             localPath?.let { path ->
                 userviewModel.saveGalleryAvatar(path)

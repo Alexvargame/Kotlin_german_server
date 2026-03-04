@@ -26,6 +26,8 @@ data class LeaderboardUser(
     @SerializedName("last_session_date") val lastSessionDate: Long?,
     @SerializedName("avatar_name") val avatarName: String?,
     @SerializedName("avatar_path") val avatarPath: String?,
+    @SerializedName("avatar_small_url") val avatarSmallUrl: String?,  // <- серверный small
+    @SerializedName("avatar_full_url") val avatarFullUrl: String?
 
 
 )

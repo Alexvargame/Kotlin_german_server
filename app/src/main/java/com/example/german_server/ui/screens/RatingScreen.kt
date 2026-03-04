@@ -93,7 +93,8 @@ fun Rating_screen(
         Button(
             onClick = {
                 Log.d("RatingScreen", "🔙 Нажата кнопка назад")
-                navController.popBackStack()
+                //navController.popBackStack()
+                navController.navigate("user_screen")
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -179,7 +180,7 @@ fun LeaderboardTable(
     formatDate: (Long) -> String,
     onUserClick: (LeaderboardUser) -> Unit
 ) {
-
+    val BASE_URL = "https://alexdirect.pythonanywhere.com/"
     Column(
     modifier = Modifier
         .fillMaxWidth()
@@ -238,17 +239,38 @@ fun LeaderboardTable(
                     }
                 } else {
                     // Другие пользователи
-                    if (!user.avatarName.isNullOrBlank() &&
-                        AvatarRepository.drawableAvatars.contains(user.avatarName)) {
-                        Log.d("RatingScreen", "PATH ${user.avatarName}")
-                        painterResource(
-                            id = LocalContext.current.resources.getIdentifier(
-                                user.avatarName, "drawable", LocalContext.current.packageName
+                    Log.d("RatingScreen", "📊 another user ${user}")
+                    val serverAvatar = user.avatarSmallUrl
+                    Log.d("RatingScreen", "PATH_SERVER ${user.avatarSmallUrl}")
+                    when {
+                        !serverAvatar.isNullOrBlank() -> {
+                            val cleanBase = BASE_URL.removeSuffix("/")
+                            val cleanPath = serverAvatar.removePrefix("/")
+                            val fullUrl = "$cleanBase/$cleanPath"
+                            Log.d("RatingScreen", "🌍 sERVER small avatar = $serverAvatar--$fullUrl")
+                            rememberAsyncImagePainter(model =fullUrl)
+                        }
+                        !user.avatarName.isNullOrBlank() && AvatarRepository.drawableAvatars.contains(user.avatarName) -> {
+                            Log.d("RatingScreen", "PATH ${user.avatarName}")
+                            painterResource(
+                                id = LocalContext.current.resources.getIdentifier(
+                                    user.avatarName, "drawable", LocalContext.current.packageName
+                                )
                             )
-                        )
-                    } else {
-                        painterResource(id = R.drawable.placeholder_avatar)
+                        }
+                        else -> painterResource(id = R.drawable.placeholder_avatar)
                     }
+//                    if (!user.avatarName.isNullOrBlank() &&
+//                        AvatarRepository.drawableAvatars.contains(user.avatarName)) {
+//                        Log.d("RatingScreen", "PATH ${user.avatarName}")
+//                        painterResource(
+//                            id = LocalContext.current.resources.getIdentifier(
+//                                user.avatarName, "drawable", LocalContext.current.packageName
+//                            )
+//                        )
+//                    } else {
+//                        painterResource(id = R.drawable.placeholder_avatar)
+//                    }
                 }
 
 
