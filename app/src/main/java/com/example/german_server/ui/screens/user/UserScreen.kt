@@ -15,17 +15,30 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import com.example.german_server.data.ui.components.UserStatsBlock
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
+import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
+import kotlinx.coroutines.flow.map
 
 @Composable
 fun User_screen(
     userviewModel: UserViewModel,
+    supportChatViewModel: SupportChatViewModel,
     navController: NavController,
 ) {
 
     val user = userviewModel.currentUser.value
+
+    val unreadCount = supportChatViewModel.messages
+        .map { messages -> messages.count {
+
+            Log.d("MESSAGE_UNREAD_USER_SCREEN", "${it.receiverUid} /  ${user?.serverUid}")
+            Log.d("MESSAGE_UNREAD_USER_SCREEN", "${it.receiverUid ==  user?.serverUid}")
+            !it.is_read && it.receiverUid == user?.serverUid
+        } }
+        .collectAsState(initial = 0)
 
     Log.d("AUTO_USERSCREEN", "${user}")
     Log.d("AUTO_USERSCREEN_MODEL", "${userviewModel.currentUser} , ${userviewModel}")
@@ -129,10 +142,10 @@ fun User_screen(
             Text("Рейтинг")
         }
         Button(
-            onClick = { /* TODO вход */ },
+            onClick = { navController.navigate("support_chat_message_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("ЧТО ТО")
+            Text("Сообщения (${unreadCount.value})")
         }
 
         Button (

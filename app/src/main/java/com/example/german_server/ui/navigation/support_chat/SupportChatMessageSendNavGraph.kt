@@ -1,4 +1,4 @@
-package com.example.german_server.ui.navigation.user
+package com.example.german_server.ui.navigation.support_chat
 
 
 import androidx.navigation.NavHostController
@@ -9,15 +9,15 @@ import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewM
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 
-import com.example.german_server.ui.screens.user.User_screen
+import com.example.german_server.ui.screens.support_chat.Support_chat_message_send_screen
 
-fun NavGraphBuilder.userNavGraph (
+fun NavGraphBuilder.supportChatMessageSendNavGraph (
     navController: NavHostController,
     supportChatViewModel: SupportChatViewModel,
     userProfileViewModel: UserViewModel)
 {
-    composable("user_screen")
+    composable("support_chat_message_send_screen")
     {
-        User_screen(userProfileViewModel, supportChatViewModel,navController)
+        Support_chat_message_send_screen(userProfileViewModel, supportChatViewModel,navController)
     }
 }

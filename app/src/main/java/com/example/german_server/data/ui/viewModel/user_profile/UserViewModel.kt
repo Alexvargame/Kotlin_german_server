@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import android.content.Context
 import android.net.Uri
@@ -29,6 +28,7 @@ import android.content.SharedPreferences
 import com.example.german_server.data.entities.UserAvatar
 import com.example.german_server.data.network.models.LeaderboardState
 import com.example.german_server.data.network.models.LeaderboardUser
+import com.example.german_server.data.network.models.SenderUser
 import java.util.UUID
 
 class UserViewModel (private val userDao: BaseUserDao,
@@ -97,19 +97,19 @@ class UserViewModel (private val userDao: BaseUserDao,
         Log.d("LOGOUT_DEBUG", "ПОСЛЕ: _currentUser = ${_currentUser.value}")
     }
 
-    fun isAuthorized(): Boolean {
-        Log.d("AUTO_RISED", "${_currentUser.value}")
-        return _currentUser.value != null
-    }
+//    fun isAuthorized(): Boolean {
+//        Log.d("AUTO_RISED", "${_currentUser.value}")
+//        return _currentUser.value != null
+//    }
 
     fun decreaseLife() {
         Log.d("USER_DECREASE", "setUser -> ")
         currentUser.value?.let { user ->
             val lifes = user.lifes ?: 0
             if (lifes > 0) {
-                Log.d("USER_DECREASE_USER", "setUser -> ${user}")
+                Log.d("USER_DECREASE_USER", "setUser -> $user")
                 val updatedUser = user.copy(lifes = lifes - 1)
-                Log.d("USER_DECREASE_LIFES", "setUser -> ${updatedUser}")
+                Log.d("USER_DECREASE_LIFES", "setUser -> $updatedUser")
                 _currentUser.value = updatedUser//user.copy(lifes = lifes - 1)
                 saveCurrentUser()
             }
@@ -119,9 +119,9 @@ class UserViewModel (private val userDao: BaseUserDao,
     fun addScore(points: Int) {
         currentUser.value?.let { user ->
             val score = user.score ?: 0
-            Log.d("USER_ADDCORE_USER", "setUser -> ${user}")
+            Log.d("USER_ADDCORE_USER", "setUser -> $user")
             val updatedUser = user.copy(score = score + points)
-            Log.d("USER_ADDCORE_LIFES", "setUser -> ${updatedUser}")
+            Log.d("USER_ADDCORE_LIFES", "setUser -> $updatedUser")
             _currentUser.value = updatedUser //user.copy(score = score + points)
             saveCurrentUser()
         }
@@ -305,14 +305,13 @@ class UserViewModel (private val userDao: BaseUserDao,
             val today = System.currentTimeMillis().startOfDay() // timestamp начала сегодняшнего дня
             val lastUpdate = user.shockmodNow ?: 0L
             val lastUpdateDay = lastUpdate.startOfDay()
-            Log.d("SHOCK_MOD", "${user.shockmodNow}  - ${lastUpdateDay} = ${today}")
+            Log.d("SHOCK_MOD", "${user.shockmodNow}  - $lastUpdateDay = $today")
             val updatedUser = when {
 
                 lastUpdateDay == today -> {
                     Log.d("SHOCK_MOD", "Ветка: УЖЕ ОБНОВЛЯЛИ СЕГОДНЯ")
                     user
                 }
-
                 lastUpdateDay == today - 1 * 24 * 60 * 60 * 1000 -> {
                     Log.d("SHOCK_MOD", "Ветка: ПРОДОЛЖАЕМ СЕРИЮ")
                     Log.d("SHOCK_MOD", "Дальше")
@@ -394,14 +393,14 @@ class UserViewModel (private val userDao: BaseUserDao,
 
 
 
-    fun setServerData(uid: String, token: String) {
-        currentUser.value?.let { user ->
-            val updatedUser = user.copy(serverUid = uid, loginToken = token)
-            _currentUser.value = updatedUser
-            saveCurrentUser() // уже сохраняет в Room через DAO
-        }
-
-    }
+//    fun setServerData(uid: String, token: String) {
+//        currentUser.value?.let { user ->
+//            val updatedUser = user.copy(serverUid = uid, loginToken = token)
+//            _currentUser.value = updatedUser
+//            saveCurrentUser() // уже сохраняет в Room через DAO
+//        }
+//
+//    }
 
     fun getDaysLeft(user: BaseUser): Int {
         val daysPassed = TimeUnit.MILLISECONDS.toDays(
@@ -428,7 +427,7 @@ class UserViewModel (private val userDao: BaseUserDao,
             if (success) {
                 userDao.deleteByServerUid(uid)
             }
-            Log.e("DELETE_ACCOUNT_MODEL", "${success}")
+            Log.e("DELETE_ACCOUNT_MODEL", "$success")
             onResult(success)
         }
     }
@@ -446,14 +445,14 @@ class UserViewModel (private val userDao: BaseUserDao,
             } else {
                 null
             }
-            Log.d("SYNC_VM", "${user}")
+            Log.d("SYNC_VM", "$user")
             if (user == null) {
                 Log.e("SYNC_VM", "❌ Нет UID")
                 return@launch
             }
 
             val request = profileRepository.createSyncRequest(user)
-            Log.d("SYNC_VM", " req  ${request}")
+            Log.d("SYNC_VM", " req  $request")
             if (request == null) {
                 Log.e("SYNC_VM", "❌ Не удалось создать запрос")
                 return@launch
@@ -486,7 +485,7 @@ class UserViewModel (private val userDao: BaseUserDao,
                 return@launch
             }
             val request = profileRepository.createUploadAvatarRequest(user)
-            Log.d("SYNC_AVATAR", "❌ req  ${request}")
+            Log.d("SYNC_AVATAR", "❌ req  $request")
             if (request == null) {
                 Log.e("SYNC_AVATAR", "❌ Не удалось создать запрос")
                 return@launch
@@ -507,27 +506,27 @@ class UserViewModel (private val userDao: BaseUserDao,
         viewModelScope.launch {
             Log.d("SYNC_COMPARE", "✅ Compsre")
             val localUser = _currentUser.value ?: return@launch
-            Log.d("SYNC_COMPARE", "✅ ${localUser}")
-            Log.d("SYNC_COMPARE", "✅ ${localUser.email}")
+            Log.d("SYNC_COMPARE", "✅ $localUser")
+            Log.d("SYNC_COMPARE", "✅ $localUser.email")
 
             val serverProfile = profileRepository.loadProfileFromServer(
                 localUser.email,
                 token = "Token ${localUser.loginToken}"
             )
-            Log.d("SYNC_COMPARE", "✅ server profile ${serverProfile}")
+            Log.d("SYNC_COMPARE", "✅ server profile $serverProfile")
 
             if (serverProfile == null || localUser == null) return@launch
 
             val serverDate = serverProfile.shockmodNow ?: 0L
             val localDate = localUser.shockmodNow ?: 0L
-            Log.d("SYNC_COMPARE", "✅ serverdata ${serverDate}")
-            Log.d("SYNC_COMPARE", "✅ local data ${localDate}")
-            Log.d("SYNC_COMPARE", "✅ local data ${localDate >= serverDate}")
+            Log.d("SYNC_COMPARE", "✅ serverdata $serverDate")
+            Log.d("SYNC_COMPARE", "✅ local data $localDate")
+            Log.d("SYNC_COMPARE", "✅ local data $localDate >= serverDate")
             val serverAvatarDate = serverProfile.avatarLastChanged ?: 0L
             val localAvatarDate = localUser.avatarLastChanged ?: 0L
-            Log.d("SYNC_COMPARE", "✅ serverAVA ${serverAvatarDate}")
-            Log.d("SYNC_COMPARE", "✅ local AVA ${localAvatarDate}")
-            Log.d("SYNC_COMPARE", "✅ local q ${localAvatarDate >= serverAvatarDate}")
+            Log.d("SYNC_COMPARE", "✅ serverAVA $serverAvatarDate")
+            Log.d("SYNC_COMPARE", "✅ local AVA $localAvatarDate")
+            Log.d("SYNC_COMPARE", "✅ local q $localAvatarDate >= serverAvatarDate")
             when {
                 serverDate > localDate -> {
                     Log.d("SYNC_COMPARE", "✅ server MORE then ")
@@ -778,6 +777,45 @@ class UserViewModel (private val userDao: BaseUserDao,
             } catch (e: Exception) {
                 Log.e("AVATAR_VM", "Ошибка деактивации аватаров", e)
             }
+        }
+    }
+    suspend fun getUserByServerUid(uid: String): BaseUser? {
+        return profileRepository.getByServerUid(uid)
+    }
+
+    suspend fun fetchSenderUser(uid: String): SenderUser? {
+        val token = currentUser.value?.loginToken ?: return null
+        Log.d("SENDER", "тоКЕН $token")
+        return try {
+            profileRepository.getSender(uid, token)
+
+        } catch (e: Exception) {
+            Log.e("SENDER", "Ошибка ", e)
+            null
+        }
+    }
+
+    suspend fun fetchAllUsers(): List<SenderUser>? {
+        val token = currentUser.value?.loginToken ?: return null
+        Log.d("SENDERs", "тоКЕН $token")
+        return try {
+            profileRepository.getAllSenders(token)
+
+        } catch (e: Exception) {
+            Log.e("SENDERs", "Ошибка ", e)
+            null
+        }
+    }
+
+    suspend fun fetchAllAdmin(): List<SenderUser>? {
+        val token = currentUser.value?.loginToken ?: return null
+        Log.d("Admins", "тоКЕН $token")
+        return try {
+            profileRepository.getAllAdmin(token)
+
+        } catch (e: Exception) {
+            Log.e("Admins", "Ошибка ", e)
+            null
         }
     }
 }

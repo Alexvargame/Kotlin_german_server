@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
+import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.navigation.exercises.exercisesNavGraph
@@ -38,7 +39,8 @@ import com.example.german_server.ui.navigation.user.userProfileNavGraph
 import com.example.german_server.ui.navigation.user.userProfileEditNavGraph
 import com.example.german_server.ui.navigation.user.avatarChoiceNavGraph
 import com.example.german_server.ui.navigation.user.anotherProfileNavGraph
-
+import com.example.german_server.ui.navigation.support_chat.supportChatMessageNavGraph
+import com.example.german_server.ui.navigation.support_chat.supportChatMessageSendNavGraph
 import com.example.german_server.ui.navigation.blockNavGraph
 
 import com.example.german_server.ui.screens.HomeScreen
@@ -46,7 +48,7 @@ import com.example.german_server.ui.screens.HomeScreen
 
 @Composable
 fun appNavGraph(navController: NavHostController, userProfileViewModel: UserViewModel,
-                autoviewModel: AutorizationViewModel,
+                autoviewModel: AutorizationViewModel, supportChatViewModel: SupportChatViewModel,
                 greetingText: String) {
     NavHost(
         navController = navController,
@@ -62,6 +64,7 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
         )
         userNavGraph(
                 navController = navController,
+            supportChatViewModel= supportChatViewModel,
             userProfileViewModel = userProfileViewModel,
         )
         ratingNavGraph(
@@ -193,8 +196,14 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
             autoviewModel = autoviewModel,
 
         )
-        userNavGraph(
+        supportChatMessageNavGraph(
             navController = navController,
+            supportChatViewModel = supportChatViewModel,
+            userProfileViewModel = userProfileViewModel,
+        )
+        supportChatMessageSendNavGraph(
+            navController = navController,
+            supportChatViewModel = supportChatViewModel,
             userProfileViewModel = userProfileViewModel,
         )
     }

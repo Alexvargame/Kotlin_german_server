@@ -21,21 +21,12 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-
-//    private val loggingInterceptor = HttpLoggingInterceptor().apply {
-//        Log.d("REG_REPO_Api", "log")
-//        level = HttpLoggingInterceptor.Level.BODY
-//    }
-
-
         private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .addInterceptor(loggingInterceptor)
 
-
-            // .addInterceptor(loggingInterceptor)
         .addInterceptor { chain ->
             val request = chain.request()
             Log.d("AVATAR_UPLOAD", "🔥 Interceptor видит запрос: ${request.url}")

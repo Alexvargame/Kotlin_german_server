@@ -21,9 +21,12 @@ import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.network.RetrofitClient
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
+import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
 import com.example.german_server.data.repository.user_profile.UserViewModelFactory
 import com.example.german_server.data.repository.user_profile.UserProfileRepository
+import com.example.german_server.data.repository.support_chat.SupportChatMessageRepository
 import com.example.german_server.data.repository.autorization.AutorizationViewModelFactory
+import com.example.german_server.data.repository.support_chat.SupportChatMessageViewModelFactory
 
 import com.example.german_server.ui.navigation.appNavGraph
 
@@ -75,6 +78,13 @@ class MainActivity : ComponentActivity() {
                     AppDatabase.getInstance(context).baseUserDao(),
                     AppDatabase.getInstance(context).userAvatarDao(),
                     )
+            val repo_chat =
+                SupportChatMessageRepository(
+                    AppDatabase.getInstance(context).supportChatMessageDao(),
+                    AppDatabase.getInstance(context).baseUserDao(),
+                    RetrofitClient.apiService,
+                )
+
             val prefs = remember {
                 context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             }
@@ -84,12 +94,15 @@ class MainActivity : ComponentActivity() {
             val autorizationViewModel: AutorizationViewModel = viewModel(
                 factory = AutorizationViewModelFactory(db)
             )
-            Log.e("USER_after", "${userProfileViewModel}")
+            val supportChatMessageViewModel: SupportChatViewModel = viewModel(
+                factory = SupportChatMessageViewModelFactory(repo_chat)
+            )
+            Log.e("USER_after", "${userProfileViewModel} ${supportChatMessageViewModel}")
             val navController = rememberNavController()
 
             //val userProfileViewModel: UserProfileViewModel = viewModel()   // Пробуем создать профиль для всех экранов
-            appNavGraph(navController, userProfileViewModel, autorizationViewModel, greetingText)
-
+            appNavGraph(navController, userProfileViewModel, autorizationViewModel, supportChatMessageViewModel, greetingText)
+            Log.e("USER_after", "appNAvgatrph")
         }
     }
 }
@@ -99,14 +112,3 @@ fun getCurrentHour(): Int {
     val calendar = Calendar.getInstance()
     return calendar.get(Calendar.HOUR_OF_DAY) // вернёт час от 0 до 23
 }
-// -------------------------
-// Preview-функция для Android Studio
-// Позволяет увидеть UI прямо в редакторе, без запуска на телефоне
-/*@Preview(showBackground = true)
-@Composable
-fun PreviewMyApp() {
-    val navController = rememberNavController()  // фиктивный NavController для превью
-
-    MyApp(navController = navController,  greetingText = "Добрый день")  // <-- вызов Composable функции для предпросмотра
-}
-*/

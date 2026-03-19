@@ -88,3 +88,41 @@ val MIGRATION_7_8 = object : Migration(7, 8) {
                 " index_user_avatars_userId ON user_avatars(userId)")
     }
 }
+
+val MIGRATION_8_9 = object : Migration(8, 9) {
+
+    override fun migrate(database: SupportSQLiteDatabase) {
+
+        database.execSQL(
+            """
+            CREATE TABLE support_chat_messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                server_id INTEGER,
+                sender_id INTEGER NOT NULL,
+                receiver_id INTEGER NOT NULL,
+                text TEXT NOT NULL,
+                reply_to_id INTEGER,
+                created_at INTEGER NOT NULL,
+                is_read INTEGER NOT NULL,
+                sync_status TEXT NOT NULL
+            )
+            """.trimIndent()
+        )
+
+        database.execSQL(
+            "CREATE INDEX index_support_chat_messages_server_id ON support_chat_messages(server_id)"
+        )
+
+        database.execSQL(
+            "CREATE INDEX index_support_chat_messages_created_at ON support_chat_messages(created_at)"
+        )
+    }
+}
+
+val MIGRATION_9_10 = object : Migration(9, 10) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Добавляем новые колонки для UID
+        database.execSQL("ALTER TABLE support_chat_messages ADD COLUMN receiverUid TEXT")
+        database.execSQL("ALTER TABLE support_chat_messages ADD COLUMN senderUid TEXT")
+    }
+}

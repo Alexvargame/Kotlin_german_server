@@ -13,6 +13,8 @@ import com.example.german_server.data.ui.MIGRATION_4_5
 import com.example.german_server.data.ui.MIGRATION_5_6
 import com.example.german_server.data.ui.MIGRATION_6_7
 import com.example.german_server.data.ui.MIGRATION_7_8
+import com.example.german_server.data.ui.MIGRATION_8_9
+import com.example.german_server.data.ui.MIGRATION_9_10
 //import android.util.Log
 
 
@@ -34,9 +36,10 @@ import com.example.german_server.data.ui.MIGRATION_7_8
         Numeral::class,
         NounDeclensionsForm::class,
         UserAvatar::class,
+        SupportChatMessage::class,
 
     ],
-    version = 8
+    version = 10
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
@@ -58,6 +61,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun registrationDao(): UserRegistrationDao
 
     abstract fun userAvatarDao(): UserAvatarDao
+
+    abstract fun supportChatMessageDao(): SupportChatMessageDao
 
 
 
@@ -82,6 +87,8 @@ abstract class AppDatabase : RoomDatabase() {
                     .addMigrations(MIGRATION_5_6)
                     .addMigrations(MIGRATION_6_7)
                     .addMigrations(MIGRATION_7_8)
+                    .addMigrations(MIGRATION_8_9)
+                    .addMigrations(MIGRATION_9_10)
                     .build()
                 INSTANCE = instance
                 instance

@@ -22,13 +22,13 @@ class Add_users_roles(private val context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("TEST_DB_roles", "testAllWordRelatedTables() started")
 
-            /*val UserRoleAdmin = UserRole(name = "Admin", description = "Admin")
-            userRoleDao.insert(UserRoleAdmin)
-            Log.d("ADD_USER_ROLE", "Новая  role вставлена")
-            val UserRoleUser = UserRole(name = "User", description = "User")
-            userRoleDao.insert(UserRoleUser)
-            Log.d("ADD_USER_ROLE", "Новая  role вставлена")
-            */
+//            val UserRoleAdmin = UserRole(name = "Admin", description = "Admin")
+//            userRoleDao.insert(UserRoleAdmin)
+//            Log.d("ADD_USER_ROLE", "Новая  role вставлена")
+//            val UserRoleUser = UserRole(name = "User", description = "User")
+//            userRoleDao.insert(UserRoleUser)
+//            Log.d("ADD_USER_ROLE", "Новая  role вставлена")
+//
             try {
                 val userRoles = userRoleDao.getAll()
                 userRoles.forEach {

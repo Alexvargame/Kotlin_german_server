@@ -260,19 +260,7 @@ fun LeaderboardTable(
                         }
                         else -> painterResource(id = R.drawable.placeholder_avatar)
                     }
-//                    if (!user.avatarName.isNullOrBlank() &&
-//                        AvatarRepository.drawableAvatars.contains(user.avatarName)) {
-//                        Log.d("RatingScreen", "PATH ${user.avatarName}")
-//                        painterResource(
-//                            id = LocalContext.current.resources.getIdentifier(
-//                                user.avatarName, "drawable", LocalContext.current.packageName
-//                            )
-//                        )
-//                    } else {
-//                        painterResource(id = R.drawable.placeholder_avatar)
-//                    }
                 }
-
 
                 Row(
                     modifier = Modifier

@@ -113,7 +113,7 @@ fun Another_profile_screen(
                     painter = avatarPainter,
                     contentDescription = "Avatar",
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(128.dp)
                         .clip(CircleShape)
                         .border(1.dp, Color.Gray, CircleShape)
                 )

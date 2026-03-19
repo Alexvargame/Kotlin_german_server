@@ -21,6 +21,7 @@ import com.example.german_server.data.network.models.AvatarUploadRequest
 
 import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.network.models.LeaderboardResponse
+import com.example.german_server.data.network.models.SenderUser
 
 
 class UserProfileRepository(
@@ -186,58 +187,40 @@ class UserProfileRepository(
         }
     }
 
-//    suspend fun uploadGalleryAvatar(file: File, user: BaseUser): Boolean {
-//        return try {
-//            Log.d("SYNC_REPO_GAL", "🔄 Начало загрузки галерейного аватара: ${file.name}")
-//
-//            // --- Превращаем файл в RequestBody с MIME типом "image/png" ---
-//            val requestFile = file.asRequestBody("image/png".toMediaTypeOrNull())
-//            Log.d("SYNC_REPO_GAL", "📄 RequestBody создан для файла: ${requestFile}")
-//
-//            // --- Создаём multipart-часть для Retrofit ---
-//            val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestFile)
-//            Log.d("SYNC_REPO_GAL", "📦 MultipartBody создан для Retrofit  - ${multipartBody}")
-//
-//            // --- Преобразуем serverUid пользователя в RequestBody ---
-//            val serverUidBody = user.serverUid?.toRequestBody("text/plain".toMediaTypeOrNull())
-//                ?: run {
-//                    Log.e("SYNC_REPO_GAL", "❌ serverUid пустой, прерываем загрузку")
-//                    return false
-//                }
-//            Log.d("SYNC_REPO", "🆔 serverUid подготовлен: ${user.serverUid} - ${serverUidBody}")
-//
-//            val timestampBody = System.currentTimeMillis().toString()
-//                .toRequestBody("text/plain".toMediaTypeOrNull())
-//            Log.d("SYNC_REPO_GAL", "⏱ timestamp подготовлен: ${System.currentTimeMillis()}")
-//
-//            // --- Вызываем Retrofit эндпоинт uploadGalleryAvatar ---
-//            val response = apiService.uploadGalleryAvatar(
-//                authorization = "Token ${user.loginToken}",
-//                file = multipartBody,
-//                serverUid = serverUidBody,
-//                avatarLastChanged = timestampBody
-//            )
-//            Log.d("SYNC_REPO_GAL", "📤${response}")
-//            Log.d("SYNC_REPO_GAL", "Status: ${response.code()}")
-//            Log.d("SYNC_REPO_GAL", "Headers: ${response.headers()}")
-//            Log.d("SYNC_REPO_GAL", "Body: ${response.errorBody()?.string() ?: response.body()}")
-//            Log.d("SYNC_REPO_GAL", "📤 Отправка на сервер завершена, код ответа: ${response.code()}")
-//
-//            // --- Проверяем успешность ответа ---
-//            if (response.isSuccessful) {
-//                Log.d("SYNC_REPO_GAL", "✅ Галерейный аватар успешно загружен: ${file.name}")
-//                true
-//            } else {
-//                Log.e("SYNC_REPO_GAL", "❌ Сервер вернул ошибку: ${response.code()} / ${response.message()}")
-//                false
-//            }
-//
-//        } catch (e: Exception) {
-//            // --- Логируем ошибки сети или исключения ---
-//            Log.e("SYNC_REPO", "🔥 Исключение при загрузке галерейного аватара: ${e.message}", e)
-//            false
-//        }
-//    }
+suspend fun getByServerUid(uid: String): BaseUser? {
+    return baseUserDao.getByServerUid(uid)
+}
+
+suspend fun getSender(uid: String, token: String): SenderUser? {
+    Log.d("SENDER", "📁 Toekn_ repo: ${token}")
+    return try {
+        val response = apiService.getSender(uid, "Token $token")
+        Log.d("SENDER", "📁 resp: ${response}")
+        if (response.isSuccessful) response.body() else null
+    } catch (e: Exception) {
+        null
+    }
+}
+suspend fun getAllAdmin(token: String): List<SenderUser>? {
+    Log.d("Admins", "📁 Toekn_ repo: ${token}")
+    return try {
+        val response = apiService.getAllAdmin("Token $token")
+        Log.d("Admins", "📁 resp_Senders: ${response} / ${response.body()}")
+        if (response.isSuccessful) response.body() else null
+    } catch (e: Exception) {
+        null
+    }
+}
+suspend fun getAllSenders(token: String): List<SenderUser>? {
+    Log.d("SENDERs", "📁 Toekn_ repo: ${token}")
+    return try {
+        val response = apiService.getAllSenders("Token $token")
+        Log.d("SENDERs", "📁 resp_Senders: ${response} / ${response.body()}")
+        if (response.isSuccessful) response.body() else null
+    } catch (e: Exception) {
+        null
+    }
+}
 suspend fun uploadGalleryAvatar(image: File, user: BaseUser): Boolean {
     return try {
 
