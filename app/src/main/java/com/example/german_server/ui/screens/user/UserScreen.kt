@@ -20,6 +20,7 @@ import com.example.german_server.data.ui.components.UserStatsBlock
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
+import com.example.german_server.data.ui.viewModel.daily_quests.DailyQuestViewModel
 import kotlinx.coroutines.flow.map
 
 @Composable
@@ -27,6 +28,7 @@ fun User_screen(
     userviewModel: UserViewModel,
     supportChatViewModel: SupportChatViewModel,
     navController: NavController,
+    dailyQuestViewModel: DailyQuestViewModel
 ) {
 
     val user = userviewModel.currentUser.value
@@ -47,7 +49,30 @@ fun User_screen(
     LaunchedEffect(user) {
         Log.d("USER_SCREEN_DEBUG", "LaunchedEffect, user = $user")
 
+
     }
+    // Проверка флага и генерация заданий
+    LaunchedEffect(user?.id) {
+        user?.let {
+            Log.d("TEST_DB_USER_Flag1", "${user.lastQuestReset}")
+//            userviewModel.resetLastQuestFlag()
+            Log.d("TEST_DB_USER_Flag2", "${user.lastQuestReset}")
+//            val hasQuests = dailyQuestViewModel.checkHasQuests(it.id)
+//            Log.d("TEST_DB_USER_Flag_has", "${hasQuests}")
+//            if (!hasQuests) {
+//                userviewModel.resetLastQuestFlag()
+//                Log.d("TEST_DB_USER_Flag", "Нет заданий, флаг сброшен")
+//            }
+//            Log.d("TEST_DB_USER_Flag", "${user.lastQuestReset}/ ${it.lastQuestReset}")
+            if (!it.lastQuestReset) {
+                dailyQuestViewModel.generateAndLoadQuests(it.id)
+                Log.d("TEST_DB_USER_Flag3", "${user.lastQuestReset}")
+                userviewModel.resetLastQuestFlag()
+                Log.d("TEST_DB_USER_Flag4", "${user.lastQuestReset}/ ${it.lastQuestReset}")
+            }
+        }
+    }
+
     LaunchedEffect(Unit) {
         Log.d("UserScreen", "🔄 Вызов UserViewModel.loadActiceAvatar()")
         userviewModel.loadActiveAvatar()
@@ -148,6 +173,16 @@ fun User_screen(
             Text("Сообщения (${unreadCount.value})")
         }
 
+        // Пункт меню для просмотра заданий
+        Button(
+            onClick = {
+                // Открыть экран с заданиями
+                navController.navigate("daily_quests_screen")//""daily_quests/${user?.id}")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Ежедневные задания")
+        }
         Button (
             onClick = {
                 navController.navigate("home")

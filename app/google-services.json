@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "511364600337",
+    "project_id": "germanapp-b5759",
+    "storage_bucket": "germanapp-b5759.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511364600337:android:73bde6f27b9594f293d7b0",
+        "android_client_info": {
+          "package_name": "com.example.german_server"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkw--lprTijLVnIq1VCKo2aR82rjqGUQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

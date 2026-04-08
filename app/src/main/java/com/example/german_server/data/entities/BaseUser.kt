@@ -39,6 +39,8 @@ data class BaseUser(
     @ColumnInfo(name = "user_role_id") val userRoleId: Long,
     val lifes: Int?,
     val score: Int?,
+    val coins: Int? = 0,       // 🆕 монеты (от заданий и покупок)
+    val level: Int? = 1,       // 🆕 уровень (вычисляется из score или хранится отдельно)
     val last_life_update: Long, // timestamp
     val chat_id: Long?,
     val telegram_username: String?,
@@ -69,5 +71,6 @@ data class BaseUser(
     val serverUid: String? = null,
     val loginToken: String? = null,
     var emailVerified: Boolean = false,
+    val lastQuestReset:  Boolean = false  // true = задания на сегодня уже сгенерированы
 
 )

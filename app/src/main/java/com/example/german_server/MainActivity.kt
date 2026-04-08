@@ -22,11 +22,19 @@ import com.example.german_server.data.network.RetrofitClient
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
 import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
+import com.example.german_server.data.ui.viewModel.daily_quests.DailyQuestViewModel
 import com.example.german_server.data.repository.user_profile.UserViewModelFactory
 import com.example.german_server.data.repository.user_profile.UserProfileRepository
+import com.example.german_server.data.repository.daily_quests.DailyQuestRepository
 import com.example.german_server.data.repository.support_chat.SupportChatMessageRepository
 import com.example.german_server.data.repository.autorization.AutorizationViewModelFactory
 import com.example.german_server.data.repository.support_chat.SupportChatMessageViewModelFactory
+import com.example.german_server.data.repository.daily_quests.DailyQuestViewModelFactory
+
+import com.example.german_server.data.ui.components.UpdateQuestsAfterExerciseUseCase
+import com.example.german_server.data.ui.components.ResetDailyQuests
+
+
 
 import com.example.german_server.ui.navigation.appNavGraph
 
@@ -45,6 +53,8 @@ class MainActivity : ComponentActivity() {
         Add_users_roles(this).addusersroles()
         Read_users(this).readusers()
         Read_avatars(this).readavatars()
+        Read_quest(this).readquests()
+        ResetDailyQuests(this).resetFlags()
        // Add_word_types(this).addwordtypes()
        // Add_books(this).addbooks()
         //Add_lections(this).addlections()
@@ -78,18 +88,28 @@ class MainActivity : ComponentActivity() {
                     AppDatabase.getInstance(context).baseUserDao(),
                     AppDatabase.getInstance(context).userAvatarDao(),
                     )
+
             val repo_chat =
                 SupportChatMessageRepository(
                     AppDatabase.getInstance(context).supportChatMessageDao(),
                     AppDatabase.getInstance(context).baseUserDao(),
                     RetrofitClient.apiService,
                 )
-
+            val repo_daily_quest =
+                DailyQuestRepository(
+                    AppDatabase.getInstance(context).dailyQuestDao(),
+                    AppDatabase.getInstance(context).baseUserDao(),
+                    RetrofitClient.apiService,
+                )
+            val updateQuestsAfterExerciseUseCase =
+                UpdateQuestsAfterExerciseUseCase(
+                    repo_daily_quest
+                )
             val prefs = remember {
                 context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             }
             val userProfileViewModel: UserViewModel = viewModel(
-                factory = UserViewModelFactory(userDao, avatarDao,repo, prefs)
+                factory = UserViewModelFactory(userDao, avatarDao,repo, prefs, updateQuestsAfterExerciseUseCase)
             )
             val autorizationViewModel: AutorizationViewModel = viewModel(
                 factory = AutorizationViewModelFactory(db)
@@ -97,11 +117,18 @@ class MainActivity : ComponentActivity() {
             val supportChatMessageViewModel: SupportChatViewModel = viewModel(
                 factory = SupportChatMessageViewModelFactory(repo_chat)
             )
+            val dailyQuestViewModel: DailyQuestViewModel = viewModel(
+                factory = DailyQuestViewModelFactory(repo_daily_quest)
+            )
             Log.e("USER_after", "${userProfileViewModel} ${supportChatMessageViewModel}")
             val navController = rememberNavController()
 
             //val userProfileViewModel: UserProfileViewModel = viewModel()   // Пробуем создать профиль для всех экранов
-            appNavGraph(navController, userProfileViewModel, autorizationViewModel, supportChatMessageViewModel, greetingText)
+            appNavGraph(navController, userProfileViewModel,
+                autorizationViewModel,
+                supportChatMessageViewModel,
+                dailyQuestViewModel,
+                greetingText)
             Log.e("USER_after", "appNAvgatrph")
         }
     }

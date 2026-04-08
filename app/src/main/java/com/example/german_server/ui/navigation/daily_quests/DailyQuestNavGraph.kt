@@ -1,23 +1,21 @@
-package com.example.german_server.ui.navigation.user
+package com.example.german_server.ui.navigation.daily_quests
 
 
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.NavGraphBuilder
-import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.viewModel.daily_quests.DailyQuestViewModel
 
-import com.example.german_server.ui.screens.user.User_screen
+import com.example.german_server.ui.screens.daily_quests.DailyQuestScreen
 
-fun NavGraphBuilder.userNavGraph (
+fun NavGraphBuilder.dailyQuestNavGraph (
     navController: NavHostController,
-    supportChatViewModel: SupportChatViewModel,
     userProfileViewModel: UserViewModel,
     dailyQuestViewModel: DailyQuestViewModel)
 {
-    composable("user_screen")
+    composable("daily_quests_screen")
     {
-        User_screen(userProfileViewModel, supportChatViewModel,navController,dailyQuestViewModel)
+        DailyQuestScreen(dailyQuestViewModel, userProfileViewModel,navController,)
     }
 }

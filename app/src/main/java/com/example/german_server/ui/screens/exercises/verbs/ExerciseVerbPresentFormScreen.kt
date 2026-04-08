@@ -145,6 +145,7 @@ fun ExerciseVerbPresentFormScreen(
                     userProfileViewModel.decreaseLife()
                 }
                 userProfileViewModel.addScore(result.correctCount)
+                userProfileViewModel.updateQuestsAfterExercise(result.correctCount, result.wrongCount)
                 Log.d("Verb_present", "WordId: ${result.correctCount}")
                 // 3️⃣ Навигация на экран результатов
                 navController.navigate(

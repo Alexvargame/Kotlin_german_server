@@ -21,9 +21,16 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>2026-01-21 17:25:26.142 15433-15433 USER_ERROR_REPO1        com.example.german_server            E  Network error: CLEARTEXT communication to 192.168.179.240 not permitted by network security policy
+            </intent-filter>
 
         </activity>
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -174,5 +174,6 @@ class SupportChatMessageRepository(private val supportChatMessageDao: SupportCha
             isRead = dto.isRead
         )
     }
+
 }
 

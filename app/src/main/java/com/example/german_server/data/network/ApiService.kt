@@ -33,6 +33,7 @@ import com.example.german_server.data.network.models.SendSupportChatMessageReque
 import com.example.german_server.data.network.models.DeleteMessageRequest
 import com.example.german_server.data.network.models.SupportChatMessageResponseDTO
 import com.example.german_server.data.network.models.SenderUser
+import com.example.german_server.data.network.models.FcmTokenRequest
 
 
 interface ApiService {
@@ -88,7 +89,11 @@ interface ApiService {
         @Header("Authorization") token: String? = null
     ): Response<SupportChatMessageResponseDTO>
 
-
+    @POST("api/get_fcm_token/")
+    suspend fun saveFcmToken(
+        @Body request: FcmTokenRequest,
+        @Header("Authorization") token: String? = null
+    ): Response<Unit>
     // Получение новых сообщений после последнего server_id
     @GET("support_chat/check_new_message/")
     suspend fun syncMessages(

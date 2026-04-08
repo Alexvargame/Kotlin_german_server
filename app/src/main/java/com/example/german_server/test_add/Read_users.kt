@@ -32,7 +32,8 @@ class Read_users(private val context: Context) {
                         "/${it.shockmodBegin} / ${it.shockmodLong}" +
                         "/${it.serverUid} / ${it.loginToken} /" +
                             "Lustsession ${it.shockmodNow} " +
-                        "avatar_change ${it.avatarLastChanged}"
+                        "avatar_change ${it.avatarLastChanged}" +
+                        "quest ${it.lastQuestReset}"
                                    )
 
             }

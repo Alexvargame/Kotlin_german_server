@@ -126,3 +126,53 @@ val MIGRATION_9_10 = object : Migration(9, 10) {
         database.execSQL("ALTER TABLE support_chat_messages ADD COLUMN senderUid TEXT")
     }
 }
+
+
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            ALTER TABLE users_baseuser 
+            ADD COLUMN coins INTEGER DEFAULT 0
+        """)
+
+        database.execSQL("""
+            ALTER TABLE users_baseuser 
+            ADD COLUMN level INTEGER DEFAULT 1
+        """)
+        database.execSQL("""
+            ALTER TABLE users_baseuser 
+            ADD COLUMN lastQuestReset INTEGER NOT NULL DEFAULT 0
+        """)
+
+
+//        database.execSQL("""
+//            UPDATE users_baseuser
+//            SET level = (COALESCE(score, 0) / 100) + 1
+//            WHERE level IS NULL OR level = 1
+//        """)
+    }
+}
+
+val MIGRATION_11_12 = object : Migration(11, 12) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // 2. Создать таблицу daily_quests с id INTEGER
+        database.execSQL("""
+            CREATE TABLE daily_quests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                userId INTEGER NOT NULL,
+                questTitle TEXT NOT NULL,
+                conditionType TEXT NOT NULL,
+                target INTEGER NOT NULL,
+                progress INTEGER NOT NULL DEFAULT 0,
+                isCompleted INTEGER NOT NULL DEFAULT 0,
+                rewardScore INTEGER NOT NULL,
+                rewardCoins INTEGER NOT NULL,
+                date TEXT NOT NULL,
+                FOREIGN KEY(userId) REFERENCES users_baseuser(id) ON DELETE CASCADE
+            )
+        """)
+
+        // 3. Индекс
+        database.execSQL("CREATE INDEX idx_daily_quests_user_date ON daily_quests(userId, date)")
+    }
+}

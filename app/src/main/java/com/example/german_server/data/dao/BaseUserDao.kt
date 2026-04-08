@@ -67,4 +67,14 @@ interface BaseUserDao {
             "shockmod_now = :shockmodNow WHERE serverUid = :serverId")
     suspend fun updateUserStats(serverId: String?, score: Int?, shockmodLong: Int, shockmodNow: Long?)
 
+    @Query("UPDATE users_baseuser SET lastQuestReset = :value WHERE id = :userId")
+    suspend fun updateLastQuestReset(userId: Long, value: Boolean)
+
+    @Query("UPDATE users_baseuser SET score = COALESCE(score, 0) + :amount WHERE id = :userId")
+    suspend fun updateDailyQuestScore(userId: Long, amount: Int)
+
+    @Query("UPDATE users_baseuser SET coins = COALESCE(coins, 0) + :amount WHERE id = :userId")
+    suspend fun updateDailyQuestCoins(userId: Long, amount: Int)
+
+
 }

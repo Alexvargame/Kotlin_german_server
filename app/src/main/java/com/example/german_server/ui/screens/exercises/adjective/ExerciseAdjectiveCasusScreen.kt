@@ -173,6 +173,7 @@ fun ExerciseAdjectiveCasusScreen(
                             userProfileViewModel.decreaseLife()
                         }
                         userProfileViewModel.addScore(result.correctCount)
+                        userProfileViewModel.updateQuestsAfterExercise(result.correctCount, result.wrongCount)
 
                         navController.navigate(
                             "exercise_adjective_casus_result_screen/${result.correctCount}/${result.totalQuestions}"

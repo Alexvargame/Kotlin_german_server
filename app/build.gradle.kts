@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.devtoolsKsp)
+    id("com.google.gms.google-services") version "4.4.0"
 }
 
 android {
@@ -17,8 +18,8 @@ android {
         applicationId = "com.example.german_server"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -83,5 +84,13 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+//    // Firebase BOM (рекомендуется для управления версиями)
+    implementation (platform("com.google.firebase:firebase-bom:34.11.0"))
+//
+//    // Firebase Messaging
+    implementation ("com.google.firebase:firebase-messaging")
+
+        //  implementation("me.leolin:ShortcutBadger:1.1.22@aar")
 
 }

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.german_server.data.ui.viewModel.autorization.AutorizationViewModel
 import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
+import com.example.german_server.data.ui.viewModel.daily_quests.DailyQuestViewModel
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.navigation.exercises.exercisesNavGraph
@@ -42,13 +43,14 @@ import com.example.german_server.ui.navigation.user.anotherProfileNavGraph
 import com.example.german_server.ui.navigation.support_chat.supportChatMessageNavGraph
 import com.example.german_server.ui.navigation.support_chat.supportChatMessageSendNavGraph
 import com.example.german_server.ui.navigation.blockNavGraph
-
+import com.example.german_server.ui.navigation.daily_quests.dailyQuestNavGraph
 import com.example.german_server.ui.screens.HomeScreen
 
 
 @Composable
 fun appNavGraph(navController: NavHostController, userProfileViewModel: UserViewModel,
                 autoviewModel: AutorizationViewModel, supportChatViewModel: SupportChatViewModel,
+                dailyQuestViewModel: DailyQuestViewModel,
                 greetingText: String) {
     NavHost(
         navController = navController,
@@ -66,6 +68,7 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
                 navController = navController,
             supportChatViewModel= supportChatViewModel,
             userProfileViewModel = userProfileViewModel,
+            dailyQuestViewModel = dailyQuestViewModel,
         )
         ratingNavGraph(
             navController = navController,
@@ -205,6 +208,11 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
             navController = navController,
             supportChatViewModel = supportChatViewModel,
             userProfileViewModel = userProfileViewModel,
+        )
+        dailyQuestNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+            dailyQuestViewModel = dailyQuestViewModel,
         )
     }
 }

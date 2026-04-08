@@ -61,5 +61,8 @@ interface SupportChatMessageDao {
     @Query("UPDATE support_chat_messages SET sync_status = :status WHERE id = :localId")
     suspend fun updateSyncStatus(localId: Long, status: String)
 
+    @Query("SELECT COUNT(*) FROM support_chat_messages WHERE receiverUid = :userId AND is_read = 0")
+    fun getUnreadCount(userId: String): Flow<Int>
+
 }
 

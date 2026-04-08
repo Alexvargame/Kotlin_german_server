@@ -125,6 +125,7 @@ fun ExerciseDigitTranslateScreen(
                 userProfileViewModel.addScore(result.correctCount)
                 userProfileViewModel.updateShockMod()
                 // 3️⃣ Навигация на экран результатов
+                userProfileViewModel.updateQuestsAfterExercise(result.correctCount, result.wrongCount)
                 navController.navigate(
                     "exercise_digit_translate_result_screen/${result.correctCount}/${result.totalQuestions}"
                 )

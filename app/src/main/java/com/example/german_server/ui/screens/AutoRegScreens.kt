@@ -27,7 +27,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.navigation.NavController
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import kotlinx.coroutines.delay
-
+import com.google.firebase.messaging.FirebaseMessaging
 
 @Composable
 fun Start_app_screen(userviewModel: UserViewModel,
@@ -80,8 +80,20 @@ fun Start_app_screen(userviewModel: UserViewModel,
         loginResult?.let { user ->
             Log.d("AUTO_VIEWMODEL_CHECK", "loginResult не null, устанавливаем пользователя: $user")
             userviewModel.setUser(user)
+            userviewModel.updateLastLoginDate()
             userviewModel.compareWithServerProfile()
-            delay(1)
+
+            FirebaseMessaging.getInstance().token
+                .addOnSuccessListener { fcmToken ->
+                    Log.d("FCM", "FCM токен получен: $fcmToken")
+                    userviewModel.sendFcmToken(fcmToken) // отправляем через ViewModel → репозиторий
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FCM", "Не удалось получить FCM токен", e)
+                }
+
+            delay(10)
+            userviewModel.updateLastLoginDate()
             val daysLeft = userviewModel.getDaysLeft(user)
             val isBlocked = (!user.emailVerified) && (daysLeft <= 9)
             Log.d("AUTO_VIEWMODEL_CHECK", "${daysLeft}/ ${isBlocked}")

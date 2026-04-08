@@ -24,6 +24,8 @@ import com.example.german_server.data.entities.BaseUser
 import com.example.german_server.data.dao.BaseUserDao
 import com.example.german_server.data.dao.UserAvatarDao
 import com.example.german_server.data.repository.user_profile.UserProfileRepository
+
+import com.example.german_server.data.ui.components.UpdateQuestsAfterExerciseUseCase
 import android.content.SharedPreferences
 import com.example.german_server.data.entities.UserAvatar
 import com.example.german_server.data.network.models.LeaderboardState
@@ -34,7 +36,10 @@ import java.util.UUID
 class UserViewModel (private val userDao: BaseUserDao,
                      private val avatarDao: UserAvatarDao,
                      private val profileRepository: UserProfileRepository,
-                     private val prefs: SharedPreferences
+                     private val prefs: SharedPreferences,
+                     private val updateQuestsAfterExerciseUseCase: UpdateQuestsAfterExerciseUseCase
+
+
 ): ViewModel() {
 
 
@@ -115,6 +120,15 @@ class UserViewModel (private val userDao: BaseUserDao,
             }
         }
     }
+    fun updateLastLoginDate() {
+        currentUser.value?.let { user ->
+            val updatedUser = user.copy(last_login_date = System.currentTimeMillis())
+            val humanDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(updatedUser.last_login_date))
+            Log.d("USER_LAST_LOGIN", "Обновлена дата входа: $humanDate")
+            _currentUser.value = updatedUser
+            saveCurrentUser()
+        }
+    }
 
     fun addScore(points: Int) {
         currentUser.value?.let { user ->
@@ -124,6 +138,13 @@ class UserViewModel (private val userDao: BaseUserDao,
             Log.d("USER_ADDCORE_LIFES", "setUser -> $updatedUser")
             _currentUser.value = updatedUser //user.copy(score = score + points)
             saveCurrentUser()
+        }
+    }
+    fun updateQuestsAfterExercise(correct: Int, wrong: Int) {
+        viewModelScope.launch {
+            currentUser.value?.let { user ->
+                updateQuestsAfterExerciseUseCase.execute(user.id, correct, wrong)
+            }
         }
     }
 
@@ -816,6 +837,27 @@ class UserViewModel (private val userDao: BaseUserDao,
         } catch (e: Exception) {
             Log.e("Admins", "Ошибка ", e)
             null
+        }
+    }
+
+    fun sendFcmToken(fcmToken: String) {
+        val token = currentUser.value?.loginToken
+        if (token == null) {
+            Log.d("FCM", "auth token NULL → не отправляем")
+            return
+        }
+
+        viewModelScope.launch {
+            profileRepository.sendFcmToken(fcmToken, token)
+        }
+    }
+    // Сброс флага lastQuestReset (меняем на противоположный)
+    fun resetLastQuestFlag() {
+        currentUser.value?.let { user ->
+            val updatedUser = user.copy(lastQuestReset = !user.lastQuestReset)
+            _currentUser.value = updatedUser
+            saveCurrentUser()
+            // ДОБАВИТЬ: обновить в БД через репозиторий?
         }
     }
 }

@@ -145,6 +145,7 @@ fun ExerciseVerbPerfectFormScreen(
                     userProfileViewModel.decreaseLife()
                 }
                 userProfileViewModel.addScore(result.correctCount)
+                userProfileViewModel.updateQuestsAfterExercise(result.correctCount, result.wrongCount)
 
                 // 3️⃣ Навигация на экран результатов
                 navController.navigate(

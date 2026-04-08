@@ -27,9 +27,6 @@ import androidx.compose.material3.ButtonDefaults
 
 import android.util.Log
 
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-
 
 import androidx.navigation.NavController
 import com.example.german_server.data.ui.components.UserStatsBlock
@@ -128,6 +125,7 @@ fun ExerciseArticleScreen(
                 Log.d("USER_SCXREEN_DECREASE","setUser -> ${user}")
                 userProfileViewModel.addScore(result.correctCount)
                 userProfileViewModel.updateShockMod()
+                userProfileViewModel.updateQuestsAfterExercise(result.correctCount, result.wrongCount)
                 navController.navigate(
                     "exercise_article_result_screen/${result.correctCount}/${result.totalQuestions}"
                 )

@@ -26,6 +26,8 @@ import com.example.german_server.data.repository.user_profile.UserViewModelFacto
 import com.example.german_server.data.repository.user_profile.UserProfileRepository
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.network.RetrofitClient
+import com.example.german_server.data.repository.daily_quests.DailyQuestRepository
+import com.example.german_server.data.ui.components.UpdateQuestsAfterExerciseUseCase
 
 @Composable
 fun HomeScreen(navController: NavController, greetingText: String) {
@@ -49,8 +51,18 @@ fun HomeScreen(navController: NavController, greetingText: String) {
     val prefs = remember {
         context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     }
+    val repo_daily_quest =
+        DailyQuestRepository(
+            AppDatabase.getInstance(context).dailyQuestDao(),
+            AppDatabase.getInstance(context).baseUserDao(),
+            RetrofitClient.apiService,
+        )
+    val updateQuestsAfterExerciseUseCase =
+        UpdateQuestsAfterExerciseUseCase(
+            repo_daily_quest
+        )
     val userviewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(userDao, avatarDao, repo, prefs)
+        factory = UserViewModelFactory(userDao, avatarDao, repo, prefs, updateQuestsAfterExerciseUseCase)
     )
 
 
