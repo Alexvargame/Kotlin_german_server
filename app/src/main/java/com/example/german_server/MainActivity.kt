@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
         Read_avatars(this).readavatars()
         Read_quest(this).readquests()
         ResetDailyQuests(this).resetFlags()
-        TestCsvImport(this).runTestCsvImport()
+//      TestCsvImport(this).runTestCsvImport()
        // Add_word_types(this).addwordtypes()
 //        Add_books(this).addbooks()
 //        Add_lections(this).addlections()

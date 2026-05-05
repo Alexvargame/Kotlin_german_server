@@ -35,6 +35,7 @@ import com.example.german_server.ui.navigation.exercises.adjective.exercisesAdje
 import com.example.german_server.ui.navigation.exercises.adjective.exercisesAdjectiveKomparativSuperlativNavGraph
 import com.example.german_server.ui.navigation.exercises.adjective.exercisesAdjectiveDeclensionsNavGraph
 import com.example.german_server.ui.navigation.exercises.adjective.exercisesAdjectiveDeclensionsResultNavGraph
+import com.example.german_server.ui.navigation.exercises.exerciseBerufWordsPairNavGraph
 import com.example.german_server.ui.navigation.user.userNavGraph
 import com.example.german_server.ui.navigation.user.userProfileNavGraph
 import com.example.german_server.ui.navigation.user.userProfileEditNavGraph
@@ -103,6 +104,10 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
             userProfileViewModel = userProfileViewModel,
         )
         exercisesWordsPairNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exerciseBerufWordsPairNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
         )

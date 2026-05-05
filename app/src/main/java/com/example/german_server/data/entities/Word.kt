@@ -10,20 +10,6 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "words_word",
-    /*foreignKeys = [
-        ForeignKey(
-            entity = Lection::class,
-            parentColumns = ["id"],
-            childColumns = ["lection_id"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = WordType::class,
-            parentColumns = ["id"],
-            childColumns = ["word_type_id"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],*/
     indices = [
         Index(value = ["lection_id"]),
         Index(value = ["word_type_id"])

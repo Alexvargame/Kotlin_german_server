@@ -50,5 +50,17 @@ interface NounDao {
     @Query("SELECT * FROM words_noun ORDER BY word_ptr_id DESC LIMIT 2")
     fun getLastTwo(): List<Noun>
 
+    @Query("""
+        SELECT words_noun.*
+        FROM words_noun
+        INNER JOIN words_word ON words_word.id = words_noun.word_ptr_id
+        WHERE words_word.lection_id = :lectionId
+        ORDER BY RANDOM()
+        LIMIT :count
+        """)
+    fun getRandomNounsByLection(
+        count: Int,
+        lectionId: Int,
+    ): List<Noun>
 }
 

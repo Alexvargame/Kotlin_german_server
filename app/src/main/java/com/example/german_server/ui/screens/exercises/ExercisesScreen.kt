@@ -53,6 +53,12 @@ fun Exercises_screen(
             Text("Перевод слов")
         }
         Button(
+            onClick = {navController.navigate("exercise_beruf_words_translate_screen") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Перевод слов на тему 'Профессия'")
+        }
+        Button(
             onClick = { navController.navigate("exercises_verb_forms_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {

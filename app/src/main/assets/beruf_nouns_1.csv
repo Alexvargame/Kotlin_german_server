@@ -1,6 +1,8 @@
 word;wordTranslate;articleId;wordPlural;pluralSign;wordTranslatePlural
+angewiesen sein auf;зависеть от;null;null;null;null
 Anlage;приложение;3;Anlagen;n;приложения
 Ansprechpartner;контактное лицо;1;Ansprechpartner;-;контакты
+Anspruch haben auf;иметь право на;null;null;null;null
 Anspruch;право / требование;1;Ansprüche;e;права
 Anstellung;найм;3;Anstellungen;n;наймы
 Anweisung;указание;3;Anweisungen;n;указания
@@ -38,6 +40,7 @@ Bankberater;банковский консультант;1;Bankberater;-;конс
 Baustelle;стройка;3;Baustellen;n;стройки
 Beamter;чиновник;1;Beamte;n;чиновники
 Beanstandung;претензия;3;Beanstandungen;n;претензии
+beantragen;подавать заявление;null;null;null;null
 Beitrag;взнос;1;Beiträge;e;взносы
 Belastbarkeit;стрессоустойчивость;3;Belastbarkeiten;n;устойчивость
 Belegschaft;персонал;3;Belegschaften;n;коллективы
@@ -66,6 +69,7 @@ Betriebsversammlung;собрание работников;3;Betriebsversammlunge
 Bewerbung;заявка;3;Bewerbungen;n;заявки
 Bewerbung;заявка;3;Bewerbungen;n;заявки
 Bewerbungsunterlagen;документы заявки;4;null;null;null
+bewilligen;одобрять / утверждать;null;null;null;null
 Bezahlung;оплата;3;Bezahlungen;n;оплаты
 Bilanz;баланс;3;Bilanzen;n;балансы
 Bildschirm;экран;1;Bildschirme;e;экраны
@@ -90,7 +94,8 @@ Dienstreise;командировка;3;Dienstreisen;n;командировки
 Digitalisierung;цифровизация;3;Digitalisierungen;n;процессы цифровизации
 Direktion;дирекция;3;Direktionen;n;дирекции
 Drucker;принтер;1;Drucker;-;принтеры
-Eigenkapital;собственный капитал;2;Eigenkapitalien;ien;капиталы
+Eigenkapital;собственный капитал;2;Eigenkapitalien;?;капиталы
+eine Klage einreichen;подать иск;null;null;null;null
 Einkauf;закупка;1;Einkäufe;e;закупки
 Einkauf;закупки;1;Einkäufe;e;закупки
 Einkommen;доход;2;Einkommen;-;доходы
@@ -146,6 +151,7 @@ Gesundheitswesen;сфера здравоохранения;2;null;null;null
 Gewährleistung;гарантийное обязательство;3;Gewährleistungen;n;обязательства
 Gewerbe;ремесло/бизнес;2;Gewerbe;-;виды бизнеса
 Gewerkschaft;профсоюз;3;Gewerkschaften;en;профсоюзы
+gewerkschaftlich;профсоюзный;null;null;null;null
 Gewicht;вес;2;Gewichte;-;веса
 Gewinn;прибыль;1;Gewinne;e;прибыли
 Gift;яд;2;Gifte;e;яды
@@ -165,6 +171,7 @@ Homeoffice;удалённая работа;2;Homeoffices;-;режимы
 Hygiene;гигиена;3;null;null;null
 Hygienevorschrift;гигиеническое правило;3;Hygienevorschriften;en;правила
 Import;импорт;1;Importe;e;импорты
+In Rente gehen;выходить на пенсию;null;null;null;null
 Industrie;промышленность;3;Industrien;n;промышленности
 Innendienst;внутренний отдел;1;Innendienste;e;отделы
 Instandhaltung;техобслуживание;3;Instandhaltungen;n;обслуживания
@@ -221,6 +228,7 @@ Mehrwertsteuer;НДС;3;null;null;null
 Meister;мастер;1;Meister;-;мастера
 Messe;выставка;3;Messen;n;выставки
 Messestand;выставочный стенд;1;Messestände;e;стенды
+mit der linken;с левой (кнопкой/рукой);null;null;null;null
 Mitarbeiter;сотрудник;1;Mitarbeiter;-;сотрудники
 Mitbestimmung;соучастие в управлении;3;Mitbestimmungen;n;формы участия
 Monatslohn;месячная зарплата;1;Monatslöhne;e;зарплаты
@@ -278,9 +286,11 @@ Scanner;сканер;1;Scanner;-;сканеры
 Schaden;ущерб;1;Schäden;e;ущербы
 Schadenersatz;возмещение ущерба;1;Schadenersätze;e;возмещения
 Schichtarbeit;сменная работа;3;Schichtarbeiten;n;смены
+Schulden;долги;4;null;null;null
 Schutzausrüstung;защитное снаряжение;3;Schutzausrüstungen;n;снаряжение
 Schutzbrille;защитные очки;3;Schutzbrillen;n;очки
 Schutzhelm;защитный шлем;1;Schutzhelme;e;шлемы
+sich schützen;защищаться;null;null;null;null
 Sicherheitsbeauftragter;ответственный за безопасность;1;Sicherheitsbeauftragte;n;ответственные за безопасность
 Sicherheitshinweise;инструкции по безопасности;4;Sicherheitshinweise;-;инструкции
 Sicherheitsschuhe;защитная обувь;4;Sicherheitsschuhe;-;обувь
@@ -302,11 +312,13 @@ Stellenbörse;биржа вакансий;3;Stellenbörsen;n;биржи
 Stellengesuch;заявка на работу;2;Stellengesuche;e;заявки
 Stellensuche;поиск работы;3;Stellensuchen;n;поиски
 Steuer;налог;3;Steuern;n;налоги
+Steuer;налог;3;Steuern;n;налоги
 Steueridentifikationsnummer;налоговый идентификатор;3;Steueridentifikationsnummern;n;налоговые номера
 Steuerklasse;налоговый класс;3;Steuerklassen;n;налоговые классы
 Störung;неисправность;3;Störungen;n;неисправности
 Störungsmeldung;сообщение о неисправности;3;Störungsmeldungen;n;сообщения
 Streik;забастовка;1;Streiks;s;забастовки
+streiken;забастовывать;null;null;null;null
 Studium;учёба;2;Studien;n;обучение
 Stundenlohn;почасовая оплата;1;Stundenlöhne;e;ставки
 Tagesordnung;повестка дня;3;Tagesordnungen;n;повестки
@@ -334,6 +346,7 @@ Unfälle vermeiden;избегать несчастных случаев;null;nul
 Unfallmeldung;сообщение о несчастном случае;3;Unfallmeldungen;n;сообщения
 Unfallprotokoll;протокол несчастного случая;2;Unfallprotokolle;e;протоколы
 Unfallschutz;защита от несчастных случаев;1;Unfallschutze;e;системы защиты
+unkündbar;неувольняемый;null;null;null;null
 Unternehmen;компания;2;Unternehmen;-;компании
 Untersuchung;обследование;3;Untersuchungen;n;обследования
 unverbindliches Angebot;необязательное предложение;null;null;null;null
@@ -343,6 +356,7 @@ Verbotsschild;знак запрета;2;Verbotsschilder;n;знаки запре�
 Verbrennung;ожог;3;Verbrennungen;n;ожоги
 Vergütung;вознаграждение;3;Vergütungen;n;вознаграждения
 Verhalten;поведение;2;Verhalten;-;поведение
+verhandeln;переговариваться;null;null;null;null
 Verkauf;продажи;1;Verkäufe;e;продажи
 Verletzung;травма;3;Verletzungen;n;травмы
 Verlust;убыток;1;Verluste;e;убытки
@@ -352,9 +366,11 @@ Versand;отправка;1;Versände;e;отправки
 Versandkosten;стоимость доставки;4;null;null;null
 Versandkosten;стоимость доставки;4;null;null;null
 Versetzung;перевод на другую должность;3;Versetzungen;n;переводы
+vertreten;представлять;null;null;null;null
 Vertrieb;сбыт;1;Vertriebe;e;сбытовые отделы
 Verwaltung;администрация;3;Verwaltungen;n;администрации
 Vollzeit;полная занятость;3;Vollzeiten;n;режимы
+vor Gericht klagen;судиться;null;null;null;null
 Voraussetzung;условие;3;Voraussetzungen;n;условия
 Vorgesetzter;руководитель;1;Vorgesetzte;n;руководители
 Vorschrift;инструкция;3;Vorschriften;en;инструкции
@@ -362,6 +378,7 @@ Vorsichtsmaßnahme;мера предосторожности;3;Vorsichtsmaßnahm
 Vorsorgeuntersuchung;профилактический осмотр;3;Vorsorgeuntersuchungen;n;осмотры
 Vorstellungsgespräch;собеседование;2;Vorstellungsgespräche;e;собеседования
 Wachstum;рост;2;Wachstümer;-;росты
+Ware;товар;3;Waren;n;товары
 Ware;товар;3;Waren;n;товары
 Wareneingang;приём товара;1;Wareneingänge;e;поступления
 Warenkontrolle;контроль товара;3;Warenkontrollen;n;контроли
