@@ -1,0 +1,388 @@
+word;wordTranslate;articleId;wordPlural;pluralSign;wordTranslatePlural
+Anlage;приложение;3;Anlagen;n;приложения
+Ansprechpartner;контактное лицо;1;Ansprechpartner;-;контакты
+Anspruch;право / требование;1;Ansprüche;e;права
+Anstellung;найм;3;Anstellungen;n;наймы
+Anweisung;указание;3;Anweisungen;n;указания
+Arbeitgeber;работодатель;1;Arbeitgeber;-;работодатели
+Arbeitgeberanteil;доля работодателя;1;Arbeitgeberanteile;e;доли
+Arbeitnehmer;работник;1;Arbeitnehmer;-;работники
+Arbeitnehmeranteil;доля работника;1;Arbeitnehmeranteile;e;доли
+Arbeitsberater;консультант по работе;1;Arbeitsberater;-;консультанты
+Arbeitsgericht;трудовой суд;2;Arbeitsgerichte;e;суды по трудовым спорам
+Arbeitshandschuhe;рабочие перчатки;4;Arbeitshandschuhe;-;перчатки
+Arbeitskampf;трудовой конфликт;1;Arbeitskämpfe;e;конфликты
+Arbeitslosenversicherung;страхование по безработице;3;Arbeitslosenversicherungen;en;страхования по безработице
+Arbeitsmarkt;рынок труда;1;Arbeitsmärkte;e;рынки труда
+Arbeitsplatz;рабочее место;1;Arbeitsplätze;e;места
+Arbeitsschutz;охрана труда;1;Arbeitsschutze;e;системы охраны труда
+Arbeitssicherheit;безопасность труда;3;Arbeitssicherheiten;n;системы безопасности труда
+Arbeitssprech;разговор о работе (ошибка в исходнике);null;null;null;null
+Arbeitssuche;поиск работы;3;Arbeitssuchen;n;поиски
+Arbeitsunfähigkeitsbescheinigung;справка о нетрудоспособности;3;Arbeitsunfähigkeitsbescheinigungen;n;справки
+Arbeitsunfall;несчастный случай на работе;1;Arbeitsunfälle;e;случаи
+Arbeitsverhältnis;трудовые отношения;2;Arbeitsverhältnisse;e;отношения
+Arbeitsvertrag;трудовой договор;1;Arbeitsverträge;e;договоры
+Arbeitsvertrag;трудовой договор;1;Arbeitsverträge;e;договоры
+Arbeitszeit;рабочее время;3;Arbeitszeiten;n;время
+Aufgabenbereich;область задач;1;Aufgabenbereiche;e;области
+Aufgabengebiet;сфера задач;2;Aufgabengebiete;e;сферы
+Aufstiegschance;шанс карьерного роста;3;Aufstiegschancen;n;шансы
+Auftrag;заказ;1;Aufträge;e;заказы
+Auftragsbestätigung;подтверждение заказа;3;Auftragsbestätigungen;n;подтверждения
+Ausbildung;обучение;3;Ausbildungen;n;обучения
+Ausgabe;расход;3;Ausgaben;n;расходы
+Aushilfe;подработка;3;Aushilfen;n;подработки
+Azubi;ученик;1;Azubis;s;ученики
+Bankberater;банковский консультант;1;Bankberater;-;консультанты
+Baustelle;стройка;3;Baustellen;n;стройки
+Beamter;чиновник;1;Beamte;n;чиновники
+Beanstandung;претензия;3;Beanstandungen;n;претензии
+Beitrag;взнос;1;Beiträge;e;взносы
+Belastbarkeit;стрессоустойчивость;3;Belastbarkeiten;n;устойчивость
+Belegschaft;персонал;3;Belegschaften;n;коллективы
+Belegschaft;персонал;3;Belegschaften;n;персонал (группы сотрудников)
+Benutzername;имя пользователя;1;Benutzernamen;-;имена пользователей
+Beratungsgespräch;консультация;2;Beratungsgespräche;e;консультации
+Berufserfahrung;опыт работы;3;Berufserfahrungen;n;опыты
+Berufsgenossenschaft;проф. ассоциация;3;Berufsgenossenschaften;n;ассоциации
+Beschaffung;снабжение;3;Beschaffungen;n;снабжения
+Beschäftigte;занятый работник;1;Beschäftigte;n;работники
+Beschwerde;жалоба;3;Beschwerden;n;жалобы
+Bestellung;заказ;3;Bestellungen;n;заказы
+Bestimmung;положение;3;Bestimmungen;n;положения
+Betrieb;предприятие;1;Betriebe;e;предприятия
+Betriebsarzt;врач предприятия;1;Betriebsärzte;e;врачи
+Betriebsausflug;корпоративная поездка;1;Betriebsausflüge;e;поездки
+betriebsbedingte Kündigung;увольнение по причинам предприятия;3;betriebsbedingte Kündigungen;en;увольнения по причинам предприятия
+Betriebsrat;производственный совет;1;Betriebsräte;e;советы
+Betriebsrat;производственный совет;1;Betriebsräte;e;советы
+Betriebsratsmitglied;член совета;3;Betriebsratsmitglieder;-;члены совета
+Betriebsratswahl;выборы совета;3;Betriebsratswahlen;n;выборы
+Betriebsrente;корпоративная пенсия;3;Betriebsrenten;n;корпоративные пенсии
+Betriebsrestaurant;корпоративный ресторан;2;Betriebsrestaurants;-;рестораны
+Betriebssport;корпоративный спорт;1;Betriebssportarten;-;виды спорта
+Betriebsversammlung;собрание работников;3;Betriebsversammlungen;en;собрания
+Bewerbung;заявка;3;Bewerbungen;n;заявки
+Bewerbung;заявка;3;Bewerbungen;n;заявки
+Bewerbungsunterlagen;документы заявки;4;null;null;null
+Bezahlung;оплата;3;Bezahlungen;n;оплаты
+Bilanz;баланс;3;Bilanzen;n;балансы
+Bildschirm;экран;1;Bildschirme;e;экраны
+Bildungsweg;образовательный путь;1;Bildungswege;e;пути
+Blut;кровь;2;Blut;-;кровь
+Börse;биржа;3;Börsen;n;биржи
+Branche;отрасль;3;Branchen;n;отрасли
+Brandschutz;пожарная безопасность;1;Brandschutze;e;системы защиты
+Buchhaltung;бухгалтерия;3;Buchhaltungen;n;бухгалтерии
+Büro;офис;2;Büros;-;офисы
+Businessplan;бизнес-план;1;Businesspläne;e;планы
+Chef;начальник;1;Chefs;s;начальники
+Computer;компьютер;1;Computer;-;компьютеры
+Darlehen;заём;2;Darlehen;-;займы
+Datei öffnen/schließen/speichern/kopieren/löschen;операции с файлами;null;null;null;null
+Datei;файл;3;Dateien;n;файлы
+Daten;данные;4;null;null;null
+Datenschutz;защита данных;1;null;null;null
+Datenschutzbeauftragter;ответственный за защиту данных;1;Datenschutzbeauftragte;n;ответственные
+Dienstleistung;услуга;3;Dienstleistungen;n;услуги
+Dienstreise;командировка;3;Dienstreisen;n;командировки
+Digitalisierung;цифровизация;3;Digitalisierungen;n;процессы цифровизации
+Direktion;дирекция;3;Direktionen;n;дирекции
+Drucker;принтер;1;Drucker;-;принтеры
+Eigenkapital;собственный капитал;2;Eigenkapitalien;ien;капиталы
+Einkauf;закупка;1;Einkäufe;e;закупки
+Einkauf;закупки;1;Einkäufe;e;закупки
+Einkommen;доход;2;Einkommen;-;доходы
+Einkommenssteuer;налог на доход;3;Einkommenssteuern;n;налоги
+Einnahme;доход;3;Einnahmen;n;доходы
+Einstellung;приём на работу;3;Einstellungen;n;приёмы
+Einstellung;приём на работу;3;Einstellungen;n;приёмы
+Einstiegsgehalt;стартовая зарплата;2;Einstiegsgehälter;-;зарплаты
+Einzelhandel;розничная торговля;1;Einzelhandel;-;розничная торговля
+Elternzeit;родительский отпуск;3;Elternzeiten;n;отпуска по уходу
+Entlassung;увольнение;3;Entlassungen;en;увольнения
+Entwicklung;разработка;3;Entwicklungen;n;разработки
+Erfindung;изобретение;3;Erfindungen;n;изобретения
+Erfolg;успех;1;Erfolge;e;успехи
+Erkrankung;заболевание;3;Erkrankungen;n;заболевания
+Ersatzteil;запчасть;2;Ersatzteile;e;запчасти
+Erwerbstätigkeit;трудовая деятельность;3;Erwerbstätigkeiten;n;деятельности
+Existenzgründung;создание бизнеса;3;Existenzgründungen;n;основания бизнеса
+Export;экспорт;1;Exporte;e;экспорты
+Expresssendung;экспресс-доставка;3;Expresssendungen;n;доставки
+Fabrik;фабрика;3;Fabriken;n;фабрики
+Fachwissen;профессиональные знания;2;Fachwissen;-;знания
+Fähigkeit;способность;3;Fähigkeiten;n;способности
+Fehlermeldung;сообщение об ошибке;3;Fehlermeldungen;n;сообщения
+Fehlzeiten;пропуски;4;Fehlzeiten;-;пропуски
+Fertigung;изготовление;3;Fertigungen;n;изготовления
+Fertigung;изготовление;3;Fertigungen;n;изготовления
+Feuerlöscher;огнетушитель;1;Feuerlöscher;-;огнетушители
+Feuermelder;пожарный сигнализатор;1;Feuermelder;-;сигнализаторы
+Firma;фирма;3;Firmen;n;фирмы
+Firmensitz;место регистрации;1;Firmensitze;e;места
+Fleiß;усердие;1;Fleiße;e;усердия
+Flexibilität;гибкость;3;Flexibilitäten;n;гибкости
+Flucht;побег;3;Fluchten;n;побеги
+fordern;требовать;null;null;null;null
+Forderung;требование;3;Forderungen;en;требования
+Forschung;исследование;3;Forschungen;n;исследования
+Fortbildung;повышение квалификации;3;Fortbildungen;n;курсы
+Fortschritt;прогресс;1;Fortschritte;e;прогрессы
+Freiberufler;фрилансер;1;Freiberufler;-;фрилансеры
+Freizeitausgleich;компенсация временем;1;Freizeitausgleiche;e;компенсации
+Garantie;гарантия;3;Garantien;n;гарантии
+Garantieverlängerung;продление гарантии;3;Garantieverlängerungen;n;продления
+Gärtnerei;садоводство;3;Gärtnereien;n;хозяйства
+Gastronomie;общепит;3;Gastronomien;n;сферы питания
+Gehalt;оклад;2;Gehälter;-;оклады
+Gehaltsabrechnung;расчёт зарплаты;3;Gehaltsabrechnungen;n;расчёты
+Geschäftsabschluss;заключение сделки;1;Geschäftsabschlüsse;e;сделки
+Geschäftsführung;руководство;3;Geschäftsführungen;n;руководства
+Geschäftsidee;бизнес-идея;3;Geschäftsideen;n;идеи
+Gesundheitskarte;медицинская карта;3;Gesundheitskarten;n;карты
+Gesundheitswesen;сфера здравоохранения;2;null;null;null
+Gewährleistung;гарантийное обязательство;3;Gewährleistungen;n;обязательства
+Gewerbe;ремесло/бизнес;2;Gewerbe;-;виды бизнеса
+Gewerkschaft;профсоюз;3;Gewerkschaften;en;профсоюзы
+Gewicht;вес;2;Gewichte;-;веса
+Gewinn;прибыль;1;Gewinne;e;прибыли
+Gift;яд;2;Gifte;e;яды
+Gleitzeit;гибкий график;3;Gleitzeiten;n;графики
+GmbH;ООО (GmbH);3;null;null;null
+Großhandel;оптовая торговля;1;Großhandel;-;оптовая торговля
+Gründungsdatum;дата основания;2;Gründungsdaten;n;даты
+Gutschrift;кредит-нота;3;Gutschriften;n;кредит-ноты
+Haltbarkeit;срок службы;3;Haltbarkeiten;n;сроки
+Handel;торговля;1;Handel;-;торговля
+Handwerk;ремесло;2;Handwerke;-;ремёсла
+Haustechnik;инженерные системы;3;Haustechniken;n;системы
+Herausforderung;вызов;3;Herausforderungen;n;вызовы
+Herstellung;производство;3;Herstellungen;n;производства
+Hinweisschild;указатель/знак;2;Hinweisschilder;n;знаки
+Homeoffice;удалённая работа;2;Homeoffices;-;режимы
+Hygiene;гигиена;3;null;null;null
+Hygienevorschrift;гигиеническое правило;3;Hygienevorschriften;en;правила
+Import;импорт;1;Importe;e;импорты
+Industrie;промышленность;3;Industrien;n;промышленности
+Innendienst;внутренний отдел;1;Innendienste;e;отделы
+Instandhaltung;техобслуживание;3;Instandhaltungen;n;обслуживания
+Interessenvertretung;представительство интересов;3;Interessenvertretungen;n;представительства
+Investition;инвестиция;3;Investitionen;n;инвестиции
+Job;работа;1;Jobs;s;работы
+Jobcenter;центр занятости;2;Jobcenter;-;центры
+Jobmesse;ярмарка вакансий;3;Jobmessen;n;ярмарки
+Kantine;столовая;3;Kantinen;n;столовые
+Karriere;карьера;3;Karrieren;n;карьеры
+Kenntnis;знание;3;Kenntnisse;n;знания
+Kernarbeitszeit;основное рабочее время;3;Kernarbeitszeiten;n;время
+Kirchensteuer;церковный налог;3;Kirchensteuern;n;налоги
+Klage;иск;3;Klagen;n;иски
+Kompetenz;компетенция;3;Kompetenzen;n;компетенции
+Konkurrenz;конкуренция;3;Konkurrenzen;n;конкуренции
+Krankengeld;пособие по болезни;2;null;null;null
+Krankenhaus;больница;2;Krankenhäuser;e;больницы
+Krankenkasse;страховая касса;3;Krankenkassen;n;кассы
+Krankenversicherung;медицинская страховка;3;Krankenversicherungen;en;медицинские страховки
+Krankmeldung;больничный;3;Krankmeldungen;n;больничные
+Kreativität;креативность;3;Kreativitäten;n;креативность
+Kredit;кредит;1;Kredite;e;кредиты
+Kredithöhe;сумма кредита;3;Kredithöhen;n;суммы кредита
+Kritikfähigkeit;умение воспринимать критику;3;Kritikfähigkeiten;n;навыки
+Kunde;клиент;1;Kunden;n;клиенты
+Kundendienst;служба поддержки;1;null;null;null
+Kundenservice;служба поддержки клиентов;1;null;null;null
+Kündigung;увольнение;3;Kündigungen;en;увольнения
+Kündigungsgrund;причина увольнения;1;Kündigungsgründe;e;причины увольнения
+Kündigungsschutz;защита от увольнения;1;Kündigungsschutze;e;защиты от увольнения
+Labor;лаборатория;2;Labore;-;лаборатории
+Lager;склад;2;Lager;-;склады
+Laufzeit;срок действия;3;Laufzeiten;n;сроки
+Lautsprecher;динамик;1;Lautsprecher;-;динамики
+Lebenslauf;резюме;1;Lebensläufe;e;резюме
+Lehre;обучение (проф.);3;Lehren;n;обучения
+Lehrling;ученик;1;Lehrlinge;e;ученики
+Lieferant;поставщик;1;Lieferanten;n;поставщики
+Lieferung;доставка;3;Lieferungen;n;доставки
+Lohn;зарплата;1;Löhne;e;зарплаты
+Lohnerhöhung;повышение зарплаты;3;Lohnerhöhungen;en;повышения зарплаты
+Lohnsteuer;подоходный налог;3;Lohnsteuern;n;налоги
+Luftfracht;авиаперевозка;3;Luftfrachten;n;перевозки
+Mahnung;напоминание о платеже;3;Mahnungen;n;напоминания
+Management;менеджмент;2;null;null;null
+Mangel;дефект;1;Mängel;e;дефекты
+Marketing;маркетинг;2;null;null;null
+Markt;рынок;1;Märkte;e;рынки
+Marktforschung;исследование рынка;3;Marktforschungen;n;исследования
+Material;материал;2;Materialien;n;материалы
+Maus;мышь;3;Mäuse;e;мыши
+Mehrwertsteuer;НДС;3;null;null;null
+Meister;мастер;1;Meister;-;мастера
+Messe;выставка;3;Messen;n;выставки
+Messestand;выставочный стенд;1;Messestände;e;стенды
+Mitarbeiter;сотрудник;1;Mitarbeiter;-;сотрудники
+Mitbestimmung;соучастие в управлении;3;Mitbestimmungen;n;формы участия
+Monatslohn;месячная зарплата;1;Monatslöhne;e;зарплаты
+Montage;сборка;3;Montagen;n;сборки
+Nachhaltigkeit;устойчивость;3;Nachhaltigkeiten;n;устойчивости
+Nachnahme;наложенный платёж;3;Nachnahmen;n;платежи
+Nachricht;сообщение;3;Nachrichten;en;сообщения
+Nettopreis;нетто-цена;1;Nettopreise;e;нетто-цены
+Niederlassung;филиал;3;Niederlassungen;n;филиалы
+Notausgang;аварийный выход;1;Notausgänge;e;выходы
+Notfall;чрезвычайная ситуация;1;Notfälle;e;ситуации
+Ohrenschutz;защита слуха;1;Ohrenschützer;-;средства защиты
+Päckchen;пакет;2;Päckchen;-;пакеты
+Paket;посылка;2;Pakete;e;посылки
+Pension;пенсия (госслужащих);3;Pensionen;en;пенсии
+Personalabteilung;отдел кадров;3;Personalabteilungen;n;отделы
+Personalschef;начальник отдела кадров;1;Personalschefs;s;начальники
+Pflegeversicherung;страхование по уходу;3;Pflegeversicherungen;en;страхования по уходу
+Pflicht;обязанность;3;Pflichten;n;обязанности
+Praktikum;практика;2;Praktika;a;практики
+Präsentation;презентация;3;Präsentationen;n;презентации
+Preis;цена;1;Preise;e;цены
+Preisnachlass;скидка;1;Preisnachlässe;e;скидки
+Probezeit;испытательный срок;3;Probezeiten;n;сроки
+Probezeit;испытательный срок;3;Probezeiten;n;сроки
+Produkt;продукт;2;Produkte;e;продукты
+Produktion;производство;3;Produktionen;n;производства
+Produktion;производство;3;Produktionen;n;производства
+Protokoll;протокол;2;Protokolle;e;протоколы
+Pünktlichkeit;пунктуальность;3;Pünktlichkeiten;n;пунктуальность
+Qualifikation;квалификация;3;Qualifikationen;n;квалификации
+Qualität;качество;3;Qualitäten;n;качества
+Qualitätssicherung;контроль качества;3;Qualitätssicherungen;n;системы качества
+Quittung;квитанция;3;Quittungen;n;квитанции
+Rabatt;скидка;1;Rabatte;e;скидки
+Rate;платёж;3;Raten;n;платежи
+Ratenzahlung;рассрочка;3;Ratenzahlungen;n;рассрочки
+Rechner;компьютер/вычислитель;1;Rechner;-;компьютеры
+Rechnung;счёт;3;Rechnungen;n;счета
+Rechnungswesen;бухгалтерский учёт;2;null;null;null
+Rechtsabteilung;юридический отдел;3;Rechtsabteilungen;n;отделы
+Rechtsform;правовая форма;3;Rechtsformen;n;формы
+Regel;правило;3;Regeln;n;правила
+Regeln befolgen;следовать правилам;null;null;null;null
+Reklamation;рекламация;3;Reklamationen;n;рекламации
+Rente;пенсия;3;Renten;n;пенсии
+Renteneintritt;выход на пенсию;1;Renteneintritte;e;выходы на пенсию
+Rentenversicherung;пенсионное страхование;3;Rentenversicherungen;en;пенсионные страхования
+Rentner;пенсионер;1;Rentner;-;пенсионеры
+Rentnerin;пенсионерка;3;Rentnerinnen;nen;пенсионерки
+Retourenschein;накладная возврата;1;Retourenscheine;e;накладные
+Ruhestand;отставка / пенсия;1;Ruhestände;e;периоды пенсии
+Sachbearbeiter;специалист;1;Sachbearbeiter;-;специалисты
+Scanner;сканер;1;Scanner;-;сканеры
+Schaden;ущерб;1;Schäden;e;ущербы
+Schadenersatz;возмещение ущерба;1;Schadenersätze;e;возмещения
+Schichtarbeit;сменная работа;3;Schichtarbeiten;n;смены
+Schutzausrüstung;защитное снаряжение;3;Schutzausrüstungen;n;снаряжение
+Schutzbrille;защитные очки;3;Schutzbrillen;n;очки
+Schutzhelm;защитный шлем;1;Schutzhelme;e;шлемы
+Sicherheitsbeauftragter;ответственный за безопасность;1;Sicherheitsbeauftragte;n;ответственные за безопасность
+Sicherheitshinweise;инструкции по безопасности;4;Sicherheitshinweise;-;инструкции
+Sicherheitsschuhe;защитная обувь;4;Sicherheitsschuhe;-;обувь
+Sicherheitsvorschrift;правило безопасности;3;Sicherheitsvorschriften;en;правила
+Skonto;скидка за раннюю оплату;2;Skonti;-;скидки
+Soloselbstständige;самозанятый;1;Soloselbstständige;n;самозанятые
+Sonderangebot;спецпредложение;2;Sonderangebote;e;предложения
+Sortiment;ассортимент;2;Sortimente;-;ассортименты
+Sozialarbeit;социальная работа;3;Sozialarbeiten;n;работы
+Sozialhilfe;социальная помощь;3;Sozialhilfen;n;виды соцпомощи
+Sozialplan;социальный план;1;Sozialpläne;e;планы
+Sozialversicherung;социальное страхование;3;Sozialversicherungen;en;социальные страховки/системы
+Sozialversicherungsnummer;номер соцстрахования;3;Sozialversicherungsnummern;n;номера соцстрахования
+Sperrzeit;период блокировки;3;Sperrzeiten;en;периоды блокировки
+Standort;местоположение;1;Standorte;e;места
+Stelle;вакансия;3;Stellen;n;вакансии
+Stellenanzeige;объявление о работе;3;Stellenanzeigen;n;объявления
+Stellenbörse;биржа вакансий;3;Stellenbörsen;n;биржи
+Stellengesuch;заявка на работу;2;Stellengesuche;e;заявки
+Stellensuche;поиск работы;3;Stellensuchen;n;поиски
+Steuer;налог;3;Steuern;n;налоги
+Steueridentifikationsnummer;налоговый идентификатор;3;Steueridentifikationsnummern;n;налоговые номера
+Steuerklasse;налоговый класс;3;Steuerklassen;n;налоговые классы
+Störung;неисправность;3;Störungen;n;неисправности
+Störungsmeldung;сообщение о неисправности;3;Störungsmeldungen;n;сообщения
+Streik;забастовка;1;Streiks;s;забастовки
+Studium;учёба;2;Studien;n;обучение
+Stundenlohn;почасовая оплата;1;Stundenlöhne;e;ставки
+Tagesordnung;повестка дня;3;Tagesordnungen;n;повестки
+Tagung;конференция;3;Tagungen;n;конференции
+Tarifverhandlung;тарифные переговоры;3;Tarifverhandlungen;en;переговоры
+Tarifvertrag;тарифный договор;1;Tarifverträge;e;договоры
+Tastatur;клавиатура;3;Tastaturen;n;клавиатуры
+Taste;клавиша;3;Tasten;n;клавиши
+Team;команда;2;Teams;-;команды
+Teambesprechung;командное совещание;3;Teambesprechungen;n;совещания
+Teamfähigkeit;командная работа;3;Teamfähigkeiten;n;навыки
+Teamleiter;руководитель команды;1;Teamleiter;-;руководители
+Teamsitzung;заседание команды;3;Teamsitzungen;n;заседания
+Teilzeit;частичная занятость;3;Teilzeiten;n;режимы
+Termin;встреча/срок;1;Termine;e;встречи
+Terminabsage;отмена встречи;3;Terminabsagen;n;отмены
+Terminänderung;изменение срока;3;Terminänderungen;n;изменения
+Terminverschiebung;перенос встречи;3;Terminverschiebungen;n;переносы
+Terminzusage;подтверждение встречи;3;Terminzusagen;n;подтверждения
+Tilgung;погашение;3;Tilgungen;n;погашения
+Transport;транспорт;1;Transporte;e;перевозки
+Überstunde;сверхурочная;3;Überstunden;n;часы
+Umschulung;переобучение;3;Umschulungen;n;переобучения
+Unfälle vermeiden;избегать несчастных случаев;null;null;null;null
+Unfallmeldung;сообщение о несчастном случае;3;Unfallmeldungen;n;сообщения
+Unfallprotokoll;протокол несчастного случая;2;Unfallprotokolle;e;протоколы
+Unfallschutz;защита от несчастных случаев;1;Unfallschutze;e;системы защиты
+Unternehmen;компания;2;Unternehmen;-;компании
+Untersuchung;обследование;3;Untersuchungen;n;обследования
+unverbindliches Angebot;необязательное предложение;null;null;null;null
+Urlaubsgeld;отпускные;2;Urlaubsgelder;-;выплаты
+Verbot;запрет;2;Verbote;e;запреты
+Verbotsschild;знак запрета;2;Verbotsschilder;n;знаки запрета
+Verbrennung;ожог;3;Verbrennungen;n;ожоги
+Vergütung;вознаграждение;3;Vergütungen;n;вознаграждения
+Verhalten;поведение;2;Verhalten;-;поведение
+Verkauf;продажи;1;Verkäufe;e;продажи
+Verletzung;травма;3;Verletzungen;n;травмы
+Verlust;убыток;1;Verluste;e;убытки
+Vernetzung;сетевая интеграция;3;Vernetzungen;n;сети/связи
+Versand;доставка;1;Versände;e;отправки
+Versand;отправка;1;Versände;e;отправки
+Versandkosten;стоимость доставки;4;null;null;null
+Versandkosten;стоимость доставки;4;null;null;null
+Versetzung;перевод на другую должность;3;Versetzungen;n;переводы
+Vertrieb;сбыт;1;Vertriebe;e;сбытовые отделы
+Verwaltung;администрация;3;Verwaltungen;n;администрации
+Vollzeit;полная занятость;3;Vollzeiten;n;режимы
+Voraussetzung;условие;3;Voraussetzungen;n;условия
+Vorgesetzter;руководитель;1;Vorgesetzte;n;руководители
+Vorschrift;инструкция;3;Vorschriften;en;инструкции
+Vorsichtsmaßnahme;мера предосторожности;3;Vorsichtsmaßnahmen;n;меры
+Vorsorgeuntersuchung;профилактический осмотр;3;Vorsorgeuntersuchungen;n;осмотры
+Vorstellungsgespräch;собеседование;2;Vorstellungsgespräche;e;собеседования
+Wachstum;рост;2;Wachstümer;-;росты
+Ware;товар;3;Waren;n;товары
+Wareneingang;приём товара;1;Wareneingänge;e;поступления
+Warenkontrolle;контроль товара;3;Warenkontrollen;n;контроли
+Warensendung;отправка товара;3;Warensendungen;n;отправки
+Wartung;обслуживание;3;Wartungen;n;обслуживания
+Weihnachtsgeld;рождественская премия;2;Weihnachtsgelder;-;премии
+Weiterbildung;повышение квалификации;3;Weiterbildungen;n;курсы повышения
+Werk;завод;2;Werke;-;заводы
+Werkstatt;мастерская;3;Werkstätten;n;мастерские
+Wettbewerb;конкуренция;1;Wettbewerbe;e;соревнования
+Willkommensmappe;папка новичка;3;Willkommensmappen;n;папки
+Wirtschaft;экономика;3;Wirtschaften;n;экономики
+Wirtschaftszweig;отрасль экономики;1;Wirtschaftszweige;e;отрасли
+Zahlung;платёж;3;Zahlungen;n;платежи
+Zahlungseingang;поступление платежа;1;Zahlungseingänge;e;поступления платежей
+Zahlungserinnerung;напоминание об оплате;3;Zahlungserinnerungen;n;напоминания
+Zeitarbeitsfirma;агентство временной работы;3;Zeitarbeitsfirmen;n;агентства
+Zeiterfassung;учёт рабочего времени;3;Zeiterfassungen;n;системы
+Zeugniskopie;копия сертификата;3;Zeugniskopien;n;копии
+Zins;процент;1;Zinsen;-;проценты
+Zuschuss;субсидия;1;Zuschüsse;e;субсидии
+Zuverlässigkeit;надёжность;3;Zuverlässigkeiten;n;надёжности
+Zuverlässigkeit;надёжность;3;Zuverlässigkeiten;n;надёжности
+Zweigstelle;отделение;3;Zweigstellen;n;отделения

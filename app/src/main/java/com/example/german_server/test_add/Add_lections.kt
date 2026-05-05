@@ -24,7 +24,7 @@ class Add_lections(private val context: Context) {
             //val book = Book(name = "Schritte plus one neu", description = "1")
             Log.d("TEST_DB", "testAllWordRelatedTables() started")
 
-            val Lection1 = Lection(name = "Familie", description = "Book_1", bookId = 1)
+            val Lection1 = Lection(name = "Beruf", description = "B-2", bookId = 10)
             lectionDao.insert(Lection1)
             Log.d("Lection", "Новая  lection вставлена")
 

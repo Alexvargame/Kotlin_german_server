@@ -23,7 +23,7 @@ class Add_books(private val context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("TEST_DB", "testAllWordRelatedTables() started")
 
-            val book1 = Book(name = "Schritte plus one neu", description = "1")
+            val book1 = Book(name = "B-2 Beruf_words", description = "7")
             bookDao.insert(book1)
             Log.d("ADD_USER_ROLE", "Новая  role вставлена")
 

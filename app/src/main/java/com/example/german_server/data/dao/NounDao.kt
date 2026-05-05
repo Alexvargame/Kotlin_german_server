@@ -47,6 +47,8 @@ interface NounDao {
     @Query("DELETE FROM words_noun")
     suspend fun deleteAll()
 
+    @Query("SELECT * FROM words_noun ORDER BY word_ptr_id DESC LIMIT 2")
+    fun getLastTwo(): List<Noun>
 
 }
 
