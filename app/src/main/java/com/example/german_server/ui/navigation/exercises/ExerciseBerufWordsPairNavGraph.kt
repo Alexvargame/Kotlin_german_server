@@ -26,6 +26,7 @@ fun NavGraphBuilder.exerciseBerufWordsPairNavGraph(
         val db = AppDatabase.getInstance(context)
         val repo = ExerciseBerufWordsPairRepository(
             nounDao = db.nounDao(),
+            articleDao = db.articleDao()
         )
         val viewModel: ExercisesBerufWordsPairViewModel =
             viewModel(factory = ExerciseBerufWordsPairViewModelFactory(repo))

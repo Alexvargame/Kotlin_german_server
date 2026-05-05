@@ -7,6 +7,7 @@ import com.example.german_server.data.dao.*
 
 class ExerciseBerufWordsPairRepository(
     private val nounDao: NounDao,
+    private val articleDao: ArticleDao
 ) {
 
     suspend fun getRandomWords(count: Int, lection:Int): List<BerufWordWithTranslation> =  withContext(Dispatchers.IO)  {
@@ -15,7 +16,8 @@ class ExerciseBerufWordsPairRepository(
         val allWords = mutableListOf<BerufWordWithTranslation>()
         Log.e("WORD_PAIR_", "allwords")
         allWords += nounDao.getRandomNounsByLection(count, lection).map {
-            BerufWordWithTranslation(it.wordPtrId, it.word, it.wordTranslate)
+            val article = articleDao.getById(it.articleId)
+            BerufWordWithTranslation(it.wordPtrId, article = article?.name ?: "", it.word, it.wordTranslate)
         }
         allWords.shuffled().take(count)
     }
@@ -23,6 +25,7 @@ class ExerciseBerufWordsPairRepository(
 
 data class BerufWordWithTranslation(
     val id: Long,
+    val article: String,
     val german: String,
     val russian: String
 )
