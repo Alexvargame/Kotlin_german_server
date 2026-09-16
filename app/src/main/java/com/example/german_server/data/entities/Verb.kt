@@ -67,5 +67,11 @@ data class Verb(
     @ColumnInfo(name = "past_prateritum_wir_form")
     val pastPrateritumWirForm: String? = null,
 
-    val regal: Boolean
+    val regal: Boolean,
+
+    @ColumnInfo(name = "preposition")
+    val preposition: String? = null,
+
+    @ColumnInfo(name = "preposition_case")
+    val prepositionCase: String? = null
 )

@@ -66,7 +66,14 @@ fun Exercises_verb_forms_screen(
             Text("Präteritum")
         }
 
+        Button(
 
+            onClick = { navController.navigate("exercise_verb_preposition_screen")  },
+            modifier = Modifier.fillMaxWidth(),
+
+            ) {
+            Text("Предлоги и глаголы")
+        }
         Button (
             onClick = {
                 navController.popBackStack("exercises_screen", false)

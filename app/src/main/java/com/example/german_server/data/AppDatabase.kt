@@ -17,6 +17,7 @@ import com.example.german_server.data.ui.MIGRATION_8_9
 import com.example.german_server.data.ui.MIGRATION_9_10
 import com.example.german_server.data.ui.MIGRATION_10_11
 import com.example.german_server.data.ui.MIGRATION_11_12
+import com.example.german_server.data.ui.MIGRATION_12_13
 
 //import android.util.Log
 
@@ -43,7 +44,7 @@ import com.example.german_server.data.ui.MIGRATION_11_12
         DailyQuestEntity::class,
 
     ],
-    version = 12
+    version = 13
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
@@ -97,6 +98,7 @@ abstract class AppDatabase : RoomDatabase() {
                     .addMigrations(MIGRATION_9_10)
                     .addMigrations(MIGRATION_10_11)
                     .addMigrations(MIGRATION_11_12)
+                    .addMigrations(MIGRATION_12_13)
 
                     .build()
                 INSTANCE = instance

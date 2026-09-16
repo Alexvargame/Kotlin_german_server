@@ -30,6 +30,9 @@ interface VerbDao {
     @Query("SELECT * FROM words_verb ORDER BY RANDOM() LIMIT :count")
     fun getRandomVerbs(count: Int): List<Verb>
 
+    @Query("SELECT * FROM words_verb WHERE preposition IS NOT NULL AND preposition != '' ORDER BY RANDOM() LIMIT :count")
+    suspend fun getRandomVerbsWithPreposition(count: Int): List<Verb>
+
     @Query("SELECT * FROM words_verb WHERE word_ptr_id = :id")
     suspend fun getById(id: Long): Verb?
 

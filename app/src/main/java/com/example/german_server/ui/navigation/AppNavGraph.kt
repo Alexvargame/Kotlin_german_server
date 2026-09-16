@@ -23,6 +23,8 @@ import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPrat
 import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPrateritumFormResultNavGraph
 import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPerfectFormNavGraph
 import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPerfectFormResultNavGraph
+import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPrepositionNavGraph
+import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPrepositionResultNavGraph
 import com.example.german_server.ui.navigation.exercises.pronouns.exercisesPronounsNavGraph
 import com.example.german_server.ui.navigation.exercises.pronouns.exercisesPronounEnterNavGraph
 import com.example.german_server.ui.navigation.exercises.pronouns.exercisesPronounEnterResultNavGraph
@@ -45,6 +47,8 @@ import com.example.german_server.ui.navigation.support_chat.supportChatMessageNa
 import com.example.german_server.ui.navigation.support_chat.supportChatMessageSendNavGraph
 import com.example.german_server.ui.navigation.blockNavGraph
 import com.example.german_server.ui.navigation.daily_quests.dailyQuestNavGraph
+import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPrepositionNavGraph
+
 import com.example.german_server.ui.screens.HomeScreen
 
 
@@ -144,6 +148,14 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
             userProfileViewModel = userProfileViewModel,
         )
         exercisesVerbPerfectFormResultNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesVerbPrepositionNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exercisesVerbPrepositionResultNavGraph(
             navController = navController,
             userProfileViewModel = userProfileViewModel,
         )

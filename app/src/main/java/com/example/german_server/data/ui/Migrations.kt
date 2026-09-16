@@ -175,4 +175,12 @@ val MIGRATION_11_12 = object : Migration(11, 12) {
         // 3. Индекс
         database.execSQL("CREATE INDEX idx_daily_quests_user_date ON daily_quests(userId, date)")
     }
+
+}
+
+val MIGRATION_12_13 = object : Migration(12, 13) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE words_verb ADD COLUMN preposition TEXT")
+        database.execSQL("ALTER TABLE words_verb ADD COLUMN preposition_case TEXT")
+    }
 }
