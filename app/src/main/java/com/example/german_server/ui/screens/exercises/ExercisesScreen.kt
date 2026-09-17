@@ -1,6 +1,5 @@
 package com.example.german_server.ui.screens.exercises
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 
 import com.example.german_server.data.ui.viewModel.exercises.ExercisesViewModel
-import com.example.german_server.data.ui.components.UserStatsBlock
 
 @Composable
 fun Exercises_screen(
@@ -71,6 +69,13 @@ fun Exercises_screen(
 
             ) {
             Text("Расставь артикли")
+        }
+        Button(
+            onClick = { navController.navigate("exercise_sentence_screen")  },
+            modifier = Modifier.fillMaxWidth(),
+
+            ) {
+            Text("Расставь слова в прелдожении")
         }
         Button(
 

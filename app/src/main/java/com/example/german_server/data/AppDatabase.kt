@@ -18,6 +18,7 @@ import com.example.german_server.data.ui.MIGRATION_9_10
 import com.example.german_server.data.ui.MIGRATION_10_11
 import com.example.german_server.data.ui.MIGRATION_11_12
 import com.example.german_server.data.ui.MIGRATION_12_13
+import com.example.german_server.data.ui.MIGRATION_13_14
 
 //import android.util.Log
 
@@ -42,9 +43,10 @@ import com.example.german_server.data.ui.MIGRATION_12_13
         UserAvatar::class,
         SupportChatMessage::class,
         DailyQuestEntity::class,
+        SentenceEntity::class,
 
     ],
-    version = 13
+    version = 14
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
@@ -70,6 +72,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun supportChatMessageDao(): SupportChatMessageDao
 
     abstract fun dailyQuestDao(): DailyQuestDao
+
+    abstract fun sentenceDao(): SentenceDao
 
 
 
@@ -99,6 +103,7 @@ abstract class AppDatabase : RoomDatabase() {
                     .addMigrations(MIGRATION_10_11)
                     .addMigrations(MIGRATION_11_12)
                     .addMigrations(MIGRATION_12_13)
+                    .addMigrations(MIGRATION_13_14)
 
                     .build()
                 INSTANCE = instance

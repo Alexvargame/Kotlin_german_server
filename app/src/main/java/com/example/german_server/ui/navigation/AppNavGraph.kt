@@ -47,7 +47,8 @@ import com.example.german_server.ui.navigation.support_chat.supportChatMessageNa
 import com.example.german_server.ui.navigation.support_chat.supportChatMessageSendNavGraph
 import com.example.german_server.ui.navigation.blockNavGraph
 import com.example.german_server.ui.navigation.daily_quests.dailyQuestNavGraph
-import com.example.german_server.ui.navigation.exercises.verbs.exercisesVerbPrepositionNavGraph
+import com.example.german_server.ui.navigation.exercises.exerciseSentenceNavGraph
+import com.example.german_server.ui.navigation.exercises.exerciseSentenceResultNavGraph
 
 import com.example.german_server.ui.screens.HomeScreen
 
@@ -230,6 +231,14 @@ fun appNavGraph(navController: NavHostController, userProfileViewModel: UserView
             navController = navController,
             userProfileViewModel = userProfileViewModel,
             dailyQuestViewModel = dailyQuestViewModel,
+        )
+        exerciseSentenceNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
+        )
+        exerciseSentenceResultNavGraph(
+            navController = navController,
+            userProfileViewModel = userProfileViewModel,
         )
     }
 }

@@ -17,7 +17,7 @@ object DatabaseProvider {
                 AppDatabase::class.java,
                 "app.db"
             )
-                .createFromAsset("db.sqlite3")   // ← ТУТ
+                .createFromAsset("db.sqlite3")
                 .build()
 
             INSTANCE = instance

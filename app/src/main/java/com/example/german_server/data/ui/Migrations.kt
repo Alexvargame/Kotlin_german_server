@@ -184,3 +184,16 @@ val MIGRATION_12_13 = object : Migration(12, 13) {
         database.execSQL("ALTER TABLE words_verb ADD COLUMN preposition_case TEXT")
     }
 }
+
+val MIGRATION_13_14 = object : Migration(13, 14) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            CREATE TABLE IF NOT EXISTS sentences (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                sentence TEXT NOT NULL,
+                translation TEXT,
+                description TEXT
+            )
+        """.trimIndent())
+    }
+}
