@@ -45,14 +45,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //TestDb(this).testLectionDao()
         Log.e("TEST", "APP STARTED")
-
+        TestDb_verbs(this).test_verbs()
+//        Add_sentences(this).add_sentences()
+//        Add_verbs_prep(this).add_verb_prep()
         val dbFile = getDatabasePath("app.db")
         val dest = File(getExternalFilesDir(null), "app_copy.db")
         dbFile.copyTo(dest, overwrite = true)
         Log.d("DB_COPY", "Путь: ${dest.absolutePath}")
 
-        TestDb_verbs(this).test_verbs()
-//        Add_verbs_prep(this).add_verb_prep()
+
+
 //        Add_sentences(this).add_sentences()
         //TestAdjectiveRepository(this).testAdjectives()
         //Check_user_avatar(this).checkuseravatar()

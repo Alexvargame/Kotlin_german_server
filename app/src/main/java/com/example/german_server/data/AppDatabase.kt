@@ -90,7 +90,7 @@ abstract class AppDatabase : RoomDatabase() {
                     "app.db"
                 )
 
-                    .createFromAsset("databases/app.db")
+                    .createFromAsset("databases/app_copy.db")
                     .addMigrations(MIGRATION_1_2)
                     .addMigrations(MIGRATION_2_3)
                     .addMigrations(MIGRATION_3_4)
