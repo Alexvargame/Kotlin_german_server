@@ -76,13 +76,13 @@ fun ExerciseDigitTranslateScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                    .background(Color(0xFFFFF8E1), shape = RoundedCornerShape(8.dp))
                     .padding(12.dp)
             ) {
                 Text(text = ex.germanTranslate,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
-                    color = Color.DarkGray
+                    color = Color(0xFF1976D2)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -93,7 +93,7 @@ fun ExerciseDigitTranslateScreen(
                         Button(
                             onClick = { viewModel.selectAnswer(index, variant) },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (ex.selectedOption == variant) Color.Green else Color.LightGray,
+                                containerColor = if (ex.selectedOption == variant) Color(0xFF388E3C) else Color.DarkGray,
                             )
                         ) {
                             Text("$variant",

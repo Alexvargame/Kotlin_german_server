@@ -95,17 +95,17 @@ fun ExercisePronounEnterScreen(
                     text = ex.word,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
-                    color = Color.Gray
+                    color = Color(0xFF1976D2)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // 2. Местоимение
+
                 Text(
                     text = ex.casus,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
-                    color = Color.Gray
+                    color = Color(0xFF1976D2)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -120,7 +120,7 @@ fun ExercisePronounEnterScreen(
                         ex.userAnswer = newValue // сохраняем в объекте упражнения
                     },
                     placeholder = { Text("Введите правильную форму") },
-                    textStyle = TextStyle(color = Color.Gray), // тёмный текст
+                    textStyle = TextStyle(color = Color(0xFF388E3C), fontSize = 18.sp), // тёмный текст
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.White) // белый фон

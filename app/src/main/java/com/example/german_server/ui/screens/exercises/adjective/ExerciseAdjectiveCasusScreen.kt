@@ -102,10 +102,10 @@ fun ExerciseAdjectiveCasusScreen(
                         onClick = { viewModel.selectAnswer(ColumnTypeAdjective.ARTICLE, btn.value) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = when {
-                                !btn.isSelected -> Color.LightGray
+                                !btn.isSelected -> Color.DarkGray
                                 btn.isCorrect == true -> Color(0xFF4CAF50)
                                 btn.isCorrect == false -> Color(0xFFF44336)
-                                else -> Color.LightGray
+                                else -> Color.DarkGray
                             }
                         ),
                         modifier = Modifier.fillMaxWidth()
@@ -125,10 +125,10 @@ fun ExerciseAdjectiveCasusScreen(
                         onClick = { viewModel.selectAnswer(ColumnTypeAdjective.ADJECTIVE, btn.value) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = when {
-                                !btn.isSelected -> Color.LightGray
+                                !btn.isSelected -> Color.DarkGray
                                 btn.isCorrect == true -> Color(0xFF4CAF50)
                                 btn.isCorrect == false -> Color(0xFFF44336)
-                                else -> Color.LightGray
+                                else -> Color.DarkGray
                             }
                         ),
                         modifier = Modifier.fillMaxWidth()
@@ -148,10 +148,10 @@ fun ExerciseAdjectiveCasusScreen(
                         onClick = { viewModel.selectAnswer(ColumnTypeAdjective.NOUN, btn.value) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = when {
-                                !btn.isSelected -> Color.LightGray
-                                btn.isCorrect == true -> Color(0xFF4CAF50)
+                                !btn.isSelected -> Color.DarkGray
+                                btn.isCorrect == true -> Color(0xFF388E3C)
                                 btn.isCorrect == false -> Color(0xFFF44336)
-                                else -> Color.LightGray
+                                else -> Color.DarkGray
                             }
                         ),
                         modifier = Modifier.fillMaxWidth()

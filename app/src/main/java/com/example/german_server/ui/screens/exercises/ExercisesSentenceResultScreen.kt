@@ -89,7 +89,7 @@ fun ExerciseSentenceResultScreen(
             ) {
                 Text("Твой ответ:", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(userAnswer, fontSize = 16.sp, color = Color.Black)
+                Text(userAnswer, fontSize = 18.sp, color = Color.Black)
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -103,7 +103,7 @@ fun ExerciseSentenceResultScreen(
             ) {
                 Text("Правильно:", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(correctAnswer, fontSize = 16.sp, color = Color(0xFF1976D2))
+                Text(correctAnswer, fontSize = 18.sp, color = Color(0xFF1976D2))
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -118,7 +118,7 @@ fun ExerciseSentenceResultScreen(
                 ) {
                     Text("Перевод:", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(translation, fontSize = 16.sp, color = Color.Black)
+                    Text(translation, fontSize = 18.sp, color = Color.Black)
                 }
                 Spacer(modifier = Modifier.height(12.dp))
             }
@@ -133,7 +133,7 @@ fun ExerciseSentenceResultScreen(
                 ) {
                     Text("Объяснение:", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(description, fontSize = 14.sp, color = Color.DarkGray)
+                    Text(description, fontSize = 18.sp, color = Color.DarkGray)
                 }
             }
 

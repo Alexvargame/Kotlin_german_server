@@ -54,9 +54,9 @@ class ExercisesWordsPairViewModel(
     fun loadExercises() {
         viewModelScope.launch {
             val words = repo.getRandomWords(5)
-            leftButtons = words.map { UiButtonState(it.id, it.german, Color.LightGray) }
+            leftButtons = words.map { UiButtonState(it.id, it.german, Color.DarkGray) }
             rightButtons =
-                words.shuffled().map { UiButtonState(it.id, it.russian, Color.LightGray) }
+                words.shuffled().map { UiButtonState(it.id, it.russian, Color.DarkGray) }
         }
     }
 

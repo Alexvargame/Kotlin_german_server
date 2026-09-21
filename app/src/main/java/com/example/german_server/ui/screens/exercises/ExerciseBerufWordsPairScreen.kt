@@ -118,7 +118,7 @@ fun ExerciseBerufWordsPairScreen(
                             containerColor = btn.color
                         )
                     ) {
-                        Text(btn.text)
+                        Text(btn.text, fontSize = 16.sp)
                     }
                 }
             }

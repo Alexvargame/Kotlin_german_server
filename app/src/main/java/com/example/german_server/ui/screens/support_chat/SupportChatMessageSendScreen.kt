@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.viewModel.support_chat.SupportChatViewModel
@@ -62,7 +63,8 @@ fun Support_chat_message_send_screen(
         Text(
             text = "Написать в саппорт",
             style = MaterialTheme.typography.titleLarge,
-            color = Color.White
+            color = Color.White,
+            fontSize = 18.sp
         )
 
         Spacer(Modifier.height(16.dp))

@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.sp
 
 import androidx.navigation.NavController
 import com.example.german_server.data.entities.exercises.VerbPrepositionAnswerDetail
@@ -53,9 +54,21 @@ fun ExerciseVerbPrepositionResultScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Spacer(modifier = Modifier.height(16.dp))
+        user?.let { u ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                UserStatsBlock(u,userProfileViewModel)
+            }
+        }
+        Spacer(modifier = Modifier.height(32.dp))
         Text(
             "Вы ответили на $correctCount из $totalQuestions вопросов",
-            color = Color.White
+            color = Color.White ,
+            fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn(
@@ -67,26 +80,17 @@ fun ExerciseVerbPrepositionResultScreen(
                     modifier = Modifier.fillMaxWidth().padding(8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(detail.word, color = Color.White)
+                    Text(detail.word, color = Color.White, fontSize = 20.sp)
                     Text(
                         text = if (isCorrect) "✓ ${detail.correctAnswer}"
                         else "✗ ${detail.userAnswer ?: "-"} → ${detail.correctAnswer}",
-                        color = if (isCorrect) Color.Green else Color.Red
+                        color = if (isCorrect) Color.Green else Color.Red,
+                        fontSize = 20.sp
                     )
                 }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        user?.let { u ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                UserStatsBlock(u,userProfileViewModel)
-            }
-        }
-        Spacer(modifier = Modifier.height(32.dp))
-
         Button(onClick = {
             // Повторить упражнения
             navController.navigate("exercise_verb_preposition_screen") {

@@ -86,30 +86,29 @@ fun ExercisePronounButtonScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                    .background(Color(0xFFFFF8E1), shape = RoundedCornerShape(8.dp))
                     .padding(12.dp)
             ) {
-                // 1. Инфинитив глагола
+
                 Text(
                     text = ex.word,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
-                    color = Color.Gray
+                    color = Color(0xFF1976D2)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // 2. Местоимение
+
                 Text(
                     text = ex.casus,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
-                    color = Color.Gray
+                    color = Color(0xFF1976D2)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // 3. Поле для ввода ответа
                 var answer by remember { mutableStateOf(ex.userAnswer ?: "") }
 
                 Row(
@@ -120,7 +119,7 @@ fun ExercisePronounButtonScreen(
                         Button(
                             onClick = { viewModel.selectAnswer(index, variant) },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (ex.userAnswer == variant) Color.Green else Color.LightGray,
+                                containerColor = if (ex.userAnswer == variant) Color(0xFF388E3C) else Color.DarkGray,
                             )
                         ) {
                             Text(variant)

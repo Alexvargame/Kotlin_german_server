@@ -95,7 +95,7 @@ fun ExerciseVerbPrateritumFormScreen(
                     text = ex.infinitive,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
-                    color = Color.Gray
+                    color = Color(0xFF1976D2)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -105,7 +105,7 @@ fun ExerciseVerbPrateritumFormScreen(
                     text = ex.pronoun,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
-                    color = Color.Gray
+                    color = Color(0xFF2196F3)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -120,7 +120,7 @@ fun ExerciseVerbPrateritumFormScreen(
                         ex.userAnswer = newValue // сохраняем в объекте упражнения
                     },
                     placeholder = { Text("Введите правильную форму") },
-                    textStyle = TextStyle(color = Color.Gray), // тёмный текст
+                    textStyle = TextStyle(color = Color(0xFF388E3C), fontSize = 18.sp), // тёмный текст
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.White) // белый фон

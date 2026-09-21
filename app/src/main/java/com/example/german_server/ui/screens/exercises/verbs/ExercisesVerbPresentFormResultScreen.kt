@@ -47,8 +47,7 @@ fun ExerciseVerbPresentFormResultScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Вы ответили на $correctCount из $totalQuestions вопросов",
-            color=Color.White)
+
         Spacer(modifier = Modifier.height(16.dp))
         user?.let { u ->
             Row(
@@ -59,6 +58,8 @@ fun ExerciseVerbPresentFormResultScreen(
             }
         }
         Spacer(modifier = Modifier.height(32.dp))
+        Text("Вы ответили на $correctCount из $totalQuestions вопросов",
+            color=Color.White)
 
         Button(onClick = {
             // Повторить упражнения

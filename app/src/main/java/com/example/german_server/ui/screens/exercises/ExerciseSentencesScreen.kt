@@ -88,12 +88,13 @@ fun ExerciseSentenceScreen(
                         key(word, index) {
                             Button(
                                 onClick = { viewModel.removeWord(word) },
+                                modifier = Modifier.height(48.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.DarkGray,
 //                                    contentColor = Color.Black  // ⬇️ ИСПРАВЛЕНИЕ 2
                                 )
                             ) {
-                                Text(word, color=Color.White)  // ⬇️ убран color, берётся из contentColor
+                                Text(word, color=Color.White, fontSize = 16.sp )  // ⬇️ убран color, берётся из contentColor
                             }
                         }
                     }
@@ -134,12 +135,14 @@ fun ExerciseSentenceScreen(
                         key(word, index) {
                             Button(
                                 onClick = { viewModel.addWord(word) },
+                                modifier = Modifier.height(48.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.DarkGray,
 //                                    contentColor = Color.Black  // ⬇️ ИСПРАВЛЕНИЕ 2
                                 )
                             ) {
-                                Text(word, color=Color.White)  // ⬇️ убран color
+                                Text(word, color=Color.White,
+                                        fontSize = 16.sp  )  // ⬇️ убран color
                             }
                         }
                     }
