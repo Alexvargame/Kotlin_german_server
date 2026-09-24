@@ -8,8 +8,16 @@ data class AdjectiveDeclensionsExercise(
     var userAnswer: String? = null      // выбранная кнопка или введённый текст
 )
 
+
+data class AdjectiveDeclensionsAnswerDetail(
+    val word: String,
+    val question: String,
+    val correctAnswer: String,
+    var userAnswer: String?,
+)
 data class ExerciseDeclensionsResult(
     val correctCount: Int,
     val wrongCount: Int,
-    val totalQuestions: Int
+    val totalQuestions: Int,
+    val details: List<AdjectiveDeclensionsAnswerDetail>
 )

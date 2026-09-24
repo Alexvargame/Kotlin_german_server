@@ -12,7 +12,6 @@ import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.screens.exercises.verbs.ExerciseVerbPrepositionResultScreen
 import android.util.Log
 import androidx.compose.runtime.remember
-import com.example.german_server.data.entities.exercises.VerbPrepositionAnswerDetail
 import com.example.german_server.data.ui.viewModel.exercises.verb.ExercisesVerbPrepositionViewModel
 
 

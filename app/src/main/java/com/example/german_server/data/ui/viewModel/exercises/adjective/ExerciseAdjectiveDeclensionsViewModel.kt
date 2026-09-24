@@ -9,10 +9,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 import android.util.Log
+import com.example.german_server.data.entities.exercises.AdjectiveDeclensionsAnswerDetail
 
 
 import com.example.german_server.data.entities.exercises.ExerciseDeclensionsResult
 import com.example.german_server.data.entities.exercises.AdjectiveDeclensionsExercise
+import com.example.german_server.data.entities.exercises.ExerciseArticleResult
 import com.example.german_server.data.repository.exercises.adjective.ExerciseDeclensionsRepository
 
 class ExercisesAdjectiveDeclensionsViewModel(
@@ -21,7 +23,8 @@ class ExercisesAdjectiveDeclensionsViewModel(
 
     var exercises by mutableStateOf<List<AdjectiveDeclensionsExercise>>(emptyList())
         private set
-
+    var lastResult: ExerciseDeclensionsResult? = null
+        private set
     fun loadExercises() {
         viewModelScope.launch {
             val adjs = repo.getRandomAdjectives(5) //
@@ -37,6 +40,15 @@ class ExercisesAdjectiveDeclensionsViewModel(
        // }
     }
     fun checkAnswers(): ExerciseDeclensionsResult {
+
+        val details = exercises.map { ex ->
+            AdjectiveDeclensionsAnswerDetail(
+                word = ex.word,
+                question = ex.question,
+                correctAnswer = ex.correctForm,
+                userAnswer = ex.userAnswer
+            )
+        }
         val correctCount = exercises.count { ex ->
             val userAnswer = ex.userAnswer?.trim()?.lowercase()
             val correct = ex.correctForm.trim().lowercase()
@@ -49,11 +61,15 @@ class ExercisesAdjectiveDeclensionsViewModel(
             userAnswer != null && userAnswer != correct
         }
 
-        return ExerciseDeclensionsResult(
+        val result = ExerciseDeclensionsResult(
             correctCount = correctCount,
             wrongCount = wrongCount,
-            totalQuestions = exercises.size
+            totalQuestions = exercises.size,
+            details = details
         )
+        lastResult = result
+        return result
+
     }
 
 }

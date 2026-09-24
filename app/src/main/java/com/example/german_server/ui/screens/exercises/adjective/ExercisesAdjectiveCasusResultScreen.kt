@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,8 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 
 import androidx.navigation.NavController
+import com.example.german_server.data.entities.exercises.AdjectiveDeclensionsAnswerDetail
+import com.example.german_server.data.entities.exercises.ArticleAnswerDetail
 import com.example.german_server.data.ui.components.UserStatsBlock
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
@@ -48,7 +53,31 @@ fun ExerciseAdjectiveCasusResultScreen(
             }
         }
         Spacer(modifier = Modifier.height(32.dp))
-
+//        LazyColumn(
+//            modifier = Modifier.fillMaxWidth().weight(1f)
+//        ) {
+//            items(details) { detail ->
+//                val isCorrect = detail.userAnswer?.trim()?.lowercase() ==
+//                        detail.correctAnswer.trim().lowercase()
+//                Row(
+//                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//                    Text(
+//                        "${detail.word} (${detail.question})",
+//                        color = Color.White,
+//                        fontSize = 18.sp,
+//                        modifier = Modifier.weight(1f)
+//                    )
+//                    Text(
+//                        text = if (isCorrect) "✓ ${detail.correctAnswer}"
+//                        else "✗ ${detail.userAnswer ?: "-"} → ${detail.correctAnswer}",
+//                        color = if (isCorrect) Color.Green else Color.Red,
+//                        fontSize = 18.sp
+//                    )
+//                }
+//            }
+//        }
         Button(onClick = {
             // Повторить упражнения
             navController.navigate("exercise_adjective_casus_screen") {

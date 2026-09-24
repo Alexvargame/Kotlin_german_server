@@ -10,7 +10,10 @@ import androidx.navigation.navArgument
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.screens.exercises.verbs.ExerciseVerbPresentFormResultScreen
 import android.util.Log
-
+import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.german_server.data.ui.viewModel.exercises.verb.ExercisesVerbPerfectViewModel
+import com.example.german_server.data.ui.viewModel.exercises.verb.ExercisesVerbPresentViewModel
 
 
 fun NavGraphBuilder.exercisesVerbPresentFormResultNavGraph(
@@ -27,9 +30,14 @@ fun NavGraphBuilder.exercisesVerbPresentFormResultNavGraph(
     ) { backStackEntry ->
         val correctCount = backStackEntry.arguments?.getInt("correctCount") ?: 0
         val totalQuestions = backStackEntry.arguments?.getInt("totalQuestions") ?: 0
+        val parentEntry = remember(backStackEntry) {
+            navController.getBackStackEntry("exercise_verb_present_form_screen")
+        }
+        val exercisesViewModel: ExercisesVerbPresentViewModel = viewModel(parentEntry)
         ExerciseVerbPresentFormResultScreen(
             correctCount = correctCount,
             totalQuestions = totalQuestions,
+            details = exercisesViewModel.lastResult?.details ?: emptyList(),
             navController = navController,
             userProfileViewModel = userProfileViewModel
         )

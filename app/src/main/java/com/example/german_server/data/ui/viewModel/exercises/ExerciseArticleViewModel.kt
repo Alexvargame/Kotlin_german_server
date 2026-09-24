@@ -9,10 +9,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 import android.util.Log
+import com.example.german_server.data.entities.exercises.ArticleAnswerDetail
 
 
 import com.example.german_server.data.entities.exercises.ExerciseArticleResult
 import com.example.german_server.data.entities.exercises.ArticleExercise
+import com.example.german_server.data.entities.exercises.ExerciseVerbPrepositionResult
+import com.example.german_server.data.entities.exercises.VerbPrepositionAnswerDetail
 import com.example.german_server.data.repository.exercises.ExerciseArticleRepository
 
 class ExercisesArticleViewModel(
@@ -20,6 +23,9 @@ class ExercisesArticleViewModel(
 ) : ViewModel() {
 
     var exercises by mutableStateOf<List<ArticleExercise>>(emptyList())
+        private set
+
+    var lastResult: ExerciseArticleResult? = null
         private set
 
     fun loadExercises() {
@@ -37,8 +43,21 @@ class ExercisesArticleViewModel(
         }
     }
     fun checkAnswers(): ExerciseArticleResult{
+        val details = exercises.map { ex ->
+            val correct = ex.variantsAnswer.find { it.id == ex.article }?.name ?: ""
+            val user = ex.selectedOption?.let { id ->
+                ex.variantsAnswer.find { it.id == id }?.name
+            } ?: ""
+            ArticleAnswerDetail(
+                word = ex.word,
+                correctAnswer = correct,
+                userAnswer = user
+            )
+        }
         val correctCount = exercises.count { it.selectedOption == it.article }
         val wrongCount = exercises.count { it.selectedOption != null && it.selectedOption != it.article }
-        return ExerciseArticleResult(correctCount, wrongCount, exercises.size)
+        val result =  ExerciseArticleResult(correctCount, wrongCount, exercises.size, details)
+        lastResult = result
+        return result
     }
 }

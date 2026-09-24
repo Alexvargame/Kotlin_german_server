@@ -9,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 import android.util.Log
+import com.example.german_server.data.entities.exercises.ExerciseArticleResult
 
 
 import com.example.german_server.data.entities.exercises.ExercisePronounResult
+import com.example.german_server.data.entities.exercises.PronounAnswerDetail
 import com.example.german_server.data.entities.exercises.PronounExercise
 import com.example.german_server.data.repository.exercises.pronoun.ExercisePronounEnterRepoRepository
 
@@ -20,6 +22,8 @@ class ExercisesPronounEnterViewModel(
 ) : ViewModel() {
 
     var exercises by mutableStateOf<List<PronounExercise>>(emptyList())
+        private set
+    var lastResult: ExercisePronounResult? = null
         private set
 
     fun loadExercises() {
@@ -37,6 +41,14 @@ class ExercisesPronounEnterViewModel(
        // }
     }
     fun checkAnswers(): ExercisePronounResult {
+        val details = exercises.map { ex ->
+            PronounAnswerDetail(
+                word = ex.word,
+                casus = ex.casus,
+                correctAnswer = ex.correctForm,
+                userAnswer = ex.userAnswer
+            )
+        }
         val correctCount = exercises.count { ex ->
             val userAnswer = ex.userAnswer?.trim()?.lowercase()
             val correct = ex.correctForm.trim().lowercase()
@@ -49,11 +61,15 @@ class ExercisesPronounEnterViewModel(
             userAnswer != null && userAnswer != correct
         }
 
-        return ExercisePronounResult(
+        val result = ExercisePronounResult(
             correctCount = correctCount,
             wrongCount = wrongCount,
-            totalQuestions = exercises.size
+            totalQuestions = exercises.size,
+            details = details
         )
+
+        lastResult = result
+        return result
     }
 
 }

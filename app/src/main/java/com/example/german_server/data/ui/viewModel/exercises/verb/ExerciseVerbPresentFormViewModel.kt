@@ -12,7 +12,9 @@ import android.util.Log
 
 
 import com.example.german_server.data.entities.exercises.ExerciseVerbFormResult
+import com.example.german_server.data.entities.exercises.ExerciseVerbPrepositionResult
 import com.example.german_server.data.entities.exercises.VerbFormExercise
+import com.example.german_server.data.entities.exercises.VerbFormAnswerDetail
 import com.example.german_server.data.repository.exercises.verb.ExerciseVerbPresentFormRepoRepository
 
 class ExercisesVerbPresentViewModel(
@@ -20,6 +22,9 @@ class ExercisesVerbPresentViewModel(
 ) : ViewModel() {
 
     var exercises by mutableStateOf<List<VerbFormExercise>>(emptyList())
+        private set
+
+    var lastResult: ExerciseVerbFormResult? = null
         private set
 
     fun loadExercises() {
@@ -37,6 +42,14 @@ class ExercisesVerbPresentViewModel(
        // }
     }
     fun checkAnswers(): ExerciseVerbFormResult {
+        val details = exercises.map { ex ->
+            VerbFormAnswerDetail(
+                verb = ex.infinitive,
+                pronoun = ex.pronoun,
+                correctAnswer = ex.correctForm,
+                userAnswer = ex.userAnswer
+            )
+        }
         val correctCount = exercises.count { ex ->
             val userAnswer = ex.userAnswer?.trim()?.lowercase()
             val correct = ex.correctForm.trim().lowercase()
@@ -49,11 +62,15 @@ class ExercisesVerbPresentViewModel(
             userAnswer != null && userAnswer != correct
         }
 
-        return ExerciseVerbFormResult(
+        val result = ExerciseVerbFormResult(
             correctCount = correctCount,
             wrongCount = wrongCount,
-            totalQuestions = exercises.size
+            totalQuestions = exercises.size,
+            details = details
         )
+
+        lastResult = result
+        return result
     }
 
 }

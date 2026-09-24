@@ -10,7 +10,10 @@ import androidx.navigation.navArgument
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.ui.screens.exercises.adjective.ExerciseAdjectiveKomparativSuperlativResultScreen
 import android.util.Log
-
+import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.german_server.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveDeclensionsViewModel
+import com.example.german_server.data.ui.viewModel.exercises.adjective.ExercisesAdjectiveKomparativSuperlativViewModel
 
 
 fun NavGraphBuilder.exercisesAdjectiveKomparativSuperlativResultNavGraph(
@@ -27,9 +30,14 @@ fun NavGraphBuilder.exercisesAdjectiveKomparativSuperlativResultNavGraph(
     ) { backStackEntry ->
         val correctCount = backStackEntry.arguments?.getInt("correctCount") ?: 0
         val totalQuestions = backStackEntry.arguments?.getInt("totalQuestions") ?: 0
+        val parentEntry = remember(backStackEntry) {
+            navController.getBackStackEntry("exercise_adjective_komparativ_superlativ_screen")
+        }
+        val exercisesViewModel: ExercisesAdjectiveKomparativSuperlativViewModel = viewModel(parentEntry)
         ExerciseAdjectiveKomparativSuperlativResultScreen(
             correctCount = correctCount,
             totalQuestions = totalQuestions,
+            details = exercisesViewModel.lastResult?.details ?: emptyList(),
             navController = navController,
             userProfileViewModel = userProfileViewModel
         )

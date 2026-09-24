@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,8 +22,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.sp
 
 import androidx.navigation.NavController
+import com.example.german_server.data.entities.exercises.ArticleAnswerDetail
+import com.example.german_server.data.entities.exercises.VerbPrepositionAnswerDetail
 import com.example.german_server.data.ui.components.UserStatsBlock
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
@@ -31,6 +36,7 @@ import com.example.german_server.data.ui.components.ConfettiEffect
 fun ExerciseArticleResultScreen(
     correctCount: Int,
     totalQuestions: Int,
+    details: List<ArticleAnswerDetail>,
     navController: NavController,
     userProfileViewModel: UserViewModel
 ) {
@@ -63,7 +69,25 @@ fun ExerciseArticleResultScreen(
             }
         }
         Spacer(modifier = Modifier.height(32.dp))
-
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth().weight(1f)
+        ) {
+            items(details) { detail ->
+                val isCorrect = detail.userAnswer == detail.correctAnswer
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(detail.word, color = Color.White, fontSize = 20.sp)
+                    Text(
+                        text = if (isCorrect) "✓ ${detail.correctAnswer}"
+                        else "✗ ${detail.userAnswer ?: "-"} → ${detail.correctAnswer}",
+                        color = if (isCorrect) Color.Green else Color.Red,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+        }
         Button(onClick = {
             // Повторить упражнения
             navController.navigate("exercise_article_screen") {

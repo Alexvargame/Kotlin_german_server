@@ -8,8 +8,15 @@ data class AdjectiveKomparativSuperlativExercise(
     var userAnswer: String? = null      // выбранная кнопка или введённый текст
 )
 
+data class AdjectiveKomparativSuperlativAnswerDetail(
+    val word: String,
+    val question: String,
+    val correctAnswer: String,
+    var userAnswer: String?,
+)
 data class ExerciseAdjectiveKomparativSuperlativResult(
     val correctCount: Int,
     val wrongCount: Int,
-    val totalQuestions: Int
+    val totalQuestions: Int,
+    val details: List<AdjectiveKomparativSuperlativAnswerDetail>
 )
