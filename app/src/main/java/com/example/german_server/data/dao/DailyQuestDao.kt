@@ -3,7 +3,6 @@ package com.example.german_server.data.dao
 
 import androidx.room.*
 import com.example.german_server.data.entities.DailyQuestEntity
-import com.example.german_server.data.entities.UserAvatar
 
 @Dao
 interface DailyQuestDao {

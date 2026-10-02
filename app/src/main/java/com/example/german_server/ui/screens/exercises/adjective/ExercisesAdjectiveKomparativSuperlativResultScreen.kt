@@ -23,10 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 
 import androidx.navigation.NavController
-import com.example.german_server.data.entities.exercises.AdjectiveDeclensionsAnswerDetail
 import com.example.german_server.data.entities.exercises.AdjectiveKomparativSuperlativAnswerDetail
 import com.example.german_server.data.ui.components.ConfettiEffect
 import com.example.german_server.data.ui.components.UserStatsBlock
+import com.example.german_server.data.ui.components.AnswerDetailsList
+import com.example.german_server.data.entities.exercises.AnswerDetailUi
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 
@@ -65,31 +66,18 @@ fun ExerciseAdjectiveKomparativSuperlativResultScreen(
             }
         }
         Spacer(modifier = Modifier.height(32.dp))
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth().weight(1f)
-        ) {
-            items(details) { detail ->
-                val isCorrect = detail.userAnswer?.trim()?.lowercase() ==
-                        detail.correctAnswer.trim().lowercase()
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        "${detail.word} (${detail.question})",
-                        color = Color.White,
-                        fontSize = 18.sp,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Text(
-                        text = if (isCorrect) "✓ ${detail.correctAnswer}"
-                        else "✗ ${detail.userAnswer ?: "-"} → ${detail.correctAnswer}",
-                        color = if (isCorrect) Color.Green else Color.Red,
-                        fontSize = 18.sp
-                    )
-                }
-            }
-        }
+
+        AnswerDetailsList(
+            details = details.map { d ->
+                AnswerDetailUi(
+                    leftText = "${d.word} (${d.question})",
+                    userAnswer = d.userAnswer,
+                    correctAnswer = d.correctAnswer,
+                    isCorrect = d.userAnswer?.trim()?.lowercase() == d.correctAnswer.trim().lowercase()
+                )
+            },
+            modifier = Modifier.weight(1f)
+        )
         Button(onClick = {
             // Повторить упражнения
             navController.navigate("exercise_adjective_komparativ_superlativ_screen") {

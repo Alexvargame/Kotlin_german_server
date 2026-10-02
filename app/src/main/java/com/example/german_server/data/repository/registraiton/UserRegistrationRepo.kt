@@ -16,6 +16,10 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
                                  private val baseUserDao: BaseUserDao,
                                  private val apiService: ApiService) {
 
+    private fun isAdminEmail(email: String): Boolean {
+        return email == "alex.fito2776@gmail.com"
+    }
+
     suspend fun registerUser(email: String,
                              username: String,
                              password: String,
@@ -55,6 +59,8 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             return null
         }
         Log.d("REG_REPO", "6. Creating BaseUser")
+
+
         val user = BaseUser(
             email = email,
             username = username,
@@ -63,9 +69,11 @@ class UserRegistrationRepository(private val UserRegistrationDao: UserRegistrati
             last_login_date = now,
             last_login = null,
             is_superuser = false,
-            is_admin =  userRoleId == 1L,
+//            is_admin =  userRoleId == 1L,
+            is_admin = isAdminEmail(email),
+            userRoleId = if (isAdminEmail(email)) 1L else 2L,
             is_active = true,
-            userRoleId = userRoleId,
+//            userRoleId = userRoleId,
             lifes = 5,
             score = 0,
             last_life_update = now,

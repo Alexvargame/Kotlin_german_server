@@ -17,5 +17,8 @@ data class SyncProgressRequest(
     val shockmodLong: Int,            // BaseUser.shockmodLong
 
     @SerializedName("last_session_date")
-    val shockmodNow: Long?            // BaseUser.shockmodNow
+    val shockmodNow: Long?,           // BaseUser.shockmodNow
+
+    @SerializedName("last_login_date")
+    val lastLoginDate: Long?
 )

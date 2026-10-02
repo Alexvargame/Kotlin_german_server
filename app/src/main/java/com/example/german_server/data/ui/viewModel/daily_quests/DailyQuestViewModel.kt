@@ -27,6 +27,7 @@ class DailyQuestViewModel(
 
     fun loadTodayQuests(userId: Long) {
         viewModelScope.launch {
+            Log.d("DAILY_QUEST", "🔄LOAD")
             _isLoading.value = true
             val todayQuests = dailyQuestRepository.getTodayQuests(userId)
             _quests.value = todayQuests
@@ -36,7 +37,7 @@ class DailyQuestViewModel(
 
     fun generateAndLoadQuests(userId: Long) {
         viewModelScope.launch {
-            Log.d("DAILY_QUEST_USER", "$userId")
+            Log.d("DAILY_QUEST", "$userId")
             _isLoading.value = true
             dailyQuestRepository.generateDailyQuests(userId)
             val todayQuests = dailyQuestRepository.getTodayQuests(userId)

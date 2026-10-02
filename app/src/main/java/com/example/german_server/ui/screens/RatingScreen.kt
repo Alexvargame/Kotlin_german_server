@@ -62,6 +62,7 @@ fun Rating_screen(
 
     //var byScore by remember { mutableStateOf(true) }
     var sortType by remember { mutableStateOf(SortType.SCORE) }
+
     // =========================
     // Вызов функции модели для загрузки рейтинга
     // =========================
@@ -76,6 +77,7 @@ fun Rating_screen(
     // =========================
     val leaderboardState = userViewModel.leaderboardState
     val currentUser = userViewModel.currentUser.value// id текущего пользователя
+    val isAdmin = currentUser?.is_admin == true
     val isLoading = leaderboardState == null
 
     val currentUserAvatarPath by userViewModel.activeAvatarPath
@@ -141,6 +143,7 @@ fun Rating_screen(
                         currentUserUid = currentUser?.serverUid,
                         currentUserAvatarPath = currentUserAvatarPath,
                         valueType =  valueType,
+                        isAdmin = isAdmin,
                         formatDate = { ts -> ts?.let { userViewModel.formatDate(it) } ?: "-" },
                         onUserClick = { user ->
                             if (user.uid == currentUser?.serverUid) {
@@ -177,6 +180,7 @@ fun LeaderboardTable(
     currentUserUid: String?, // id текущего пользователя для выделения
     currentUserAvatarPath: String?,
     valueType: String,
+    isAdmin: Boolean,
     formatDate: (Long) -> String,
     onUserClick: (LeaderboardUser) -> Unit
 ) {
@@ -202,10 +206,16 @@ fun LeaderboardTable(
                 modifier = Modifier.weight(1f),
                 fontWeight = FontWeight.Bold,
                 color = Color.White)
-            Text("логин",
-                modifier = Modifier.weight(1.5f),
-                fontWeight = FontWeight.Bold,
-                color = Color.White)
+            if (isAdmin) {
+                Text("логин",
+                    modifier = Modifier.weight(1.5f),
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White)
+            }
+//            Text("логин",
+//                modifier = Modifier.weight(1.5f),
+//                fontWeight = FontWeight.Bold,
+//                color = Color.White)
         }
 
         Divider(color = Color.Gray, thickness = 1.dp)
@@ -291,8 +301,16 @@ fun LeaderboardTable(
                         else user.streakDays.toString(),
                         modifier = Modifier.weight(1f),  color = requestUserColor
                     )
-                    Text(text = user.lastSessionDate?.let { formatDate(it) } ?: "-",
-                        modifier = Modifier.weight(1.5f),  color = requestUserColor)
+//                    Text(text = user.lastLoginDate?.let { formatDate(it) } ?: "-",
+////                        modifier = Modifier.weight(1.5f),  color = requestUserColor)
+                    if (isAdmin) {
+                        Log.d("RatingScreen", "isAdmin=$isAdmin, currentUser=${user.email}")
+                        Text(
+                            text = user.lastLoginDate?.let { formatDate(it) } ?: "-",
+                            modifier = Modifier.weight(1.5f),
+                            color = requestUserColor
+                        )
+                    }
                 }
 
                 Divider(color = Color.LightGray, thickness = 0.5.dp)

@@ -185,13 +185,22 @@ fun DailyQuestScreen(
     Log.d(TAG, "🖥️ Экран открыт, userId=${user?.id}")
     Log.d(TAG, "📊 isLoading=$isLoading, quests size=${quests.size}")
 
+//    LaunchedEffect(Unit) {
+//        Log.d(TAG, "🔄 LaunchedEffect: загрузка заданий для userId=${user?.id}")
+//        user?.let {
+//            dailyQuestViewModel.loadTodayQuests(it.id)
+//        }
+//    }
     LaunchedEffect(Unit) {
         Log.d(TAG, "🔄 LaunchedEffect: загрузка заданий для userId=${user?.id}")
         user?.let {
-            dailyQuestViewModel.loadTodayQuests(it.id)
+            if (dailyQuestViewModel.checkHasQuests(it.id)) {
+                dailyQuestViewModel.loadTodayQuests(it.id)
+            } else {
+                dailyQuestViewModel.generateAndLoadQuests(it.id)
+            }
         }
     }
-
     LaunchedEffect(quests) {
         Log.d(TAG, "📋 Список заданий обновлён: ${quests.size} шт.")
         quests.forEach { q ->

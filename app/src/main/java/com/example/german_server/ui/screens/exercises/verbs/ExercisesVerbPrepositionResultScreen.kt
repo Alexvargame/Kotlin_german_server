@@ -30,6 +30,8 @@ import com.example.german_server.data.ui.components.UserStatsBlock
 
 import com.example.german_server.data.ui.viewModel.user_profile.UserViewModel
 import com.example.german_server.data.ui.components.ConfettiEffect
+import com.example.german_server.data.ui.components.AnswerDetailsList
+import com.example.german_server.data.entities.exercises.AnswerDetailUi
 
 @Composable
 fun ExerciseVerbPrepositionResultScreen(
@@ -71,25 +73,18 @@ fun ExerciseVerbPrepositionResultScreen(
             fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth().weight(1f)
-        ) {
-            items(details) { detail ->
-                val isCorrect = detail.userAnswer == detail.correctAnswer
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(detail.word, color = Color.White, fontSize = 20.sp)
-                    Text(
-                        text = if (isCorrect) "✓ ${detail.correctAnswer}"
-                        else "✗ ${detail.userAnswer ?: "-"} → ${detail.correctAnswer}",
-                        color = if (isCorrect) Color.Green else Color.Red,
-                        fontSize = 20.sp
-                    )
-                }
-            }
-        }
+
+        AnswerDetailsList(
+            details = details.map { d ->
+                AnswerDetailUi(
+                    leftText = d.word,
+                    userAnswer = d.userAnswer,
+                    correctAnswer = d.correctAnswer,
+                    isCorrect = d.userAnswer == d.correctAnswer
+                )
+            },
+            modifier = Modifier.weight(1f)
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             // Повторить упражнения

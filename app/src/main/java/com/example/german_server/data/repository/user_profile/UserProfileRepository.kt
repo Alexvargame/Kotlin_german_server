@@ -149,7 +149,8 @@ class UserProfileRepository(
             score = user.score ?: 0,
             shockmodLong = user.shockmodLong,
             lifes = user.lifes,
-            shockmodNow = user.shockmodNow ?: System.currentTimeMillis()
+            shockmodNow = user.shockmodNow ?: System.currentTimeMillis(),
+            lastLoginDate = user.last_login_date
         )
     }
     fun createUploadAvatarRequest(user: BaseUser): AvatarUploadRequest? {

@@ -128,6 +128,7 @@ class DailyQuestRepository(
     suspend fun hasQuestsForToday(userId: Long): Boolean {
         val today = getCurrentDate()
         val quests = dailyQuestDao.getTodayQuests(userId, today)
+        Log.d("DAILY", "tasks: $quests")
         return quests.isNotEmpty()
     }
 

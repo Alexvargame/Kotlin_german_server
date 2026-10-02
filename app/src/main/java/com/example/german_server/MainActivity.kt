@@ -15,7 +15,11 @@ import java.io.FileOutputStream
 
 import java.io.File
 
-
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
 
 import com.example.german_server.data.AppDatabase
 import com.example.german_server.data.network.RetrofitClient
@@ -39,19 +43,20 @@ import com.example.german_server.data.ui.components.ResetDailyQuests
 import com.example.german_server.ui.navigation.appNavGraph
 
 import com.example.german_server.test_add.*
+import com.example.german_server.ui.theme.GermanTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //TestDb(this).testLectionDao()
         Log.e("TEST", "APP STARTED")
-        TestDb_verbs(this).test_verbs()
-//        Add_sentences(this).add_sentences()
-//        Add_verbs_prep(this).add_verb_prep()
-        val dbFile = getDatabasePath("app.db")
-        val dest = File(getExternalFilesDir(null), "app_copy.db")
-        dbFile.copyTo(dest, overwrite = true)
-        Log.d("DB_COPY", "Путь: ${dest.absolutePath}")
+//        TestDb_verbs(this).test_verbs()
+////        Add_sentences(this).add_sentences()
+////        Add_verbs_prep(this).add_verb_prep()
+//        val dbFile = getDatabasePath("app.db")
+//        val dest = File(getExternalFilesDir(null), "app_copy.db")
+//        dbFile.copyTo(dest, overwrite = true)
+//        Log.d("DB_COPY", "Путь: ${dest.absolutePath}")
 
 
 
@@ -61,8 +66,8 @@ class MainActivity : ComponentActivity() {
         //TestDb_words(this).testAllWordRelatedTables()
         //TestDb_users_roles(this).testusersroles()
         //TestDb_messages(this).testmessages()
-//        Add_users_roles(this).addusersroles()
-//        Read_users(this).readusers()
+///     Add_users_roles(this).addusersroles()
+//       Read_users(this).readusers()
 //        Read_avatars(this).readavatars()
 //        Read_quest(this).readquests()
 //        ResetDailyQuests(this).resetFlags()
@@ -136,11 +141,23 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             //val userProfileViewModel: UserProfileViewModel = viewModel()   // Пробуем создать профиль для всех экранов
-            appNavGraph(navController, userProfileViewModel,
-                autorizationViewModel,
-                supportChatMessageViewModel,
-                dailyQuestViewModel,
-                greetingText)
+//            appNavGraph(navController, userProfileViewModel,
+//                autorizationViewModel,
+//                supportChatMessageViewModel,
+//                dailyQuestViewModel,
+//                greetingText)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF121212))
+            ) {
+                appNavGraph(navController, userProfileViewModel,
+                    autorizationViewModel,
+                    supportChatMessageViewModel,
+                    dailyQuestViewModel,
+                    greetingText)
+            }
+
             Log.e("USER_after", "appNAvgatrph")
         }
     }
